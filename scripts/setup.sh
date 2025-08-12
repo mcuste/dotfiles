@@ -14,8 +14,9 @@ brew install --cask obsidian
 brew install --cask visual-studio-code
 
 # Tools
-brew install --cask ghostty
 brew install --cask karabiner-elements
+brew install --cask alacritty
+brew install --cask ghostty
 brew install kanata
 brew install fish
 brew install tmux
