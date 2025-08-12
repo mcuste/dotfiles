@@ -1,0 +1,7 @@
+stow/.config/tmux/plugins
+stow/.config/fish/fish_variables
+
+# Local Scripts
+stow/.local/bin/*
+!stow/.local/bin/sync-*
+

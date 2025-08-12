@@ -1,0 +1,52 @@
+[user]
+email = "github@muratcanuste.com"
+name = "mcuste"
+
+[gpg]
+format = "openpgp"
+
+[gpg "openpgp"]
+program = "gpg"
+
+[credential "https://gist.github.com"]
+helper = "gh auth git-credential"
+
+[credential "https://github.com"]
+helper = "gh auth git-credential"
+
+[core]
+editor = "nvim"
+pager = "delta"
+whitespace = "trailing-space,space-before-tab"
+
+[interactive]
+diffFilter = "delta --color-only"
+
+[filter "lfs"]
+required = true
+clean = "git-lfs clean -- %f"
+process = "git-lfs filter-process"
+smudge = "git-lfs smudge -- %f"
+
+[alias]
+a = "add"
+aa = "add --all"
+b = "branch"
+c = "commit"
+cl = "clone"
+clb = "clone --bare"
+cm = "commit -m"
+co = "checkout"
+cob = "checkout -b"
+d = "diff"
+p = "pull"
+ps = "push"
+r = "rebase"
+re = "restore"
+res = "restore --staged"
+s = "status"
+wa = "worktree add"
+wl = "worktree list"
+wr = "worktree remove"
+wrf = "worktree remove --force"
+
