@@ -44,6 +44,7 @@ brew install htop
 brew install bottom
 brew install stow
 brew install tokei
+brew install yazi
 
 # Dev/MLOps
 brew install kubectl
