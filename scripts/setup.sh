@@ -5,6 +5,7 @@ brew install --cask brave-browser
 
 # GUI Tools
 brew install --cask raycast
+brew install --cask todoist-app
 brew install --cask protonvpn
 brew install --cask proton-pass
 
