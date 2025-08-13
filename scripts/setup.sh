@@ -5,6 +5,10 @@ brew install --cask brave-browser
 
 # GUI Tools
 brew install --cask nikitabobko/tap/aerospace
+brew install --cask karabiner-elements
+brew install --cask alacritty
+brew install --cask ghostty
+brew install --cask mos
 brew install --cask todoist-app
 brew install --cask protonvpn
 brew install --cask proton-pass
@@ -16,9 +20,6 @@ brew install --cask obsidian
 brew install --cask visual-studio-code
 
 # Tools
-brew install --cask karabiner-elements
-brew install --cask alacritty
-brew install --cask ghostty
 brew install kanata
 brew install fish
 brew install tmux
