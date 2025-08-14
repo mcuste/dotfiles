@@ -1,15 +1,43 @@
 theme = catppuccin-mocha
-# window-decoration = none
+font-family = JetBrains Mono
+font-size = 12
+
+# Window settings
 window-padding-balance = true
 window-padding-x = 5
 window-padding-y = 5
 
+# Cursor settings
 shell-integration-features = no-cursor
 cursor-style = block
 cursor-style-blink = false
 cursor-text = #000000
+mouse-hide-while-typing = true
 
-font-size = 12
+# Shell integration for Fish
+command = /opt/homebrew/bin/fish --login --interactive
+shell-integration = fish
+window-save-state = always
 
-# command = "/opt/homebrew/bin/tmux attach || /opt/homebrew/bin/tmux"
+# Scrollback
+scrollback-limit = 1000000
+
+# Special text input
 keybind = shift+enter=text:\n
+
+# Direct pane navigation (without prefix)
+keybind = ctrl+h=goto_split:left
+keybind = ctrl+j=goto_split:bottom
+keybind = ctrl+k=goto_split:top
+keybind = ctrl+l=goto_split:right
+keybind = super+s=new_split:down
+
+# Resize
+keybind = super+ctrl+up=unbind
+keybind = super+ctrl+down=unbind
+keybind = super+ctrl+left=unbind
+keybind = super+ctrl+right=unbind
+keybind = super+shift+up=resize_split:up,10
+keybind = super+shift+down=resize_split:down,10
+keybind = super+shift+left=resize_split:left,10
+keybind = super+shift+right=resize_split:right,10

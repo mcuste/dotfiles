@@ -4,18 +4,17 @@
 brew install --cask brave-browser
 
 # GUI Tools
-brew install --cask nikitabobko/tap/aerospace
 brew install --cask karabiner-elements
-brew install --cask alacritty
+brew install --cask raycast
 brew install --cask ghostty
 brew install --cask mos
-brew install --cask todoist-app
+brew install --cask todoist-app # TODO: Do we really use this?
 brew install --cask protonvpn
-brew install --cask proton-pass
+brew install --cask proton-pass # TODO: Also this?
 
 # Editors
+brew install --cask font-jetbrains-mono-nerd-font
 brew install neovim
-brew install helix
 brew install --cask obsidian
 brew install --cask visual-studio-code
 
