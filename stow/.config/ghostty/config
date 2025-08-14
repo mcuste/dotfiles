@@ -12,3 +12,4 @@ cursor-text = #000000
 font-size = 12
 
 # command = "/opt/homebrew/bin/tmux attach || /opt/homebrew/bin/tmux"
+keybind = shift+enter=text:\n

@@ -30,6 +30,7 @@ brew install git-lfs
 brew install gnupg
 brew install lsof
 brew install unzip
+brew install wget
 brew install rsync
 brew install eza
 brew install fzf
@@ -49,15 +50,25 @@ brew install bottom
 brew install stow
 brew install tokei
 brew install yazi
+brew install imagemagick # for png on nvim
+brew install ghostscript # for pdf on nvim
+brew install tectonic    # for latex on nvim
 
 # Dev/MLOps
 brew install kubectl
 brew install helm
 brew install k9s
 brew install k3d
+brew install flytectl
 
 # Languages
 brew install mise
+brew install rustup
+brew install llvm
+brew install protobuf
+brew install cargo-nextest
+brew install go
+brew install luarocks
 
 # Media
 brew install --cask slack

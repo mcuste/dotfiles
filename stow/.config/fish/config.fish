@@ -38,3 +38,11 @@ alias v nvim
 alias k kubectl
 alias lg lazygit
 alias vimdiff 'nvim -d'
+
+# Path exports
+fish_add_path /opt/homebrew/opt/rustup/bin
+fish_add_path /opt/homebrew/opt/llvm/bin
+
+# Go configuration
+set -gx GOPATH $HOME/.go
+fish_add_path $GOPATH/bin
