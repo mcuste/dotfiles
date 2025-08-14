@@ -1,3 +1,6 @@
 [tools]
-node = "22"
+lua = "5.1"
+node = "latest"
 npm = "11"
+python = "latest"
+terraform = "latest"
