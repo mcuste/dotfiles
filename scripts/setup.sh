@@ -80,3 +80,6 @@ brew install --cask steam
 brew install gemini-cli
 brew install --cask claude
 brew install --cask claude-code
+
+# Tmux Setup
+# mkdir -p ~/.config/tmux/plugins && git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm

@@ -1,27 +1,21 @@
-if vim.g.vscode then
-  return {}
-end
-
 return {
   {
-    "nvim-treesitter/nvim-treesitter",
-    opts = { auto_install = false }, -- don't auto install grammars
+    'nvim-treesitter/nvim-treesitter',
+    build = ':TSUpdate',
+    main = 'nvim-treesitter.configs',
+    opts = {
+      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+      auto_install = true,
+      highlight = {
+        enable = true,
+        additional_vim_regex_highlighting = { 'ruby' },
+      },
+      indent = { enable = true, disable = { 'ruby' } },
+    },
   },
-
-  -- Add treesitter-context
-  { import = "lazyvim.plugins.extras.ui.treesitter-context" },
-
-  -- Add treesitter comment strings
   {
-    "JoosepAlviste/nvim-ts-context-commentstring",
-    event = "VeryLazy",
+    'JoosepAlviste/nvim-ts-context-commentstring',
+    event = 'VeryLazy',
     opts = { enable_autocmd = false },
-  },
-
-  -- TS syntax highlight for Nix HM strings
-  {
-    "calops/hmts.nvim",
-    event = "VeryLazy",
-    version = "*",
   },
 }
