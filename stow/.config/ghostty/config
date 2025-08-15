@@ -1,43 +1,101 @@
-theme = catppuccin-mocha
-font-family = JetBrains Mono
-font-size = 12
+# =============================================================================
+# Ghostty Terminal Configuration
+# =============================================================================
+# Configuration for Ghostty terminal emulator
+# Part of dotfiles managed with GNU Stow
+# Theme: Catppuccin Mocha for consistency across development tools
 
-# Window settings
+# =============================================================================
+# Appearance & Theme
+# =============================================================================
+
+# Use Catppuccin Mocha theme to match other development tools
+theme = catppuccin-mocha
+
+# Font configuration - JetBrains Mono for excellent readability
+font-family = JetBrains Mono
+font-size = 14
+
+# =============================================================================
+# Window Configuration
+# =============================================================================
+
+# Balanced padding around terminal content
 window-padding-balance = true
 window-padding-x = 5
 window-padding-y = 5
 
-# Cursor settings
+# Save window state across sessions
+window-save-state = always
+
+# =============================================================================
+# Cursor & Mouse Settings
+# =============================================================================
+
+# Disable cursor-related shell integration features to avoid conflicts
 shell-integration-features = no-cursor
+
+# Block cursor without blinking for better focus
 cursor-style = block
 cursor-style-blink = false
 cursor-text = #000000
+
+# Hide mouse cursor while typing to reduce visual noise
 mouse-hide-while-typing = true
 
-# Shell integration for Fish
-command = /opt/homebrew/bin/fish --login --interactive
-shell-integration = fish
-window-save-state = always
+# =============================================================================
+# Shell Integration
+# =============================================================================
 
-# Scrollback
+# Use Fish shell with tmux auto-attach (default shell in this dotfiles setup)
+# Automatically attach to existing tmux session or create new one
+command = /opt/homebrew/bin/fish --login --interactive --command="tmux attach || tmux"
+shell-integration = fish
+
+# =============================================================================
+# Scrollback Configuration
+# =============================================================================
+
+# Large scrollback buffer for extensive command history review
 scrollback-limit = 1000000
 
-# Special text input
-keybind = shift+enter=text:\n
+# =============================================================================
+# Keybindings
+# =============================================================================
 
-# Direct pane navigation (without prefix)
-keybind = ctrl+h=goto_split:left
-keybind = ctrl+j=goto_split:bottom
-keybind = ctrl+k=goto_split:top
-keybind = ctrl+l=goto_split:right
-keybind = super+s=new_split:down
+# NOTE: currently ghostty doesn't support scripting necessary for pane movements
+# with nvim. Disabling custom keymaps.
 
-# Resize
-keybind = super+ctrl+up=unbind
-keybind = super+ctrl+down=unbind
-keybind = super+ctrl+left=unbind
-keybind = super+ctrl+right=unbind
-keybind = super+shift+up=resize_split:up,10
-keybind = super+shift+down=resize_split:down,10
-keybind = super+shift+left=resize_split:left,10
-keybind = super+shift+right=resize_split:right,10
+# Text Input
+# ----------
+# Allow Shift+Enter to insert literal newlines in terminal
+# keybind = shift+enter=text:\n
+
+# Pane Navigation
+# ---------------
+# Direct navigation without tmux-style prefix (Ctrl+H/J/K/L pattern)
+# Matches vim-like navigation for consistency across tools
+# keybind = unconsumed:ctrl+h=goto_split:left
+# keybind = unconsumed:ctrl+j=goto_split:bottom
+# keybind = unconsumed:ctrl+k=goto_split:top
+# keybind = unconsumed:ctrl+l=goto_split:right
+
+# Pane Management
+# ---------------
+# Create new split pane downward
+# keybind = super+s=new_split:down
+
+# Pane Resizing
+# -------------
+# Unbind default resize keybindings to avoid conflicts
+# keybind = super+ctrl+up=unbind
+# keybind = super+ctrl+down=unbind
+# keybind = super+ctrl+left=unbind
+# keybind = super+ctrl+right=unbind
+
+# Custom resize bindings using Super+Shift+Arrow keys
+# Each resize action moves the split by 10 units
+# keybind = super+shift+up=resize_split:up,10
+# keybind = super+shift+down=resize_split:down,10
+# keybind = super+shift+left=resize_split:left,10
+# keybind = super+shift+right=resize_split:right,10
