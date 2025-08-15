@@ -68,6 +68,8 @@ brew install protobuf
 brew install cargo-nextest
 brew install go
 brew install luarocks
+brew install tree-sitter
+brew install tree-sitter-cli
 
 # Media
 brew install --cask slack
