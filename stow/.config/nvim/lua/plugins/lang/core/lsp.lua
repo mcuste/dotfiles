@@ -1,14 +1,5 @@
 return {
   {
-    'folke/lazydev.nvim',
-    ft = 'lua',
-    opts = {
-      library = {
-        { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
-      },
-    },
-  },
-  {
     'neovim/nvim-lspconfig',
     dependencies = {
       { 'mason-org/mason.nvim', opts = {} },
@@ -17,7 +8,11 @@ return {
       { 'j-hui/fidget.nvim', opts = {} },
       'saghen/blink.cmp',
     },
-    config = function()
+    opts = {
+      servers = {},
+      ensure_installed = {},
+    },
+    config = function(_, opts)
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
@@ -26,15 +21,15 @@ return {
             vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
           end
 
-          map('grn', vim.lsp.buf.rename, '[R]e[n]ame')
-          map('gra', vim.lsp.buf.code_action, '[G]oto Code [A]ction', { 'n', 'x' })
-          map('grr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-          map('gri', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-          map('grd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-          map('grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+          map('grn', vim.lsp.buf.rename, 'Rename')
+          map('gra', vim.lsp.buf.code_action, 'Code Action', { 'n', 'x' })
+          map('grr', require('telescope.builtin').lsp_references, 'References')
+          map('gri', require('telescope.builtin').lsp_implementations, 'Implementation')
+          map('grd', require('telescope.builtin').lsp_definitions, 'Definition')
+          map('grD', vim.lsp.buf.declaration, 'Declaration')
           map('gO', require('telescope.builtin').lsp_document_symbols, 'Open Document Symbols')
           map('gW', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Open Workspace Symbols')
-          map('grt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype Definition')
+          map('grt', require('telescope.builtin').lsp_type_definitions, 'Type Definition')
 
           local function client_supports_method(client, method, bufnr)
             if vim.fn.has 'nvim-0.11' == 1 then
@@ -71,7 +66,7 @@ return {
           if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
             map('<leader>th', function()
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
-            end, '[T]oggle Inlay [H]ints')
+            end, 'Toggle Inlay Hints')
           end
         end,
       })
@@ -105,22 +100,9 @@ return {
 
       local capabilities = require('blink.cmp').get_lsp_capabilities()
 
-      local servers = {
-        lua_ls = {
-          settings = {
-            Lua = {
-              completion = {
-                callSnippet = 'Replace',
-              },
-            },
-          },
-        },
-      }
-
-      local ensure_installed = vim.tbl_keys(servers or {})
-      vim.list_extend(ensure_installed, {
-        'stylua',
-      })
+      -- Setup mason tools
+      local ensure_installed = vim.tbl_keys(opts.servers or {})
+      vim.list_extend(ensure_installed, opts.ensure_installed or {})
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       require('mason-lspconfig').setup {
@@ -128,7 +110,11 @@ return {
         automatic_installation = false,
         handlers = {
           function(server_name)
-            local server = servers[server_name] or {}
+            -- Skip rust_analyzer as it's handled by rustaceanvim
+            if server_name == 'rust_analyzer' then
+              return
+            end
+            local server = opts.servers[server_name] or {}
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
             require('lspconfig')[server_name].setup(server)
           end,
@@ -137,3 +123,4 @@ return {
     end,
   },
 }
+
