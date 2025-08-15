@@ -5,6 +5,11 @@ vim.g.maplocalleader = ' '
 -- Enable nerd font support for better icons
 vim.g.have_nerd_font = true
 
+-- Disable Ruby provider (not needed)
+vim.g.loaded_ruby_provider = 0
+-- Disable Perl provider (not needed)
+vim.g.loaded_perl_provider = 0
+
 -- NOTE: Basic vim options are set by mini.basics plugin
 -- This file contains additional customizations
 

@@ -6,5 +6,12 @@ return {
       markdown = true,
       gitcommit = true,
     },
+    server_opts_overrides = {
+      capabilities = {
+        general = {
+          positionEncodings = { 'utf-8' },
+        },
+      },
+    },
   },
 }
