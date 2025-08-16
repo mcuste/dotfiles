@@ -1,25 +1,14 @@
 # Only run interactive configurations if shell is interactive
 if [[ $- == *i* ]]; then
 
-# Vi mode settings (similar to fish_vi_key_bindings)
-bindkey -v
-export KEYTIMEOUT=1
+# Set nvim as default editor
+export EDITOR="nvim"
+export VISUAL="nvim"
 
-# Change cursor shape for different vi modes (requires compatible terminal)
-function zle-keymap-select {
-  if [[ ${KEYMAP} == vicmd ]] || [[ $1 = 'block' ]]; then
-    echo -ne '\e[1 q'  # block cursor
-  elif [[ ${KEYMAP} == main ]] || [[ ${KEYMAP} == viins ]] || [[ ${KEYMAP} = '' ]] || [[ $1 = 'beam' ]]; then
-    echo -ne '\e[1 q'  # block cursor (matching fish config)
-  fi
-}
-zle -N zle-keymap-select
-
-# Set block cursor on startup
-echo -ne '\e[1 q'
-
-# Use block cursor for each new prompt
-preexec() { echo -ne '\e[1 q' }
+# Make Alt+E open the command line in the editor (like fish)
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '^[e' edit-command-line
 
 # Install zsh plugins for fish-like experience
 # Note: You'll need to install these with Homebrew if not already installed:
@@ -53,7 +42,7 @@ fi
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
 zstyle ':completion:*' list-colors ''
-zstyle ':completion:*' group-name ''
+zstyle ':completion:*' group-name '' 
 zstyle ':completion:*' verbose yes
 zstyle ':completion:*:descriptions' format '%B%d%b'
 zstyle ':completion:*:messages' format '%d'
