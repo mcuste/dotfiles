@@ -113,6 +113,7 @@ install_brew_package "ghostscript" # for pdf on nvim
 install_brew_package "tectonic"    # for latex on nvim
 
 # Dev/MLOps
+install_brew_package "orbstack"
 install_brew_package "kubectl"
 install_brew_package "helm"
 install_brew_package "k9s"
