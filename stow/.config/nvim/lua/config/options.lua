@@ -1,85 +1,49 @@
--- Set <space> as the leader key
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
+-- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
+-- This file contains only custom options that differ from or extend LazyVim defaults
 
--- Enable nerd font support for better icons
-vim.g.have_nerd_font = true
+-- General (custom settings)
+vim.o.swapfile = false -- Disable swapfiles
+vim.o.backup = false -- Don't store backup while overwriting the file
+vim.o.writebackup = false -- Don't store backup while overwriting the file
 
--- Disable Ruby provider (not needed)
-vim.g.loaded_ruby_provider = 0
--- Disable Perl provider (not needed)
-vim.g.loaded_perl_provider = 0
+vim.cmd("filetype plugin indent on") -- Enable all filetype plugins
 
--- NOTE: Basic vim options are set by mini.basics plugin
--- This file contains additional customizations
+-- Appearance (custom settings)
+vim.o.breakindent = true -- Indent wrapped lines to match line start
+vim.o.laststatus = 3 -- Always show a single instance of status line for different panes
+vim.o.guicursor = "n-v-c-i:block"
+vim.o.ruler = false -- Don't show cursor position in command line
+vim.o.fillchars = "eob: " -- Don't show `~` outside of buffer
+vim.o.sidescrolloff = 8 -- Min num of screen columns to keep to the left and to the right of the cursor
 
-local o = vim.o
-local opt = vim.opt
+vim.opt.shortmess:append("WcC") -- Reduce command line messages
+vim.o.splitkeep = "screen" -- Reduce scroll during window split
 
--- ========== Additional Settings ==========
+vim.opt.fillchars:append("vert:┃,horiz:━,horizdown:┳,horizup:┻,verthoriz:╋,vertleft:┫,vertright:┣") -- Bold borders
 
--- Sync with system clipboard
-vim.schedule(function()
-  o.clipboard = 'unnamedplus'
-end)
+vim.g.have_nerd_font = true -- Have a Nerd Font installed and selected in the terminal
 
--- Faster update time for CursorHold events
-o.updatetime = 250
--- Time to wait for mapped sequence
-o.timeoutlen = 300
--- Show invisible characters (customized from mini.basics)
-opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
-o.list = true
--- Live preview of substitutions
-o.inccommand = 'split'
--- Keep 10 lines visible above/below cursor
-o.scrolloff = 10
--- Ask for confirmation on unsaved changes
-o.confirm = true
+vim.o.foldmethod = "expr"
+vim.o.foldexpr = "nvim_treesitter#foldexpr()"
+vim.o.foldenable = false -- disable folds by default
 
--- Auto-save when switching buffers/windows
-o.autowrite = true
--- Disable swap files to avoid conflicts
-o.swapfile = false
+-- Editing (custom settings)
+vim.o.incsearch = true -- Show search results while typing
+vim.o.inccommand = "split" -- Preview substitutions live, as you type! (LazyVim: "nosplit")
+vim.o.infercase = true -- Infer letter cases for a richer built-in keyword completion
+vim.o.formatoptions = "jcroqlnt" -- tcqj
+vim.o.spell = false -- Disable spelling by default (can toggle on during edit)
 
--- ========== Appearance ==========
+-- LazyVim Options
+vim.g.lazyvim_picker = "snacks"
+vim.g.lazyvim_blink_main = true
+vim.g.ai_cmp = false
+vim.g.lazyvim_mini_snippets_in_completion = false
+vim.g.lazyvim_eslint_auto_format = true
+vim.g.lazyvim_rust_diagnostics = "bacon-ls"
+vim.g.lazyvim_python_lsp = "pyright"
+vim.g.lazyvim_python_ruff = "ruff"
 
--- Show relative line numbers for easier navigation
-o.relativenumber = true
--- Enable 24-bit RGB colors in terminal
-o.termguicolors = true
--- Single global statusline for all windows
-o.laststatus = 3
--- Keep 8 columns visible when scrolling horizontally
-o.sidescrolloff = 8
--- Hide markup for bold/italic in markdown
-o.conceallevel = 2
--- Block cursor in all modes
-o.guicursor = 'n-v-c-i:block'
--- Better window borders
-opt.fillchars:append 'vert:┃,horiz:━,horizdown:┳,horizup:┻,verthoriz:╋,vertleft:┫,vertright:┣'
-
--- ========== Folding ==========
-
--- Use treesitter for code folding
-o.foldmethod = 'expr'
-o.foldexpr = 'nvim_treesitter#foldexpr()'
--- Start with all folds open
-o.foldenable = false
-
--- ========== Editing ==========
-
--- Use spaces instead of tabs
-o.expandtab = true
--- Display width of tab character
-o.tabstop = 4
--- Spaces to use for indentation
-o.shiftwidth = 2
--- Round indent to multiple of shiftwidth
-o.shiftround = true
--- Text formatting options
-o.formatoptions = 'jcroqlnt'
--- Disable spell check by default
-o.spell = false
--- Spell check language
-opt.spelllang = { 'en' }
+-- Enable the option to require a Prettier config file
+-- If no prettier config file is found, the formatter will not be used
+vim.g.lazyvim_prettier_needs_config = false
