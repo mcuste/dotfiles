@@ -41,10 +41,14 @@
   ; (tap-hold-release-keys $tap-time $hold-time (multi ; @tap) lmeta $right-hand-keys)
 )
 
-;; Keys for other layers
+;; Hyper Key on ESC
+(defalias
+  hypr (tap-hold-press $tap-time $hold-time esc (multi lctl lsft lalt lmet))
+)
+
+;; Layer Keys
 (defalias
   spc (tap-hold $tap-time $hold-time spc (layer-while-held symbols))
-  ;; esc (tap-hold $tap-time $hold-time esc (layer-while-held navigation))
   ;; ' (tap-hold $tap-time $hold-time ' (layer-while-held unicodechars))
 )
 
@@ -66,22 +70,22 @@
 
 ;; Nomods (gaming) Layer
 (deflayer nomods
-    esc  🔅   🔆   @sb  ✗    ✗    ✗    ◀◀   ▶⏸   ▶▶   🔇   🔉   🔊
-    grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
-    tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
-    esc  a    s    d    f    g    h    j    k    l    ;    '    ret
-    lsft z    x    c    v    b    n    m    ,    .    /    rsft
-    fn   lctl lalt lmet           spc            rmet ralt
+    esc   🔅   🔆   @sb  ✗    ✗    ✗    ◀◀   ▶⏸   ▶▶   🔇   🔉   🔊
+    grv   1    2    3    4    5    6    7    8    9    0    -    =    bspc
+    tab   q    w    e    r    t    y    u    i    o    p    [    ]    \
+    @hypr a    s    d    f    g    h    j    k    l    ;    '    ret
+    lsft  z    x    c    v    b    n    m    ,    .    /    rsft
+    fn    lctl lalt lmet           spc            rmet ralt
 )
 
 ;; Modified base layer
 (deflayer base
-    esc  🔅   🔆   @sn  ✗    ✗    ✗    ◀◀   ▶⏸   ▶▶   🔇   🔉   🔊
-    grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
-    tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
-    esc  @a   @s   @d   @f   g    h    @j   @k   @l   @;   '    ret
-    lsft z    x    c    v    b    n    m    ,    .    /    rsft
-    fn   lctl lalt lmet          @spc            rmet ralt
+    esc   🔅   🔆   @sn  ✗    ✗    ✗    ◀◀   ▶⏸   ▶▶   🔇   🔉   🔊
+    grv   1    2    3    4    5    6    7    8    9    0    -    =    bspc
+    tab   q    w    e    r    t    y    u    i    o    p    [    ]    \
+    @hypr @a   @s   @d   @f   g    h    @j   @k   @l   @;   '    ret
+    lsft  z    x    c    v    b    n    m    ,    .    /    rsft
+    fn    lctl lalt lmet          @spc            rmet ralt
 )
 
 ;; Symbols and Navigation Layer
