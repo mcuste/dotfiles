@@ -4,19 +4,19 @@ set -euo pipefail
 
 # Check if Homebrew is installed
 if ! command -v brew >/dev/null 2>&1; then
-	echo "Homebrew not found. Installing..."
-	bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    echo "Homebrew not found. Installing..."
+    bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 else
-	echo "Homebrew is already installed."
+    echo "Homebrew is already installed."
 fi
 
 # Set PATH for Homebrew if not already set
 BREW_PATH="$(brew --prefix)/bin"
 if [[ ":$PATH:" != *":$BREW_PATH:"* ]]; then
-	echo "Setting Homebrew path with launchctl."
-	sudo launchctl config user path "$BREW_PATH:${PATH}"
+    echo "Setting Homebrew path with launchctl."
+    sudo launchctl config user path "$BREW_PATH:${PATH}"
 else
-	echo "Homebrew path already in PATH."
+    echo "Homebrew path already in PATH."
 fi
 
 # Helper functions to check if packages are installed
@@ -85,6 +85,7 @@ install_brew_package "starship"
 install_brew_package "lazygit"
 install_brew_package "gh"
 install_brew_package "git-lfs"
+install_brew_package "git-delta"
 install_brew_package "gnupg"
 install_brew_package "lsof"
 install_brew_package "unzip"
@@ -168,17 +169,18 @@ fi
 
 # Setup SSH Key
 if [ ! -f ~/.ssh/id_ed25519 ]; then
-	mkdir -p ~/.ssh
-	pushd ~/.ssh
-	ssh-keygen -t ed25519
-	popd
-	echo "New SSH key generated."
+    mkdir -p ~/.ssh
+    pushd ~/.ssh
+    ssh-keygen -t ed25519
+    popd
+    echo "New SSH key generated."
 else
-	echo "SSH key already exists."
+    echo "SSH key already exists."
 fi
 
 echo -e "\nAdd the following public key to your GitHub account:"
-pubkey="$(< ~/.ssh/id_ed25519.pub)"
+pubkey="$(<~/.ssh/id_ed25519.pub)"
 echo -e "\t$pubkey"
 echo -e "\nPress Enter after setting up SSH key on GitHub to continue."
 read
+
