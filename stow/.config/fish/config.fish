@@ -1,10 +1,11 @@
-# Set nvim as default editor
-set -gx EDITOR nvim
-set -gx VISUAL nvim
 set fish_greeting # Disable greeting
 
 # Don't exec the rest of the config if not interactive
 status is-interactive; or exit 0
+
+# Set nvim as default editor
+set -gx EDITOR nvim
+set -gx VISUAL nvim
 
 # Commands to run in interactive sessions can go here
 
@@ -43,5 +44,6 @@ fish_add_path /opt/homebrew/opt/rustup/bin
 fish_add_path /opt/homebrew/opt/llvm/bin
 
 # Go configuration
+set -gx GOROOT $HOME/.go
 set -gx GOPATH $HOME/.go
 fish_add_path $GOPATH/bin
