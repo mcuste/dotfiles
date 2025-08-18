@@ -94,11 +94,15 @@ alias k='kubectl'
 alias lg='lazygit'
 alias vimdiff='nvim -d'
 
-# Path exports
+# Path setup
 export PATH="/opt/homebrew/opt/rustup/bin:$PATH"
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 
-# Go configuration
+# Custom paths
 export GOROOT="$HOME/.go"
 export GOPATH="$HOME/.go"
 export PATH="$GOPATH/bin:$PATH"
+export XDG_CONFIG_HOME="$HOME/.config"
+export K9S_CONFIG_DIR="$HOME/.config/k9s"
+export PATH="$HOME/scripts/bash:$PATH"
+

@@ -1,0 +1,13 @@
+k9s:
+  cluster: gke_tensorflow-training-176320_us-west1_datacenter-playground-cluster
+  namespace:
+    active: all
+    lockFavorites: false
+    favorites:
+      - all
+      - default
+  view:
+    active: nodes
+  featureGates:
+    nodeShell: false
+  proxy: null

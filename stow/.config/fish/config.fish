@@ -10,7 +10,7 @@ set -gx VISUAL nvim
 # Commands to run in interactive sessions can go here
 
 # Theme
-fish_config theme choose "CatppuccinMocha"
+fish_config theme choose CatppuccinMocha
 
 # Activate prompt
 starship init fish | source
@@ -43,7 +43,10 @@ alias vimdiff 'nvim -d'
 fish_add_path /opt/homebrew/opt/rustup/bin
 fish_add_path /opt/homebrew/opt/llvm/bin
 
-# Go configuration
+# Custom paths
 set -gx GOROOT $HOME/.go
 set -gx GOPATH $HOME/.go
 fish_add_path $GOPATH/bin
+set -gx XDG_CONFIG_HOME $HOME/.config
+set -gx K9S_CONFIG_DIR $HOME/.config/k9s
+fish_add_path $HOME/scripts/bash

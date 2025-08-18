@@ -112,6 +112,7 @@ install_brew_package "yazi"
 install_brew_package "imagemagick" # for png on nvim
 install_brew_package "ghostscript" # for pdf on nvim
 install_brew_package "tectonic"    # for latex on nvim
+install_brew_package "gum"         # for nice cli with bash
 
 # Dev/MLOps
 install_brew_package "orbstack"
@@ -119,6 +120,10 @@ install_brew_package "kubectl"
 install_brew_package "helm"
 install_brew_package "k9s"
 install_brew_package "k3d"
+install_brew_cask "gcloud-cli"
+
+# TODO
+gcloud components install gke-gcloud-auth-plugin
 
 # Languages
 install_brew_package "mise"
@@ -183,4 +188,3 @@ pubkey="$(<~/.ssh/id_ed25519.pub)"
 echo -e "\t$pubkey"
 echo -e "\nPress Enter after setting up SSH key on GitHub to continue."
 read
-

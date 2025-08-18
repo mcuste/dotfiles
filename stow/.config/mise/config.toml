@@ -2,5 +2,8 @@
 lua = "5.1"
 node = "latest"
 npm = "11"
+pnpm = "latest"
 python = "latest"
+ruff = "latest"
 terraform = "latest"
+uv = "latest"
