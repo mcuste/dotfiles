@@ -5,6 +5,7 @@ stow/.config/fish/fish_variables
 stow/.local/bin/*
 !stow/.local/bin/sync-*
 
+stow/.config/k9s/clusters
 stow/.config/fish/completions/docker.fish
 stow/.config/fish/completions/kubectl.fish
 stow/.config/fish/completions/orbctl.fish
