@@ -1,0 +1,51 @@
+theme = "catppuccin_mocha"
+
+[editor]
+scrolloff = 10
+line-number = "relative"
+rulers = [120]
+bufferline = "multiple"
+trim-final-newlines = true
+trim-trailing-whitespace = true
+
+[editor.lsp]
+display-progress-messages = true
+display-inlay-hints = true
+
+[editor.auto-save]
+focus-lost = true
+after-delay.enable = true
+
+[editor.file-picker]
+hidden = false
+
+[editor.indent-guides]
+render = true
+character = "│"
+skip-levels = 1
+
+[editor.soft-wrap]
+enable = false
+
+[editor.statusline]
+left = ["mode", "spinner", "file-name", "read-only-indicator", "file-modification-indicator"]
+center = ["version-control"]
+right = ["diagnostics", "selections", "position", "file-encoding", "file-type"]
+
+[keys.normal]
+"C-S" = "save_selection"
+"C-s" = ":write"
+H = "goto_line_start"
+L = "goto_line_end"
+"{" = "goto_prev_paragraph"
+"}" = "goto_next_paragraph"
+
+[keys.select]
+"C-s" = ":write"
+H = "goto_line_start"
+L = "goto_line_end"
+"{" = "goto_prev_paragraph"
+"}" = "goto_next_paragraph"
+
+[keys.insert]
+"C-s" = ":write"
