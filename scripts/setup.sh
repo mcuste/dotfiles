@@ -4,59 +4,59 @@ set -euo pipefail
 
 # Check if Homebrew is installed
 if ! command -v brew >/dev/null 2>&1; then
-    echo "Homebrew not found. Installing..."
-    bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  echo "Homebrew not found. Installing..."
+  bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 else
-    echo "Homebrew is already installed."
+  echo "Homebrew is already installed."
 fi
 
 # Set PATH for Homebrew if not already set
 BREW_PATH="$(brew --prefix)/bin"
 if [[ ":$PATH:" != *":$BREW_PATH:"* ]]; then
-    echo "Setting Homebrew path with launchctl."
-    sudo launchctl config user path "$BREW_PATH:${PATH}"
+  echo "Setting Homebrew path with launchctl."
+  sudo launchctl config user path "$BREW_PATH:${PATH}"
 else
-    echo "Homebrew path already in PATH."
+  echo "Homebrew path already in PATH."
 fi
 
 # Helper functions to check if packages are installed
 is_brew_package_installed() {
-    brew list --formula "$1" &>/dev/null
+  brew list --formula "$1" &>/dev/null
 }
 
 is_brew_cask_installed() {
-    brew list --cask "$1" &>/dev/null
+  brew list --cask "$1" &>/dev/null
 }
 
 install_brew_package() {
-    local package="$1"
-    if is_brew_package_installed "$package"; then
-        echo "✓ $package is already installed"
-    else
-        echo "Installing $package..."
-        brew install "$package"
-    fi
+  local package="$1"
+  if is_brew_package_installed "$package"; then
+    echo "✓ $package is already installed"
+  else
+    echo "Installing $package..."
+    brew install "$package"
+  fi
 }
 
 install_brew_cask() {
-    local cask="$1"
-    if is_brew_cask_installed "$cask"; then
-        echo "✓ $cask is already installed"
-    else
-        echo "Installing $cask..."
-        brew install --cask "$cask"
-    fi
+  local cask="$1"
+  if is_brew_cask_installed "$cask"; then
+    echo "✓ $cask is already installed"
+  else
+    echo "Installing $cask..."
+    brew install --cask "$cask"
+  fi
 }
 
 install_brew_tap_package() {
-    local tap="$1"
-    local package="$2"
-    if is_brew_package_installed "$package"; then
-        echo "✓ $package is already installed"
-    else
-        echo "Installing $package from tap $tap..."
-        brew install "$tap/$package"
-    fi
+  local tap="$1"
+  local package="$2"
+  if is_brew_package_installed "$package"; then
+    echo "✓ $package is already installed"
+  else
+    echo "Installing $package from tap $tap..."
+    brew install "$tap/$package"
+  fi
 }
 
 # Browsers
@@ -114,27 +114,79 @@ install_brew_package "ghostscript" # for pdf on nvim
 install_brew_package "tectonic"    # for latex on nvim
 install_brew_package "gum"         # for nice cli with bash
 
-# Dev/MLOps
-install_brew_package "orbstack"
+##### DEV
+
+# markdown
+install_brew_package "marksman"
+
+# bash
+install_brew_package "bash-language-server"
+install_brew_package "shellcheck"
+install_brew_package "shfmt"
+
+# cmake
+install_brew_package "cmake-language-server"
+
+# docker and k8s
 install_brew_package "kubectl"
-install_brew_package "helm"
 install_brew_package "k9s"
 install_brew_package "k3d"
-install_brew_cask "gcloud-cli"
+install_brew_package "orbstack"
+install_brew_package "dockerfile-language-server"
+install_brew_package "helm"
+install_brew_package "helm-ls"
+install_brew_package "yaml-language-server"
+# terraform with mise
+install_brew_package "terraform-ls"
 
-# TODO
-gcloud components install gke-gcloud-auth-plugin
+# lua
+install_brew_package "lua"
+install_brew_package "luv"
+install_brew_package "lpeg"
+install_brew_package "luajit"
+install_brew_package "luarocks"
+install_brew_package "lua-language-server"
 
-# Languages
-install_brew_package "mise"
+# go
+install_brew_package "go"
+install_brew_package "gopls"
+install_brew_package "delve"
+install_brew_package "goimports"
+install_brew_package "golangci-lint"
+install_brew_package "golangci-lint-langserver"
+
+# rust
 install_brew_package "rustup"
 install_brew_package "llvm"
 install_brew_package "protobuf"
 install_brew_package "cargo-nextest"
-install_brew_package "go"
-install_brew_package "luarocks"
+# tombi for tomls
+# npm install -g tombi
+
+# python
+install_brew_package "mise"
+install_brew_package "pyright"
+
+# js/ts/web
+install_brew_package "vscode-langservers-extracted"
+install_brew_package "superhtml"
+install_brew_package "tailwindcss-language-server"
+# svelte-language-server - install with npm
+# npm i -g svelte-language-server
+# npm i -g typescript-svelte-plugin
+install_brew_package "typescript"
+install_brew_package "typescript-language-server"
+install_brew_package "biome"
+
+# treesitter
 install_brew_package "tree-sitter"
 install_brew_package "tree-sitter-cli"
+
+# Cloud
+install_brew_cask "gcloud-cli"
+
+# TODO
+# gcloud components install gke-gcloud-auth-plugin
 
 # Media
 install_brew_cask "slack"
@@ -154,33 +206,33 @@ install_brew_tap_package "withgraphite/tap" "graphite"
 
 # Tmux Plugin Manager Setup
 if [ -d "$HOME/.config/tmux/plugins/tpm" ]; then
-    echo "✓ Tmux Plugin Manager (TPM) is already installed"
+  echo "✓ Tmux Plugin Manager (TPM) is already installed"
 else
-    echo "Installing Tmux Plugin Manager (TPM)..."
-    mkdir -p "$HOME/.config/tmux/plugins"
-    git clone https://github.com/tmux-plugins/tpm "$HOME/.config/tmux/plugins/tpm"
-    echo "✓ TPM installed successfully"
+  echo "Installing Tmux Plugin Manager (TPM)..."
+  mkdir -p "$HOME/.config/tmux/plugins"
+  git clone https://github.com/tmux-plugins/tpm "$HOME/.config/tmux/plugins/tpm"
+  echo "✓ TPM installed successfully"
 fi
 
 # Setup Kanata keyboard remapper
 echo ""
 echo "Setting up Kanata keyboard remapper..."
 if [ -f "./scripts/kanata/kanata.sh" ]; then
-    bash ./scripts/kanata/kanata.sh
-    echo ""
+  bash ./scripts/kanata/kanata.sh
+  echo ""
 else
-    echo "⚠ Kanata setup script not found at ./scripts/kanata/kanata.sh"
+  echo "⚠ Kanata setup script not found at ./scripts/kanata/kanata.sh"
 fi
 
 # Setup SSH Key
 if [ ! -f ~/.ssh/id_ed25519 ]; then
-    mkdir -p ~/.ssh
-    pushd ~/.ssh
-    ssh-keygen -t ed25519
-    popd
-    echo "New SSH key generated."
+  mkdir -p ~/.ssh
+  pushd ~/.ssh
+  ssh-keygen -t ed25519
+  popd
+  echo "New SSH key generated."
 else
-    echo "SSH key already exists."
+  echo "SSH key already exists."
 fi
 
 echo -e "\nAdd the following public key to your GitHub account:"
