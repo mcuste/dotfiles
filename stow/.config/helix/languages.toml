@@ -1,0 +1,125 @@
+# From https://github.com/helix-editor/helix/wiki/Language-Server-Configurations
+# From https://github.com/helix-editor/helix/blob/master/languages.toml
+
+[[language]]
+name = "markdown"
+auto-format = true
+
+[[language]]
+name = "bash"
+auto-format = true
+
+[[language]]
+name = "dockerfile"
+auto-format = true
+
+[language-server.yaml-language-server.config.yaml]
+format = { enable = true }
+validation = true
+
+[language-server.yaml-language-server.config.yaml.schemas]
+"https://json.schemastore.org/github-workflow.json" = ".github/workflows/*.{yml,yaml}"
+"https://raw.githubusercontent.com/ansible-community/schemas/main/f/ansible-tasks.json" = "roles/{tasks,handlers}/*.{yml,yaml}"
+
+[[language]]
+name = "helm"
+auto-format = true
+
+[[language]]
+name = "hcl"
+auto-format = true
+language-servers = [ "terraform-ls" ]
+language-id = "terraform"
+
+[[language]]
+name = "tfvars"
+auto-format = true
+language-servers = [ "terraform-ls" ]
+language-id = "terraform-vars"
+
+[language-server.terraform-ls]
+command = "terraform-ls"
+args = ["serve"]
+
+[[language]]
+name = "lua"
+auto-format = true
+
+[[language]]
+name = "go"
+auto-format = true
+formatter = { command = "goimports" }
+
+[[language]]
+name = "rust"
+auto-format = true
+language-servers = [ "rust-analyzer" ]
+formatter = { command = "rustfmt" }
+
+[language-server.rust-analyzer.config]
+checkOnSave = { command = "clippy" }
+
+[language-server.rust-analyzer.config.check]
+command = "clippy"
+
+[language-server.rust-analyzer.config.cargo]
+features = "all"
+
+[[language]]
+name = "python"
+auto-format = true
+language-servers = [ "pyright", "ruff" ]
+formatter = { command = "ruff", args = ["format", "-"] }
+
+[language-server.ruff]
+command = "ruff-lsp"
+
+[[language]]
+name = "json"
+auto-format = true
+language-servers = [ { name = "vscode-json-language-server", except-features = [ "format" ] }, "biome" ]
+
+[[language]]
+name = "html"
+auto-format = true
+language-servers = [{ name = "superhtml", except-features = ["format"] }, "vscode-html-language-server", "tailwindcss-ls" ]
+
+[[language]]
+name = "css"
+language-servers = [ "vscode-css-language-server", "tailwindcss-ls" ]
+
+[[language]]
+name = "jsx"
+auto-format = true
+language-servers = [ { name = "typescript-language-server", except-features = [ "format" ] }, "tailwindcss-ls", "biome" ]
+
+[[language]]
+name = "tsx"
+auto-format = true
+language-servers = [ { name = "typescript-language-server", except-features = [ "format" ] }, "tailwindcss-ls", "biome" ]
+
+[[language]]
+name = "svelte"
+language-servers = [ "svelteserver", "tailwindcss-ls" ]
+
+[[language]]
+name = "javascript"
+language-servers = [ { name = "typescript-language-server", except-features = [ "format" ] }, "biome" ]
+auto-format = true
+
+[[language]]
+name = "typescript"
+auto-format = true
+language-servers = [ { name = "typescript-language-server", except-features = [ "format" ] }, "tailwindcss-language-server", "biome" ]
+
+[language-server]
+biome = { command = "biome", args = ["lsp-proxy"] }
+
+[language-server.tailwindcss-ls]
+command = "tailwindcss-language-server"
+args = ["--stdio"]
+
+[language-server.typescript-language-server.config.typescript.inlayHints]
+includeInlayParameterNameHints = "all"
+includeInlayVariableTypeHints = true
+
