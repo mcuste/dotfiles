@@ -188,6 +188,9 @@ install_brew_cask "gcloud-cli"
 # TODO
 # gcloud components install gke-gcloud-auth-plugin
 
+# Game Dev
+install_brew_cask "godot"
+
 # Media
 install_brew_cask "slack"
 install_brew_cask "spotify"
