@@ -190,6 +190,7 @@ install_brew_cask "gcloud-cli"
 
 # Game Dev
 install_brew_cask "godot"
+install_brew_cask "gdtoolkit"
 
 # Media
 install_brew_cask "slack"
