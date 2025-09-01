@@ -123,3 +123,12 @@ args = ["--stdio"]
 includeInlayParameterNameHints = "all"
 includeInlayVariableTypeHints = true
 
+# GODOT
+[[language]]
+name = "gdscript"
+language-servers = ["godot"]
+auto-format = true
+
+[language-server.godot]
+command = "nc"  # or "ncat" on Windows
+args = ["127.0.0.1", "6005"]
