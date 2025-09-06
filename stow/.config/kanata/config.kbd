@@ -49,12 +49,38 @@
 ;; Layer Keys
 (defalias
   spc (tap-hold $tap-time $hold-time spc (layer-while-held symbols))
-  ;; ' (tap-hold $tap-time $hold-time ' (layer-while-held unicodechars))
+  ' (tap-hold $tap-time $hold-time ' (layer-while-held unicodechars))
+)
+
+(defalias
+  _ae (unicode ä)
+  _Ae (unicode Ä)
+  _ue (unicode ü)
+  _Ue (unicode Ü)
+  _oe (unicode ö)
+  _Oe (unicode Ö)
+  _sh (unicode ş)
+  _Sh (unicode Ş)
+  _ch (unicode ç)
+  _Ch (unicode Ç)
+  _ii (unicode ı)
+  _Ii (unicode İ)
+  _gg (unicode ğ)
+  _Gg (unicode Ğ)
+
+  ss (unicode ß)
+  ae (fork @_ae @_Ae (lsft rsft))
+  ue (fork @_ue @_Ue (lsft rsft))
+  oe (fork @_oe @_Oe (lsft rsft))
+  sh (fork @_sh @_Sh (lsft rsft))
+  ch (fork @_ch @_Ch (lsft rsft))
+  ii (fork @_ii @_Ii (lsft rsft))
+  gg (fork @_gg @_Gg (lsft rsft))
 )
 
 ;; Key for disabling kanata on F3
 (defalias
-  sn (layer-switch nomods) 
+  sn (layer-switch nomods)
   sb (layer-switch base)
 )
 
@@ -83,7 +109,7 @@
     esc   🔅   🔆   @sn  ✗    ✗    ✗    ◀◀   ▶⏸   ▶▶   🔇   🔉   🔊
     grv   1    2    3    4    5    6    7    8    9    0    -    =    bspc
     tab   q    w    e    r    t    y    u    i    o    p    [    ]    \
-    @hypr @a   @s   @d   @f   g    h    @j   @k   @l   @;   '    ret
+    @hypr @a   @s   @d   @f   g    h    @j   @k   @l   @;   @'   ret
     lsft  z    x    c    v    b    n    m    ,    .    /    rsft
     fn    lctl lalt lmet          @spc            rmet ralt
 )
@@ -99,36 +125,11 @@
 )
 
 ;; Unicode char layer
-;;(deflayer unicodechars
-;;        XX    XX    XX    XX    XX    XX    @ue   @ii   @oe   XX
-;;  XX    @ae   @sh   XX    lshft @gg   XX    rshft XX    XX    XX    XX
-;;        XX    XX    @ch   XX    @ss   XX    XX    XX    XX    XX
-;;                                    XX
-;;)
-
-;; (defalias
-;;   _ae (unicode ä)
-;;   _Ae (unicode Ä)
-;;   _ue (unicode ü)
-;;   _Ue (unicode Ü)
-;;   _oe (unicode ö)
-;;   _Oe (unicode Ö)
-;;   _sh (unicode ş)
-;;   _Sh (unicode Ş)
-;;   _ch (unicode ç)
-;;   _Ch (unicode Ç)
-;;   _ii (unicode ı)
-;;   _Ii (unicode İ)
-;;   _gg (unicode ğ)
-;;   _Gg (unicode Ğ)
-;; 
-;;   ss (unicode ß)
-;;   ae (fork @_ae @_Ae (lsft rsft))
-;;   ue (fork @_ue @_Ue (lsft rsft))
-;;   oe (fork @_oe @_Oe (lsft rsft))
-;;   sh (fork @_sh @_Sh (lsft rsft))
-;;   ch (fork @_ch @_Ch (lsft rsft))
-;;   ii (fork @_ii @_Ii (lsft rsft))
-;;   gg (fork @_gg @_Gg (lsft rsft))
-;; )
-
+(deflayer unicodechars
+  esc   🔅   🔆   @sn  ✗    ✗    ✗    ◀◀   ▶⏸   ▶▶   🔇   🔉   🔊
+  grv   1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab   q    w    e    r    t    y    @ue  @ii  @oe  p    [    ]    \
+  @hypr @ae  @sh  @d   @f   @gg  h    @j   @k   @l   @;   @'   ret
+  lsft  z    x    @ch  v    @ss  n    m    ,    .    /    rsft
+  fn    lctl lalt lmet          @spc            rmet ralt
+)
