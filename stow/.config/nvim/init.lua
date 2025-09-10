@@ -87,26 +87,28 @@ end, { desc = 'Reload Neovim configuration' })
 -- ============================== PLUGIN SETUP ===================================
 require('lazy').setup {
   { 'echasnovski/mini.basics', priority = 1000, opts = {} },
-  { 'echasnovski/mini.starter', priority = 1000, opts = {} },
-  { 'echasnovski/mini.statusline', priority = 1000, opts = {} },
-  { 'echasnovski/mini.tabline', priority = 1000, opts = {} },
-  { 'echasnovski/mini.diff', event = 'VeryLazy', opts = {} },
+  { 'echasnovski/mini.starter', priority = 1000, opts = {}, enabled = not vim.g.vscode },
+  { 'echasnovski/mini.statusline', priority = 1000, opts = {}, enabled = not vim.g.vscode },
+  { 'echasnovski/mini.tabline', priority = 1000, opts = {}, enabled = not vim.g.vscode },
+  { 'echasnovski/mini.diff', event = 'VeryLazy', opts = {}, enabled = not vim.g.vscode },
   { 'echasnovski/mini.ai', event = 'VeryLazy', opts = {} },
   { 'echasnovski/mini.pairs', event = 'InsertEnter', opts = {} },
   { 'echasnovski/mini.splitjoin', event = 'VeryLazy', opts = {} },
   { 'echasnovski/mini.surround', event = 'VeryLazy', opts = {} },
   { 'echasnovski/mini.bracketed', event = 'VeryLazy', opts = {} },
-  { 'echasnovski/mini.indentscope', event = { 'BufReadPre', 'BufNewFile' }, opts = {} },
+  { 'echasnovski/mini.indentscope', event = { 'BufReadPre', 'BufNewFile' }, opts = {}, enabled = not vim.g.vscode },
 
   {
     'echasnovski/mini.bufremove',
     opts = {},
+    enabled = not vim.g.vscode,
     keys = { { '<leader>bd', '<cmd>lua MiniBufremove.delete()<cr>', desc = 'Delete Buffer' } },
   },
 
   {
     'echasnovski/mini.icons',
     priority = 1000,
+    enabled = not vim.g.vscode,
     config = function()
       require('mini.icons').setup()
       MiniIcons.mock_nvim_web_devicons()
@@ -155,6 +157,7 @@ require('lazy').setup {
   {
     'echasnovski/mini.files',
     opts = {},
+    enabled = not vim.g.vscode,
     -- stylua: ignore
     keys = { { '<leader>e', function() MiniFiles.open() end, desc = 'Open file explorer' } },
   },
@@ -163,6 +166,7 @@ require('lazy').setup {
   {
     'echasnovski/mini.hipatterns',
     event = { 'BufReadPre', 'BufNewFile' },
+    enabled = not vim.g.vscode,
     dependencies = { 'echasnovski/mini.extra' },
     config = function()
       local hi_words = require('mini.extra').gen_highlighter.words
@@ -185,6 +189,7 @@ require('lazy').setup {
   {
     'echasnovski/mini.clue',
     event = 'VeryLazy',
+    enabled = not vim.g.vscode,
     config = function()
       local miniclue = require 'mini.clue'
       miniclue.setup {
@@ -242,6 +247,7 @@ require('lazy').setup {
     'catppuccin/nvim',
     name = 'catppuccin',
     priority = 1000,
+    enabled = not vim.g.vscode,
     config = function()
       -- Configure Catppuccin with integration support
       require('catppuccin').setup {
@@ -283,6 +289,7 @@ require('lazy').setup {
   {
     'f-person/git-blame.nvim',
     event = { 'BufReadPre', 'BufNewFile' },
+    enabled = not vim.g.vscode,
     config = function()
       require('gitblame').setup {
         enabled = false,
@@ -294,13 +301,14 @@ require('lazy').setup {
   },
 
   -- Gitignore Generator
-  { 'wintermute-cell/gitignore.nvim', opts = {}, cmd = 'Gitignore' },
+  { 'wintermute-cell/gitignore.nvim', opts = {}, cmd = 'Gitignore', enabled = not vim.g.vscode },
 
   -- Smart Window Management
   {
     'mrjones2014/smart-splits.nvim',
     version = 'v1.6.0',
     event = 'VeryLazy',
+    -- enabled = not vim.g.vscode,
     config = function()
       require('smart-splits').setup {
         ignored_buftypes = { 'nofile', 'quickfix', 'prompt' },
@@ -334,6 +342,7 @@ require('lazy').setup {
   {
     'nvim-telescope/telescope.nvim',
     branch = '0.1.x',
+    enabled = not vim.g.vscode,
     dependencies = {
       'nvim-lua/plenary.nvim',
       {
@@ -446,6 +455,7 @@ require('lazy').setup {
   {
     'saghen/blink.cmp',
     version = 'v1.6.0',
+    enabled = not vim.g.vscode,
     dependencies = {
       'rafamadriz/friendly-snippets',
       'echasnovski/mini.snippets',
@@ -514,11 +524,13 @@ require('lazy').setup {
   },
 
   -- Code Annotation Generator
+  -- enabled = not vim.g.vscode
   { 'danymat/neogen', cmd = 'Neogen', config = true },
 
   -- LSP
   {
     'neovim/nvim-lspconfig',
+    enabled = not vim.g.vscode,
     dependencies = {
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
@@ -691,6 +703,7 @@ require('lazy').setup {
   {
     'mfussenegger/nvim-lint',
     event = { 'BufReadPre', 'BufNewFile' },
+    enabled = not vim.g.vscode,
     config = function()
       local lint = require 'lint'
       lint.linters_by_ft = {
@@ -719,6 +732,7 @@ require('lazy').setup {
     'stevearc/conform.nvim',
     event = { 'BufWritePre' },
     cmd = { 'ConformInfo' },
+    enabled = not vim.g.vscode,
     opts = {
       default_format_opts = {
         timeout_ms = 3000,
@@ -761,6 +775,7 @@ require('lazy').setup {
   -- Debug Adapter Protocol (DAP) configuration for debugging support
   {
     'mfussenegger/nvim-dap',
+    enabled = not vim.g.vscode,
     dependencies = {
       'rcarriga/nvim-dap-ui',
       'nvim-neotest/nvim-nio',
@@ -837,6 +852,7 @@ require('lazy').setup {
     'mrcjkb/rustaceanvim',
     version = '^6', -- Recommended
     ft = { 'rust' },
+    enabled = not vim.g.vscode,
     init = function()
       vim.g.rustaceanvim = {
         server = {
