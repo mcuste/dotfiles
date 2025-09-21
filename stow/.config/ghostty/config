@@ -10,7 +10,7 @@
 # =============================================================================
 
 # Use Catppuccin Mocha theme to match other development tools
-theme = catppuccin-mocha
+theme = Catppuccin Mocha
 
 # Font configuration - JetBrains Mono for excellent readability
 font-family = JetBrains Mono
