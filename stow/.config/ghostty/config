@@ -63,6 +63,9 @@ scrollback-limit = 1000000
 # Keybindings
 # =============================================================================
 
+# Option works like Alt, so disables unicode char input
+# macos-option-as-alt = true
+
 # NOTE: currently ghostty doesn't support scripting necessary for pane movements
 # with nvim. Disabling custom keymaps.
 
