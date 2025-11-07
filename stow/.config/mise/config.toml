@@ -1,4 +1,5 @@
 [tools]
+dotnet = "8.0.100"
 lua = "5.1"
 node = "latest"
 npm = "11"
