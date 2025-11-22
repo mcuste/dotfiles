@@ -25,7 +25,7 @@ zoxide init fish | source
 mise activate fish | source
 
 # Aliases
-alias eza 'eza --icons auto --git'
+alias eza 'eza --icons auto'
 alias ls eza
 alias l eza
 alias la 'l -a'
@@ -40,10 +40,10 @@ alias lg lazygit
 alias vimdiff 'nvim -d'
 
 # Path exports
+fish_add_path /opt/homebrew/bin
+fish_add_path /opt/homebrew/sbin
 fish_add_path /opt/homebrew/opt/rustup/bin
 fish_add_path /opt/homebrew/opt/llvm/bin
-
-# Custom paths
 set -gx GOROOT $HOME/.go
 set -gx GOPATH $HOME/.go
 fish_add_path $GOPATH/bin
