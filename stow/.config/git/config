@@ -18,6 +18,13 @@ helper = "gh auth git-credential"
 editor = "nvim"
 pager = "delta"
 whitespace = "trailing-space,space-before-tab"
+preloadindex = true
+fscache = true
+fsmonitor = false
+untrackedcache = true
+
+[gc]
+auto = 256
 
 [interactive]
 diffFilter = "delta --color-only"
