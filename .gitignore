@@ -9,3 +9,5 @@ stow/.config/k9s/clusters
 stow/.config/fish/completions/docker.fish
 stow/.config/fish/completions/kubectl.fish
 stow/.config/fish/completions/orbctl.fish
+stow/.config/fish/conf.d/fish_frozen_key_bindings.fish
+stow/.config/k9s/clusters
