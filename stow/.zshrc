@@ -99,6 +99,7 @@ export PATH="/opt/homebrew/opt/rustup/bin:$PATH"
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 
 # Custom paths
+export PATH="$HOME/.local/bin:$PATH"
 export GOROOT="$HOME/.go"
 export GOPATH="$HOME/.go"
 export PATH="$GOPATH/bin:$PATH"
