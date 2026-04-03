@@ -2,8 +2,8 @@
 return {
   "mrjones2014/smart-splits.nvim",
   lazy = false,
-  priority = 1000,
   config = function()
+    require("smart-splits").setup({})
     -- resizing splits
     vim.keymap.set("n", "<A-S-h>", require("smart-splits").resize_left, { desc = "Resize split left" })
     vim.keymap.set("n", "<A-S-j>", require("smart-splits").resize_down, { desc = "Resize split down" })
