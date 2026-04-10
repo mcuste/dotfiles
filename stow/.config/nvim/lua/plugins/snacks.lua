@@ -103,19 +103,5 @@ return {
       end,
       desc = "LSP Workspace Symbols",
     },
-    {
-      "<leader>t",
-      function()
-        Snacks.terminal(nil, { cwd = LazyVim.root() })
-      end,
-      desc = "Terminal (root dir)",
-    },
-    {
-      "<leader>T",
-      function()
-        Snacks.terminal()
-      end,
-      desc = "Terminal (cwd)",
-    },
   },
 }
