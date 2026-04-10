@@ -7,13 +7,7 @@ return {
       sources = {
         files = { hidden = true },
         grep = { hidden = true },
-        explorer = { hidden = true },
       },
-    },
-
-    -- Show hidden files by default in the file explorer
-    explorer = {
-      hidden = true,
     },
   },
 
@@ -64,13 +58,7 @@ return {
       end,
       desc = "Grep (cwd)",
     },
-    {
-      "<leader>e",
-      function()
-        Snacks.explorer()
-      end,
-      desc = "Explorer (root dir)",
-    },
+    { "<leader>e", false }, -- Explorer (disabled, use yazi instead)
     {
       "<leader>ft",
       function()
