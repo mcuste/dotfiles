@@ -6,6 +6,7 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- TODO: find good way to render markdown
 return {
   -- Disable browser-based markdown preview
   { "iamcco/markdown-preview.nvim", enabled = false },
