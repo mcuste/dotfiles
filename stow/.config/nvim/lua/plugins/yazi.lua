@@ -24,11 +24,11 @@ return {
             helpers.select_current_file_and_close_yazi(config, {
               api = process_api,
               on_file_opened = function(chosen_file)
-                vim.cmd("ClaudeCodeAdd " .. vim.fn.fnameescape(chosen_file))
+                require("claudecode").send_at_mention(chosen_file, nil, nil, "ClaudeCodeAdd")
               end,
               on_multiple_files_opened = function(chosen_files)
                 for _, file in ipairs(chosen_files) do
-                  vim.cmd("ClaudeCodeAdd " .. vim.fn.fnameescape(file))
+                  require("claudecode").send_at_mention(file, nil, nil, "ClaudeCodeAdd")
                 end
               end,
             })
