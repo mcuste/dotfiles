@@ -1,6 +1,7 @@
 return {
   "folke/snacks.nvim",
   opts = {
+    explorer = { enabled = false },
 
     -- Show hidden files by default in the fuzzy picker
     picker = {
