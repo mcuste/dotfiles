@@ -5,6 +5,9 @@ return {
       servers = {
         gopls = { mason = false },
       },
+      setup = {
+        gopls = function() end,
+      },
     },
   },
 }
