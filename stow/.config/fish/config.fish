@@ -45,7 +45,6 @@ fish_add_path /opt/homebrew/bin
 fish_add_path /opt/homebrew/sbin
 fish_add_path /opt/homebrew/opt/rustup/bin
 fish_add_path /opt/homebrew/opt/llvm/bin
-set -gx GOROOT $HOME/.go
 set -gx GOPATH $HOME/.go
 fish_add_path $GOPATH/bin
 fish_add_path $HOME/.dotnet/tools
