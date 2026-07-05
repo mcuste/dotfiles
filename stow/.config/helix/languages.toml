@@ -54,16 +54,51 @@ formatter = { command = "goimports" }
 name = "rust"
 auto-format = true
 language-servers = [ "rust-analyzer" ]
-formatter = { command = "rustfmt" }
+formatter = { command = "rustfmt", args = ["--edition", "2024"] }
 
 [language-server.rust-analyzer.config]
-checkOnSave = { command = "clippy" }
+# Run clippy instead of `cargo check` on save
+checkOnSave = true
+# Auto-import missing symbols and fill arguments on completion
+completion.autoimport.enable = true
+completion.callable.snippets = "fill_arguments"
 
 [language-server.rust-analyzer.config.check]
 command = "clippy"
+extraArgs = ["--", "-W", "clippy::pedantic"]
 
 [language-server.rust-analyzer.config.cargo]
 features = "all"
+buildScripts.enable = true
+
+[language-server.rust-analyzer.config.procMacro]
+enable = true
+
+# Inlay hints (toggle globally via editor.lsp.display-inlay-hints in config.toml)
+[language-server.rust-analyzer.config.inlayHints]
+bindingModeHints.enable = false
+closureReturnTypeHints.enable = "with_block"
+lifetimeElisionHints.enable = "skip_trivial"
+parameterHints.enable = true
+typeHints.enable = true
+
+# Debugging with lldb-dap (from `brew install llvm`)
+[language.debugger]
+name = "lldb-dap"
+transport = "stdio"
+command = "lldb-dap"
+
+[[language.debugger.templates]]
+name = "binary"
+request = "launch"
+completion = [ { name = "binary", completion = "filename" } ]
+args = { program = "{0}" }
+
+[[language.debugger.templates]]
+name = "binary (terminal)"
+request = "launch"
+completion = [ { name = "binary", completion = "filename" } ]
+args = { program = "{0}", runInTerminal = true }
 
 [[language]]
 name = "python"
