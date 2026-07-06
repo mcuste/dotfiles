@@ -3,6 +3,8 @@ theme = "catppuccin_mocha"
 [editor]
 scrolloff = 10
 line-number = "relative"
+# Use system clipboard (+) as default register, so y/p work with the OS clipboard
+default-yank-register = "+"
 rulers = [120]
 bufferline = "multiple"
 trim-final-newlines = true
