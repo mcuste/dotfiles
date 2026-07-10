@@ -30,7 +30,7 @@
 
 ;; HMR Config
 (defalias
-  tap (multi (layer-switch nomods) (on-idle-fakekey to-base tap 20))
+  tap (multi (layer-switch base-plain) (on-idle-fakekey to-base tap 20))
   a (tap-hold-release-keys $tap-time $hold-time (multi a @tap) lmet $left-hand-keys)
   s (tap-hold-release-keys $tap-time $hold-time (multi s @tap) lalt $left-hand-keys)
   d (tap-hold-release-keys $tap-time $hold-time (multi d @tap) lctrl $left-hand-keys)
@@ -103,6 +103,16 @@
     @caphypr a    s    d    f    g    h    j    k    l    ;    '    ret
     lsft  z    x    c    v    b    n    m    ,    .    /    rsft
     fn    lctl lalt lmet           spc            rmet ralt
+)
+
+;; Temporary layer used after tapping a home-row key
+(deflayer base-plain
+    esc   🔅   🔆   @sn  ✗    ✗    ✗    ◀◀   ▶⏸   ▶▶   🔇   🔉   🔊
+    grv   1    2    3    4    5    6    7    8    9    0    -    =    bspc
+    tab   q    w    e    r    t    y    u    i    o    p    [    ]    \
+    @hypr a    s    d    f    g    h    j    k    l    ;    @'   ret
+    lsft  z    x    c    v    b    n    m    ,    .    /    rsft
+    fn    lctl lalt lmet          @spc            rmet ralt
 )
 
 ;; Modified base layer
