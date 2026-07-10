@@ -3,14 +3,14 @@
 # =============================================================================
 # Configuration for Ghostty terminal emulator
 # Part of dotfiles managed with GNU Stow
-# Theme: Catppuccin Mocha for consistency across development tools
+# Theme: catppuccin-mocha for consistency across development tools
 
 # =============================================================================
 # Appearance & Theme
 # =============================================================================
 
-# Use Catppuccin Mocha theme to match other development tools
-theme = Catppuccin Mocha
+# Use catppuccin-mocha theme to match other development tools
+theme = catppuccin-mocha
 
 # Font configuration - JetBrains Mono for excellent readability
 font-family = JetBrains Mono
