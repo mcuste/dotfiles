@@ -59,7 +59,7 @@ return {
       end,
       desc = "Grep (cwd)",
     },
-    { "<leader>e", false }, -- Explorer (disabled, use yazi instead)
+    { "<leader>e", false }, -- Explorer (disabled, use oil instead)
     {
       "<leader>ft",
       function()
