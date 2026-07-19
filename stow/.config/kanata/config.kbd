@@ -1,6 +1,11 @@
 ;; Process all keys
 (defcfg
   process-unmapped-keys yes
+  macos-dev-names-include (
+    "Apple Internal Keyboard / Trackpad"
+    "MX MCHNCL M"
+    "USB Receiver"
+  )
 )
 
 ;; Left and right hand key maps for blocking on HRM
