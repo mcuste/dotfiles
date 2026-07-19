@@ -1,11 +1,22 @@
 ;; Process all keys
 (defcfg
-  process-unmapped-keys yes
+  ;; Let macOS handle native media-row events directly. Logitech sends these
+  ;; as consumer keys, while the MacBook keyboard may send F1-F12 for remapping.
+  process-unmapped-keys (all-except
+    brdn brup mctl sls dtn dnd prev pp next mute vold volu
+  )
   macos-dev-names-include (
     "Apple Internal Keyboard / Trackpad"
     "MX MCHNCL M"
     "USB Receiver"
   )
+)
+
+;; Distinguish the internal keyboard so its F-row follows MacBook behavior,
+;; while external keyboards keep their own media/F-key mode.
+(definputdevices
+  ;; Kanata reports the internal keyboard with USB IDs 0/0 on macOS.
+  1 ((vendor_id 0) (product_id 0))
 )
 
 ;; Left and right hand key maps for blocking on HRM
@@ -84,10 +95,29 @@
   gg (fork @_gg @_Gg (lsft rsft))
 )
 
-;; Key for disabling kanata on F3
+;; MacBook media row: media action normally, standard F-key while Fn is held.
+;; External keyboards always receive the unmodified F-key action here.
+(defalias
+  mf1  (switch ((device-history 1 1)) (fork brdn f1 (fn)) break () f1 break)
+  mf2  (switch ((device-history 1 1)) (fork brup f2 (fn)) break () f2 break)
+  mf3  (switch ((device-history 1 1)) (fork mctl f3 (fn)) break () f3 break)
+  mf4  (switch ((device-history 1 1)) (fork sls f4 (fn)) break () f4 break)
+  mf5  (switch ((device-history 1 1)) (fork dtn f5 (fn)) break () f5 break)
+  mf6  (switch ((device-history 1 1)) (fork dnd f6 (fn)) break () f6 break)
+  mf7  (switch ((device-history 1 1)) (fork prev f7 (fn)) break () f7 break)
+  mf8  (switch ((device-history 1 1)) (fork pp f8 (fn)) break () f8 break)
+  mf9  (switch ((device-history 1 1)) (fork next f9 (fn)) break () f9 break)
+  mf10 (switch ((device-history 1 1)) (fork mute f10 (fn)) break () f10 break)
+  mf11 (switch ((device-history 1 1)) (fork vold f11 (fn)) break () f11 break)
+  mf12 (switch ((device-history 1 1)) (fork volu f12 (fn)) break () f12 break)
+)
+
+;; Gaming layer toggle: Right Option+G on all keyboards.
 (defalias
   sn (layer-switch nomods)
   sb (layer-switch base)
+  game-on (fork g @sn (ralt))
+  game-off (fork g @sb (ralt))
 )
 
 ;; Original keyboard keys (key location doesn't really matter)
@@ -102,37 +132,37 @@
 
 ;; Nomods (gaming) Layer
 (deflayer nomods
-    esc   🔅   🔆   @sb  ✗    ✗    ✗    ◀◀   ▶⏸   ▶▶   🔇   🔉   🔊
+    esc   @mf1 @mf2 @mf3 @mf4 @mf5 @mf6 @mf7 @mf8 @mf9 @mf10 @mf11 @mf12
     grv   1    2    3    4    5    6    7    8    9    0    -    =    bspc
     tab   q    w    e    r    t    y    u    i    o    p    [    ]    \
-    @caphypr a    s    d    f    g    h    j    k    l    ;    '    ret
+    @caphypr a    s    d    f    @game-off h    j    k    l    ;    '    ret
     lsft  z    x    c    v    b    n    m    ,    .    /    rsft
     fn    lctl lalt lmet           spc            rmet ralt
 )
 
 ;; Temporary layer used after tapping a home-row key
 (deflayer base-plain
-    esc   🔅   🔆   @sn  ✗    ✗    ✗    ◀◀   ▶⏸   ▶▶   🔇   🔉   🔊
+    esc   @mf1 @mf2 @mf3 @mf4 @mf5 @mf6 @mf7 @mf8 @mf9 @mf10 @mf11 @mf12
     grv   1    2    3    4    5    6    7    8    9    0    -    =    bspc
     tab   q    w    e    r    t    y    u    i    o    p    [    ]    \
-    @hypr a    s    d    f    g    h    j    k    l    ;    @'   ret
+    @hypr a    s    d    f    @game-on h    j    k    l    ;    @'   ret
     lsft  z    x    c    v    b    n    m    ,    .    /    rsft
     fn    lctl lalt lmet          @spc            rmet ralt
 )
 
 ;; Modified base layer
 (deflayer base
-    esc   🔅   🔆   @sn  ✗    ✗    ✗    ◀◀   ▶⏸   ▶▶   🔇   🔉   🔊
+    esc   @mf1 @mf2 @mf3 @mf4 @mf5 @mf6 @mf7 @mf8 @mf9 @mf10 @mf11 @mf12
     grv   1    2    3    4    5    6    7    8    9    0    -    =    bspc
     tab   q    w    e    r    t    y    u    i    o    p    [    ]    \
-    @hypr @a   @s   @d   @f   g    h    @j   @k   @l   @;   @'   ret
+    @hypr @a   @s   @d   @f   @game-on h    @j   @k   @l   @;   @'   ret
     lsft  z    x    c    v    b    n    m    ,    .    /    rsft
     fn    lctl lalt lmet          @spc            rmet ralt
 )
 
 ;; Symbols and Navigation Layer
 (deflayer symbols
-    esc  🔅   🔆   @sn  ✗    ✗    ✗      ◀◀     ▶⏸   ▶▶      🔇   🔉   🔊
+    esc  @mf1 @mf2 @mf3 @mf4 @mf5 @mf6   @mf7   @mf8 @mf9    @mf10 @mf11 @mf12
     grv  1    2    3    4    5    6      7      8    9       0    -    +    del
     tab  S-1  S-2  S-3  S-4  S-5  home   pgdn   pgup end     XX   {    }    XX
     esc  @a   @s   @d   @f   S-\  left   down   up   right   XX   XX   ret
@@ -142,7 +172,7 @@
 
 ;; Unicode char layer
 (deflayer unicodechars
-  esc   🔅   🔆   @sn  ✗    ✗    ✗    ◀◀   ▶⏸   ▶▶   🔇   🔉   🔊
+  esc   @mf1 @mf2 @mf3 @mf4 @mf5 @mf6 @mf7 @mf8 @mf9 @mf10 @mf11 @mf12
   grv   1    2    3    4    5    6    7    8    9    0    -    =    bspc
   tab   q    w    e    r    t    y    @ue  @ii  @oe  p    [    ]    \
   @hypr @ae  @sh  @d   @f   @gg  h    @j   @k   @l   @;   @'   ret
