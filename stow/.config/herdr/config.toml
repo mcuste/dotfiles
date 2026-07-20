@@ -75,6 +75,12 @@ type = "plugin_action"
 command = "herdr-splits.resize-right"
 
 [[keys.command]]
+key = "ctrl+`"
+type = "plugin_action"
+command = "fullerzz.sesh.open-picker"
+description = "open Sesh workspace picker"
+
+[[keys.command]]
 key = "prefix+alt+g"
 type = "popup"
 command = "lazygit"
