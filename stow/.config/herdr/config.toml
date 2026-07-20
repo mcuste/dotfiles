@@ -94,7 +94,7 @@ width = "80%"
 height = "80%"
 
 [[keys.command]]
-key = "prefix+shift+k"
+key = "prefix+shift+c"
 type = "popup"
 command = "k9s"
 width = "80%"
