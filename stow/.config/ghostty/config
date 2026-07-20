@@ -47,9 +47,9 @@ mouse-hide-while-typing = true
 # Shell Integration
 # =============================================================================
 
-# Use Fish shell with tmux auto-attach (default shell in this dotfiles setup)
-# Automatically attach to existing tmux session or create new one
-command = /opt/homebrew/bin/fish --login --interactive --command="tmux attach || tmux"
+# Start Herdr as the persistent terminal workspace manager.
+# Herdr launches Fish for interactive panes via its own configuration.
+command = /opt/homebrew/bin/herdr
 shell-integration = fish
 
 # =============================================================================
