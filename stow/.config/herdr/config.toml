@@ -81,14 +81,20 @@ command = "fullerzz.sesh.open-picker"
 description = "open Sesh workspace picker"
 
 [[keys.command]]
-key = "prefix+alt+g"
+key = "prefix+r"
+type = "plugin_action"
+command = "persiyanov.reviewr.toggle"
+description = "toggle code review sidebar"
+
+[[keys.command]]
+key = "prefix+t"
 type = "popup"
 command = "lazygit"
 width = "80%"
 height = "80%"
 
 [[keys.command]]
-key = "prefix+alt+k"
+key = "prefix+shift+k"
 type = "popup"
 command = "k9s"
 width = "80%"
