@@ -6,3 +6,6 @@ add_newline = true
 
 # Wait 10 milliseconds for starship to check files under the current directory.
 scan_timeout = 10
+
+# Allow version commands such as Node.js enough time to complete.
+command_timeout = 2000
