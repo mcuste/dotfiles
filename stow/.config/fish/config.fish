@@ -1,5 +1,9 @@
 set fish_greeting # Disable greeting
 
+# Homebrew commands must be available before initializing integrations and Herdr.
+fish_add_path /opt/homebrew/bin /opt/homebrew/sbin
+
+
 # Don't exec the rest of the config if not interactive
 status is-interactive; or exit 0
 
@@ -41,8 +45,6 @@ alias vimdiff 'nvim -d'
 
 # Path exports
 fish_add_path $HOME/.local/bin
-fish_add_path /opt/homebrew/bin
-fish_add_path /opt/homebrew/sbin
 fish_add_path /opt/homebrew/opt/rustup/bin
 fish_add_path /opt/homebrew/opt/llvm/bin
 set -gx GOPATH $HOME/.go
