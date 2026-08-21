@@ -122,3 +122,4 @@ show_agent_labels_on_pane_borders = true
 [experimental]
 # Save recent pane screen history across full server restarts.
 pane_history = false
+kitty_graphics = true
