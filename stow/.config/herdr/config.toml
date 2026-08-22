@@ -70,6 +70,12 @@ command = "persiyanov.reviewr.toggle"
 description = "toggle code review sidebar"
 
 [[keys.command]]
+key = "ctrl+`"
+type = "plugin_action"
+command = "herdr-workspacer.open"
+description = "open workspace picker"
+
+[[keys.command]]
 key = "prefix+t"
 type = "popup"
 command = "lazygit"
