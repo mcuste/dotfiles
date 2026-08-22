@@ -63,7 +63,7 @@ type = "plugin_action"
 command = "herdr-splits.resize-right"
 
 [[keys.command]]
-key = "ctrl+`"
+key = "ctrl+backtick"
 type = "plugin_action"
 command = "fullerzz.sesh.open-picker"
 description = "open Sesh workspace picker"
