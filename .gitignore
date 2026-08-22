@@ -16,3 +16,4 @@ stow/.config/k9s/clusters
 /stow/.config/herdr/plugins.json
 /stow/.config/herdr/herdr-client.log
 /stow/.config/herdr/session.json
+/stow/.config/herdr/herdr-server.log
