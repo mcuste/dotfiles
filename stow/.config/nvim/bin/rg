@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+PATH=${PATH#*:}
+options=(
+  --hidden
+  --no-ignore
+  '--glob=!**/.git/**'
+  '--glob=!**/.hg/**'
+  '--glob=!**/.svn/**'
+  '--glob=!**/node_modules/**'
+  '--glob=!**/bower_components/**'
+  '--glob=!**/.npm/**'
+  '--glob=!**/.pnpm-store/**'
+  '--glob=!**/.yarn/**'
+  '--glob=!**/.cache/**'
+  '--glob=!**/.venv/**'
+  '--glob=!**/venv/**'
+  '--glob=!**/env/**'
+  '--glob=!**/__pycache__/**'
+  '--glob=!**/.tox/**'
+  '--glob=!**/.mypy_cache/**'
+  '--glob=!**/.pytest_cache/**'
+  '--glob=!**/.ruff_cache/**'
+  '--glob=!**/.hypothesis/**'
+  '--glob=!**/.eggs/**'
+  '--glob=!**/*.egg-info/**'
+  '--glob=!**/site-packages/**'
+  '--glob=!**/vendor/**'
+  '--glob=!**/pkg/mod/**'
+  '--glob=!**/target/**'
+  '--glob=!**/.next/**'
+  '--glob=!**/.nuxt/**'
+  '--glob=!**/.svelte-kit/**'
+  '--glob=!**/coverage/**'
+  '--glob=!**/dist/**'
+  '--glob=!**/build/**'
+  '--glob=!**/out/**'
+)
+
+args=()
+while (($#)); do
+  if [[ $1 == -- ]]; then exec rg "${args[@]}" "${options[@]}" "$@"; fi
+  args+=("$1")
+  shift
+done
+
+exec rg "${args[@]}" "${options[@]}"
