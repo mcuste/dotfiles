@@ -59,6 +59,53 @@ install_brew_tap_package() {
 	fi
 }
 
+install_go_tool() {
+	local command_name="$1"
+	local package="$2"
+	if [[ -x "$HOME/.go/bin/$command_name" ]]; then
+		echo "✓ $command_name is already installed"
+	else
+		echo "Installing $command_name..."
+		mkdir -p "$HOME/.go/bin"
+		GOBIN="$HOME/.go/bin" go install "${package}@latest"
+	fi
+}
+
+install_cargo_tool() {
+	local command_name="$1"
+	local package="$2"
+	if command -v "$command_name" >/dev/null 2>&1; then
+		echo "✓ $command_name is already installed"
+	else
+		echo "Installing $command_name..."
+		cargo install --locked "$package"
+	fi
+}
+
+install_pnpm_tool() {
+	local command_name="$1"
+	local package="$2"
+	export PNPM_HOME="$HOME/Library/pnpm"
+	export PATH="$PNPM_HOME:$PNPM_HOME/bin:$PATH"
+	if [[ -x "$PNPM_HOME/bin/$command_name" ]]; then
+		echo "✓ $command_name is already installed"
+	else
+		echo "Installing $command_name..."
+		pnpm add --global "$package"
+	fi
+}
+
+install_uv_tool() {
+	local command_name="$1"
+	local package="$2"
+	if command -v "$command_name" >/dev/null 2>&1; then
+		echo "✓ $command_name is already installed"
+	else
+		echo "Installing $command_name..."
+		uv tool install "$package"
+	fi
+}
+
 # Browsers
 install_brew_cask "brave-browser"
 
@@ -140,12 +187,17 @@ install_brew_package "dockerfile-language-server"
 install_brew_package "helm"
 install_brew_package "helm-ls"
 install_brew_package "yaml-language-server"
+install_brew_package "docker-compose-langserver"
+install_brew_package "hadolint"
+install_brew_package "yamlfmt"
+install_brew_package "yamllint"
 # .NET
 install_brew_package "dotnet@8"
 
 # terraform
 install_brew_tap_package "hashicorp/tap" "terraform"
 install_brew_package "terraform-ls"
+install_brew_tap_package "terraform-linters/tap" "tflint"
 
 # lua
 install_brew_package "lua"
@@ -154,39 +206,50 @@ install_brew_package "lpeg"
 install_brew_package "luajit"
 install_brew_package "luarocks"
 install_brew_package "lua-language-server"
+install_brew_package "stylua"
+install_brew_package "selene"
 
 # go
 install_brew_package "go"
-install_brew_package "gopls"
 install_brew_package "delve"
-install_brew_package "goimports"
 install_brew_package "golangci-lint"
-install_brew_package "golangci-lint-langserver"
+install_go_tool "gopls" "golang.org/x/tools/gopls"
+install_go_tool "goimports" "golang.org/x/tools/cmd/goimports"
+install_go_tool "gofumpt" "mvdan.cc/gofumpt"
 
 # rust
 install_brew_package "rustup"
 install_brew_package "llvm"
 install_brew_package "protobuf"
 install_brew_package "cargo-nextest"
-# tombi for tomls
-# npm install -g tombi
+install_brew_package "taplo"
+RUSTUP_BIN="$(brew --prefix rustup)/bin"
+export PATH="$RUSTUP_BIN:$HOME/.cargo/bin:$PATH"
+rustup default stable
+rustup component add rust-analyzer rustfmt clippy
+install_cargo_tool "cargo-machete" "cargo-machete"
+install_cargo_tool "cargo-deny" "cargo-deny"
 
 # python
 install_brew_package "python"
 install_brew_package "ruff"
 install_brew_package "pyright"
 
+# godot
+install_brew_cask "godot"
+install_uv_tool "gdlint" "gdtoolkit"
+
 # js/ts/web
 install_brew_package "node"
 install_brew_package "vscode-langservers-extracted"
 install_brew_package "superhtml"
 install_brew_package "tailwindcss-language-server"
-# svelte-language-server - install with npm
-# npm i -g svelte-language-server
-# npm i -g typescript-svelte-plugin
-install_brew_package "typescript"
-install_brew_package "typescript-language-server"
+install_pnpm_tool "tsserver" "typescript@6"
+install_pnpm_tool "typescript-language-server" "typescript-language-server"
 install_brew_package "biome"
+install_brew_package "eslint"
+install_brew_package "prettier"
+install_pnpm_tool "knip" "knip"
 
 # treesitter
 install_brew_package "tree-sitter"
@@ -247,4 +310,4 @@ echo -e "\nAdd the following public key to your GitHub account:"
 pubkey="$(<~/.ssh/id_ed25519.pub)"
 echo -e "\t$pubkey"
 echo -e "\nPress Enter after setting up SSH key on GitHub to continue."
-read
+read -r

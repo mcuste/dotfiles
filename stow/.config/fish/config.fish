@@ -49,6 +49,8 @@ set -gx DOTNET_ROOT /opt/homebrew/opt/dotnet@8/libexec
 fish_add_path /opt/homebrew/opt/dotnet@8/bin
 set -gx GOPATH $HOME/.go
 fish_add_path $GOPATH/bin
+set -gx PNPM_HOME $HOME/Library/pnpm
+fish_add_path $PNPM_HOME $PNPM_HOME/bin
 fish_add_path $HOME/.dotnet/tools
 set -gx XDG_CONFIG_HOME $HOME/.config
 set -gx K9S_CONFIG_DIR $HOME/.config/k9s
