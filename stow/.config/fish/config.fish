@@ -25,8 +25,6 @@ fzf --fish | source
 # Activate zoxide
 zoxide init fish | source
 
-# Activate mise
-mise activate fish | source
 
 # Aliases
 alias eza 'eza --icons auto'
@@ -47,6 +45,8 @@ alias vimdiff 'nvim -d'
 fish_add_path $HOME/.local/bin
 fish_add_path /opt/homebrew/opt/rustup/bin
 fish_add_path /opt/homebrew/opt/llvm/bin
+set -gx DOTNET_ROOT /opt/homebrew/opt/dotnet@8/libexec
+fish_add_path /opt/homebrew/opt/dotnet@8/bin
 set -gx GOPATH $HOME/.go
 fish_add_path $GOPATH/bin
 fish_add_path $HOME/.dotnet/tools

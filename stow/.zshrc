@@ -87,8 +87,6 @@ eval "$(fzf --zsh)"
 # Activate zoxide
 eval "$(zoxide init zsh)"
 
-# Activate mise
-eval "$(mise activate zsh)"
 
 # Aliases (from fish config)
 alias eza='eza --icons auto --git'
@@ -108,6 +106,8 @@ alias vimdiff='nvim -d'
 # Path setup
 export PATH="/opt/homebrew/opt/rustup/bin:$PATH"
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+export DOTNET_ROOT="/opt/homebrew/opt/dotnet@8/libexec"
+export PATH="/opt/homebrew/opt/dotnet@8/bin:$PATH"
 
 # Custom paths
 export PATH="$HOME/.local/bin:$PATH"
@@ -119,28 +119,4 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export K9S_CONFIG_DIR="$HOME/.config/k9s"
 export PATH="$HOME/scripts/bash:$PATH"
 
-# Keep Graphite stack branches in separate Herdr worktrees.
-gt() {
-  local script="${XDG_CONFIG_HOME:-$HOME/.config}/graphite-worktrees/gt-worktree.sh"
-  local result_file
-  local result_path
-  local exit_status
-
-  if [[ ! -f "$script" ]]; then
-    command gt "$@"
-    return $?
-  fi
-
-  result_file=$(mktemp) || return 1
-  GT_WORKTREE_RESULT_FILE="$result_file" command bash "$script" "$@"
-  exit_status=$?
-  if [[ -s "$result_file" ]]; then
-    result_path=$(<"$result_file")
-    if [[ -d "$result_path" ]]; then
-      builtin cd "$result_path"
-    fi
-  fi
-  rm -f "$result_file"
-  return "$exit_status"
-}
 
