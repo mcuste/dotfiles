@@ -140,7 +140,11 @@ install_brew_package "dockerfile-language-server"
 install_brew_package "helm"
 install_brew_package "helm-ls"
 install_brew_package "yaml-language-server"
-# terraform with mise
+# .NET
+install_brew_package "dotnet@8"
+
+# terraform
+install_brew_tap_package "hashicorp/tap" "terraform"
 install_brew_package "terraform-ls"
 
 # lua
@@ -168,10 +172,12 @@ install_brew_package "cargo-nextest"
 # npm install -g tombi
 
 # python
-install_brew_package "mise"
+install_brew_package "python"
+install_brew_package "ruff"
 install_brew_package "pyright"
 
 # js/ts/web
+install_brew_package "node"
 install_brew_package "vscode-langservers-extracted"
 install_brew_package "superhtml"
 install_brew_package "tailwindcss-language-server"
