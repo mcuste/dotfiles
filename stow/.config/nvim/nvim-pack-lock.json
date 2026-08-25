@@ -25,6 +25,10 @@
       "rev": "a1b74070bbd5e50128190c85b09f1431ea5fbd83",
       "src": "https://github.com/linrongbin16/gitlinker.nvim"
     },
+    "herdr-context.nvim": {
+      "rev": "f736fcc17655b476ff374aae6682a05e7f32e642",
+      "src": "https://github.com/mcuste/herdr-context.nvim"
+    },
     "herdr-splits.nvim": {
       "rev": "94f30cf4e9ac76ddf185a3acd0977be728fa4106",
       "src": "https://github.com/lmilojevicc/herdr-splits.nvim"
