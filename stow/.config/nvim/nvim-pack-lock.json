@@ -29,6 +29,10 @@
       "rev": "94f30cf4e9ac76ddf185a3acd0977be728fa4106",
       "src": "https://github.com/lmilojevicc/herdr-splits.nvim"
     },
+    "markdown-preview.nvim": {
+      "rev": "a923f5fc5ba36a3b17e289dc35dc17f66d0548ee",
+      "src": "https://github.com/iamcco/markdown-preview.nvim"
+    },
     "mini.nvim": {
       "rev": "e58ad4b0c9e9376096b9704f98fc00d4c9448870",
       "src": "https://github.com/nvim-mini/mini.nvim"
