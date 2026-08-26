@@ -92,6 +92,11 @@ Config.on_packchanged = function(plugin_name, kinds, callback, desc)
   Config.new_autocmd('PackChanged', '*', f, desc)
 end
 
+-- Fetches the Markdown preview server binary, not just the plugin files.
+Config.on_packchanged('markdown-preview.nvim', { 'install', 'update' }, function()
+  vim.fn['mkdp#util#install']()
+end, 'Install Markdown preview')
+
 -- 'mini.nvim' - all-in-one plugin powering most MiniMax features.
 -- See 'plugin/30_mini.lua' for how it is used.
 -- Load now to have 'mini.misc' available for custom loading helpers.
