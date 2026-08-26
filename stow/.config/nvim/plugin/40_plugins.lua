@@ -258,6 +258,7 @@ later(function()
       json = web,
       jsonc = web,
       lua = { 'stylua' },
+      markdown = { 'prettier' },
       python = { 'ruff_organize_imports', 'ruff_format' },
       rust = { 'rustfmt' },
       sh = { 'shfmt' },

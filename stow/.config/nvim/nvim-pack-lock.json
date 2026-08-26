@@ -25,6 +25,10 @@
       "rev": "a1b74070bbd5e50128190c85b09f1431ea5fbd83",
       "src": "https://github.com/linrongbin16/gitlinker.nvim"
     },
+    "gitsigns.nvim": {
+      "rev": "5be654f2232c10ddcad19c1607a67b6b4b78fc29",
+      "src": "https://github.com/lewis6991/gitsigns.nvim"
+    },
     "herdr-context.nvim": {
       "rev": "c574b8017767c269b0e8c4acdc103100b58537cb",
       "src": "https://github.com/mcuste/herdr-context.nvim"
@@ -32,6 +36,10 @@
     "herdr-splits.nvim": {
       "rev": "94f30cf4e9ac76ddf185a3acd0977be728fa4106",
       "src": "https://github.com/lmilojevicc/herdr-splits.nvim"
+    },
+    "lazygit.nvim": {
+      "rev": "a04ad0dbc725134edbee3a5eea29290976695357",
+      "src": "https://github.com/kdheepak/lazygit.nvim"
     },
     "markdown-preview.nvim": {
       "rev": "a923f5fc5ba36a3b17e289dc35dc17f66d0548ee",
@@ -74,6 +82,10 @@
       "rev": "9cb125de42c0256ed1bc1f9ded8d8f0381317a17",
       "src": "https://github.com/mrcjkb/rustaceanvim",
       "version": "9.0.0 - 10.0.0"
+    },
+    "yazi.nvim": {
+      "rev": "955a96ed05b4ac542e61b3968f62d536413cd06f",
+      "src": "https://github.com/mikavilpas/yazi.nvim"
     }
   }
 }

@@ -94,9 +94,9 @@ nmap_leader('bW', '<Cmd>lua MiniBufremove.wipeout(0, true)<CR>', 'Wipeout!')
 -- - `<Leader>ed` - open MiniFiles at current working directory
 -- - `<Leader>ee` - toggle Neo-tree file explorer
 -- - `<Leader>eg` - show Git changes as a tree
-nmap_leader('ed', '<Cmd>lua MiniFiles.open()<CR>',                        'Directory')
-nmap_leader('ee', '<Cmd>Neotree toggle filesystem<CR>',                  'File tree')
-nmap_leader('eg', '<Cmd>NeoTreeGitPaths<CR>',                             'Git changes')
+nmap_leader('ed', '<Cmd>lua MiniFiles.open()<CR>',          'Directory')
+nmap_leader('ee', '<Cmd>Neotree toggle filesystem<CR>',     'File tree')
+nmap_leader('eg', '<Cmd>NeoTreeGitPaths<CR>',                'Git changes')
 nmap_leader('en', '<Cmd>lua MiniNotify.show_history()<CR>', 'Notifications')
 
 -- f is for 'Fuzzy Find'. Common usage:
@@ -176,11 +176,15 @@ nmap_leader('lt', '<Cmd>lua vim.lsp.buf.type_definition()<CR>', 'Type definition
 xmap_leader('lf', '<Cmd>lua require("conform").format()<CR>', 'Format selection')
 
 -- o is for 'Other'. Common usage:
+-- - `<Leader>og` - open LazyGit in a floating window
+-- - `<Leader>oy` - open Yazi in a floating window
 -- - `<Leader>oz` - toggle between "zoomed" and regular view of current buffer
+nmap_leader('og', '<Cmd>LazyGit<CR>',                    'LazyGit')
+nmap_leader('op', '<Cmd>MarkdownPreviewToggle<CR>',      'Markdown preview')
 nmap_leader('or', '<Cmd>lua MiniMisc.resize_window()<CR>', 'Resize to default width')
-nmap_leader('ot', '<Cmd>lua MiniTrailspace.trim()<CR>',    'Trim trailspace')
-nmap_leader('oz', '<Cmd>lua MiniMisc.zoom()<CR>',          'Zoom toggle')
-nmap_leader('op', '<Cmd>MarkdownPreviewToggle<CR>', 'Markdown preview')
+nmap_leader('ot', '<Cmd>lua MiniTrailspace.trim()<CR>',  'Trim trailspace')
+nmap_leader('oy', '<Cmd>Yazi<CR>',                       'Yazi')
+nmap_leader('oz', '<Cmd>lua MiniMisc.zoom()<CR>',        'Zoom toggle')
 
 -- t is for 'Terminal'
 nmap_leader('tT', '<Cmd>horizontal term<CR>', 'Terminal (horizontal)')
