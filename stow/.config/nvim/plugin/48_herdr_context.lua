@@ -5,8 +5,9 @@ Config.now(function()
 
   require('herdr-context').setup({
     mappings = {
-      buffer = '<leader>ac',
-      selection = '<leader>ac',
+      buffer = '<leader>aa',
+      buffers = '<leader>aA',
+      selection = '<leader>aa',
     },
   })
 end)
