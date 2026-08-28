@@ -30,7 +30,7 @@
       "src": "https://github.com/lewis6991/gitsigns.nvim"
     },
     "herdr-context.nvim": {
-      "rev": "c574b8017767c269b0e8c4acdc103100b58537cb",
+      "rev": "b91913f388f056d4b267979c58653cecb147f8e5",
       "src": "https://github.com/mcuste/herdr-context.nvim"
     },
     "herdr-splits.nvim": {

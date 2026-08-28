@@ -7,7 +7,8 @@ Config.now(function()
     mappings = {
       buffer = '<leader>aa',
       buffers = '<leader>aA',
-      selection = '<leader>aa',
+      diagnostics = '<leader>ad',
+      buffers_diagnostics = '<leader>aD',
     },
   })
 end)
