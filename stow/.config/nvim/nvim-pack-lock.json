@@ -1,7 +1,7 @@
 {
   "plugins": {
     "SchemaStore.nvim": {
-      "rev": "5f2a3b5dc13f3622000cb488c9af505b933152e3",
+      "rev": "335b491a8f4c888a2337bfcba7e2aff288e889ee",
       "src": "https://github.com/b0o/SchemaStore.nvim"
     },
     "catppuccin": {
@@ -30,7 +30,7 @@
       "src": "https://github.com/lewis6991/gitsigns.nvim"
     },
     "herdr-context.nvim": {
-      "rev": "35fa0c2554f622dc1bd818b81e98d382b9faa77a",
+      "rev": "bbf474f867651bc61c2941a1130edac64313b2d5",
       "src": "https://github.com/mcuste/herdr-context.nvim"
     },
     "herdr-splits.nvim": {
@@ -46,7 +46,7 @@
       "src": "https://github.com/iamcco/markdown-preview.nvim"
     },
     "mini.nvim": {
-      "rev": "e58ad4b0c9e9376096b9704f98fc00d4c9448870",
+      "rev": "fb2bbae327f3c306f3c825031345b89dd176ce60",
       "src": "https://github.com/nvim-mini/mini.nvim"
     },
     "neo-tree.nvim": {
@@ -59,15 +59,15 @@
       "src": "https://github.com/MunifTanjim/nui.nvim"
     },
     "nvim-lint": {
-      "rev": "0370fe965697aa8f04252a1562441bdc13723cd1",
+      "rev": "3d55c8f67c6ae5c15e1042571e107c7a3d5c5f4e",
       "src": "https://github.com/mfussenegger/nvim-lint"
     },
     "nvim-lspconfig": {
-      "rev": "51dbf5359da86721662c87ca10eb73add973737b",
+      "rev": "684cb45c2faa24ce463b4fe9aaf011bfe1e0fb26",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-treesitter": {
-      "rev": "074aa4422bf029908338e855d0c0f71470a971bb",
+      "rev": "8b98b4470eb326f1c7b50dae79f8c963568e5720",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "nvim-treesitter-textobjects": {
@@ -84,7 +84,7 @@
       "version": "9.0.0 - 10.0.0"
     },
     "yazi.nvim": {
-      "rev": "955a96ed05b4ac542e61b3968f62d536413cd06f",
+      "rev": "530fb1092af77ae54b6ec58ee367ad554e78f576",
       "src": "https://github.com/mikavilpas/yazi.nvim"
     }
   }

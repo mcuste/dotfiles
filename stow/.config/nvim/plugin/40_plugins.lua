@@ -116,7 +116,7 @@ now_if_args(function()
     'https://github.com/neovim/nvim-lspconfig',
     'https://github.com/b0o/SchemaStore.nvim',
     { src = 'https://github.com/mrcjkb/rustaceanvim', version = vim.version.range('^9') },
-    { src = 'https://github.com/Saecki/crates.nvim', version = vim.version.range('^0.7') },
+    { src = 'https://github.com/Saecki/crates.nvim',  version = vim.version.range('^0.7') },
   })
 
   require('crates').setup()
@@ -151,16 +151,6 @@ now_if_args(function()
       client.server_capabilities.hoverProvider = false
     end,
   })
-  local typescript_lib
-  local tsserver = vim.fn.exepath('tsserver')
-  if tsserver ~= '' and vim.fn.filereadable(tsserver) == 1 then
-    for _, line in ipairs(vim.fn.readfile(tsserver)) do
-      local target = line:match('^# cmd%-shim%-target=(.+)/bin/tsserver$')
-      if target then
-        typescript_lib = target .. '/lib'
-      end
-    end
-  end
   local ts_inlay_hints = {
     includeInlayEnumMemberValueHints = true,
     includeInlayFunctionLikeReturnTypeHints = true,
@@ -171,8 +161,26 @@ now_if_args(function()
     includeInlayVariableTypeHints = true,
     includeInlayVariableTypeHintsWhenTypeMatchesName = true,
   }
+  local typescript_language_server_cmd = function(dispatchers, config)
+    local root_dir = config.root_dir or vim.fn.getcwd()
+    local node_modules = vim.fs.joinpath(root_dir, 'node_modules')
+    local local_server = vim.fs.joinpath(node_modules, '.bin', 'typescript-language-server')
+    local local_tsc = vim.fs.joinpath(node_modules, '.bin', 'tsc')
+    local tsserver = vim.fs.joinpath(node_modules, 'typescript', 'lib', 'tsserver.js')
+    local cmd
+    if vim.uv.fs_stat(local_tsc) and not vim.uv.fs_stat(tsserver) then
+      cmd = { local_tsc, '--lsp', '--stdio' }
+    elseif vim.uv.fs_stat(local_server) and vim.uv.fs_stat(tsserver) then
+      cmd = { local_server, '--stdio' }
+    else
+      cmd = { 'tsc', '--lsp', '--stdio' }
+    end
+    return vim.lsp.rpc.start(cmd, dispatchers, { cwd = root_dir })
+  end
   vim.lsp.config('ts_ls', {
-    init_options = typescript_lib and { tsserver = { path = typescript_lib } } or nil,
+    cmd = typescript_language_server_cmd,
+    filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
+    root_markers = { 'tsconfig.json', 'jsconfig.json', 'package.json', '.git' },
     settings = {
       javascript = { inlayHints = ts_inlay_hints },
       typescript = { inlayHints = ts_inlay_hints },
