@@ -109,12 +109,12 @@ install_uv_tool() {
 # Browsers
 install_brew_cask "brave-browser"
 
-# GUI Tools
+# Work applications
 install_brew_cask "karabiner-elements"
 install_brew_cask "raycast"
 install_brew_cask "ghostty"
-install_brew_cask "protonvpn"
-install_brew_cask "proton-pass" # TODO: Also this?
+install_brew_cask "jetbrains-toolbox"
+install_brew_cask "proton-pass"
 
 # Editors
 install_brew_cask "font-jetbrains-mono-nerd-font"
@@ -197,7 +197,7 @@ install_brew_package "dotnet@8"
 # terraform
 install_brew_tap_package "hashicorp/tap" "terraform"
 install_brew_package "terraform-ls"
-install_brew_tap_package "terraform-linters/tap" "tflint"
+install_brew_cask "tflint"
 
 # lua
 install_brew_package "lua"
@@ -235,10 +235,6 @@ install_brew_package "python"
 install_brew_package "ruff"
 install_brew_package "pyright"
 
-# godot
-install_brew_cask "godot"
-install_uv_tool "gdlint" "gdtoolkit"
-
 # js/ts/web
 install_brew_package "node"
 install_brew_package "vscode-langservers-extracted"
@@ -261,15 +257,12 @@ install_brew_cask "gcloud-cli"
 # TODO
 # gcloud components install gke-gcloud-auth-plugin
 
-# Media
+# Work communication and media
 install_brew_cask "slack"
 install_brew_cask "spotify"
-install_brew_cask "calibre"
-install_brew_cask "anki"
 
 # AI
-install_brew_cask "claude"
-install_brew_cask "claude-code"
+install_brew_cask "claude-code@latest"
 install_brew_cask "codex"
 
 # Packages from taps
