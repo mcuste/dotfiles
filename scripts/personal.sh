@@ -229,6 +229,7 @@ rustup default stable
 rustup component add rust-analyzer rustfmt clippy
 install_cargo_tool "cargo-machete" "cargo-machete"
 install_cargo_tool "cargo-deny" "cargo-deny"
+install_brew_package "sccache"
 
 # python
 install_brew_package "python"
