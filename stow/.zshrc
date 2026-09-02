@@ -105,6 +105,7 @@ alias vimdiff='nvim -d'
 
 # Path setup
 export PATH="/opt/homebrew/opt/rustup/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 export DOTNET_ROOT="/opt/homebrew/opt/dotnet@8/libexec"
 export PATH="/opt/homebrew/opt/dotnet@8/bin:$PATH"

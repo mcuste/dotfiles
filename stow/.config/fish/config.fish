@@ -44,6 +44,7 @@ alias vimdiff 'nvim -d'
 # Path exports
 fish_add_path $HOME/.local/bin
 fish_add_path /opt/homebrew/opt/rustup/bin
+fish_add_path $HOME/.cargo/bin
 fish_add_path /opt/homebrew/opt/llvm/bin
 set -gx DOTNET_ROOT /opt/homebrew/opt/dotnet@8/libexec
 fish_add_path /opt/homebrew/opt/dotnet@8/bin

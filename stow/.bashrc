@@ -8,4 +8,5 @@ case ":$PATH:" in
   *) PATH="/opt/homebrew/sbin:$PATH" ;;
 esac
 export PATH
+export PATH="$HOME/.cargo/bin:$PATH"
 
