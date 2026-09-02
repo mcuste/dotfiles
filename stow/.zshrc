@@ -121,3 +121,18 @@ export K9S_CONFIG_DIR="$HOME/.config/k9s"
 export PATH="$HOME/scripts/bash:$PATH"
 
 
+# Share Cargo output between worktrees of the current repository.
+_update_cargo_target_dir() {
+  local common_dir
+
+  if common_dir="$(command git rev-parse --path-format=absolute --git-common-dir 2>/dev/null)"; then
+    export CARGO_TARGET_DIR="$common_dir/cargo-target"
+  else
+    unset CARGO_TARGET_DIR
+  fi
+}
+
+autoload -Uz add-zsh-hook
+add-zsh-hook chpwd _update_cargo_target_dir
+_update_cargo_target_dir
+
