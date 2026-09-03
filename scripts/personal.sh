@@ -85,13 +85,14 @@ install_cargo_tool() {
 install_pnpm_tool() {
 	local command_name="$1"
 	local package="$2"
+	shift 2
 	export PNPM_HOME="$HOME/Library/pnpm"
 	export PATH="$PNPM_HOME:$PNPM_HOME/bin:$PATH"
 	if [[ -x "$PNPM_HOME/bin/$command_name" ]]; then
 		echo "✓ $command_name is already installed"
 	else
 		echo "Installing $command_name..."
-		pnpm add --global "$package"
+		pnpm add --global "$@" "$package"
 	fi
 }
 
@@ -243,6 +244,7 @@ install_brew_package "superhtml"
 install_brew_package "tailwindcss-language-server"
 install_pnpm_tool "tsserver" "typescript@6"
 install_pnpm_tool "typescript-language-server" "typescript-language-server"
+install_pnpm_tool "pi" "@earendil-works/pi-coding-agent" "--ignore-scripts"
 install_brew_package "biome"
 install_brew_package "eslint"
 install_brew_package "prettier"
@@ -272,6 +274,7 @@ install_brew_cask "anki"
 install_brew_cask "claude"
 install_brew_cask "claude-code"
 install_brew_cask "codex"
+install_brew_tap_package "can1357/tap" "omp"
 
 # Packages from taps
 install_brew_tap_package "withgraphite/tap" "graphite"
