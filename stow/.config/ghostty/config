@@ -49,7 +49,7 @@ mouse-hide-while-typing = true
 
 # Start Herdr as the persistent terminal workspace manager.
 # Herdr launches Fish for interactive panes via its own configuration.
-command = /opt/homebrew/bin/herdr
+command = /usr/bin/env -u HERDR_ENV /opt/homebrew/bin/herdr
 shell-integration = fish
 
 # =============================================================================
