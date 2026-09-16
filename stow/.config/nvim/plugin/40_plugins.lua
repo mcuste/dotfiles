@@ -219,6 +219,8 @@ now_if_args(function()
   Config.new_autocmd('LspAttach', nil, function(ev)
     local client = vim.lsp.get_client_by_id(ev.data.client_id)
     if client and client:supports_method('textDocument/inlayHint', ev.buf) then
+      -- Disable first to drop hints kept from a previous run of the server
+      vim.lsp.inlay_hint.enable(false, { bufnr = ev.buf })
       vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
     end
   end, 'Enable LSP inlay hints')
