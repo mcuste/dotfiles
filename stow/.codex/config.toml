@@ -1,0 +1,184 @@
+model = "gpt-6-astra"
+model_reasoning_effort = "xhigh"
+service_tier = "default"
+
+
+notify = ["/Users/mcuste/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient", "turn-ended"]
+
+[tui]
+status_line = [
+  "model",
+  "context-used",
+  "used-tokens",
+  "project-name",
+  "git-branch",
+]
+
+[tui.model_availability_nux]
+"gpt-5.5" = 4
+"gpt-5.6-sol" = 4
+gpt-6-astra = 1
+
+[projects."/Users/mcuste/Projects/personal/loom"]
+trust_level = "trusted"
+
+[projects."/Users/mcuste/Projects/recogni/rock"]
+trust_level = "trusted"
+
+[projects."/Users/mcuste/scripts"]
+trust_level = "trusted"
+
+[projects."/Users/mcuste/dotfiles"]
+trust_level = "trusted"
+
+[projects."/Users/mcuste/Documents/Codex/2026-07-08/in"]
+trust_level = "trusted"
+
+[projects."/Users/mcuste"]
+trust_level = "trusted"
+
+[projects."/Users/mcuste/Projects/oss/loom"]
+trust_level = "trusted"
+
+[projects."/Users/mcuste/Projects/oss/tasknotes"]
+trust_level = "trusted"
+
+[projects."/Users/mcuste/Projects/oss/nixpkgs"]
+trust_level = "trusted"
+
+[projects."/Users/mcuste/Projects/personal/blog"]
+trust_level = "trusted"
+
+[projects."/Users/mcuste/Projects/personal/pi-godot"]
+trust_level = "trusted"
+
+[projects."/Users/mcuste/Projects/personal/flappy"]
+trust_level = "trusted"
+
+[projects."/Users/mcuste/Projects/personal/notes"]
+trust_level = "trusted"
+
+[projects."/Users/mcuste/Projects/oss/pi-sensible"]
+trust_level = "trusted"
+
+[projects."/Users/mcuste/Projects/personal/tism"]
+trust_level = "trusted"
+
+[projects."/Users/mcuste/Projects/personal/steam-analysis"]
+trust_level = "trusted"
+
+[projects."/Users/mcuste/Projects/personal/c3t"]
+trust_level = "trusted"
+
+[projects."/Users/mcuste/Projects/oss/herdr-workspacer"]
+trust_level = "trusted"
+
+[projects."/Users/mcuste/Projects/oss/pi-diagram"]
+trust_level = "trusted"
+
+[projects."/Users/mcuste/Projects/oss/herdr-context.nvim"]
+trust_level = "trusted"
+
+[projects."/Users/mcuste/Projects/personal/guardsman"]
+trust_level = "trusted"
+
+[projects."/Users/mcuste/Projects/personal/swarmogenesis"]
+trust_level = "trusted"
+
+[projects."/Users/mcuste/Documents/Codex/2026-09-05/referenced-chatgpt-conversation-this-is-an"]
+trust_level = "trusted"
+
+[projects."/Users/mcuste/Documents/Codex/2026-09-05/currently-the-queen-room-aseprite-is"]
+trust_level = "trusted"
+
+[projects."/Users/mcuste/Projects/personal/pi-pixel"]
+trust_level = "trusted"
+
+[marketplaces.openai-bundled]
+source_type = "local"
+source = "/Users/mcuste/.codex/.tmp/bundled-marketplaces/openai-bundled"
+
+[marketplaces.openai-primary-runtime]
+source_type = "local"
+source = "/Users/mcuste/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
+
+[plugins."browser@openai-bundled"]
+enabled = true
+
+[plugins."documents@openai-primary-runtime"]
+enabled = true
+
+[plugins."pdf@openai-primary-runtime"]
+enabled = true
+
+[plugins."spreadsheets@openai-primary-runtime"]
+enabled = true
+
+[plugins."presentations@openai-primary-runtime"]
+enabled = true
+
+[plugins."template-creator@openai-primary-runtime"]
+enabled = true
+
+[plugins."codex-app-tools@openai-bundled"]
+enabled = true
+
+[plugins."unified-computer-use@openai-bundled"]
+enabled = true
+
+[plugins."visualize@openai-bundled"]
+enabled = true
+
+[plugins."computer-use@openai-bundled"]
+enabled = true
+
+[features]
+js_repl = false
+
+[mcp_servers.node_repl]
+args = []
+command = "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node_repl"
+startup_timeout_sec = 120
+
+[mcp_servers.node_repl.env]
+NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
+NODE_REPL_NODE_MODULE_DIRS = "/Applications/ChatGPT.app/Contents/Resources/cua_node/lib/node_modules"
+NODE_REPL_NODE_PATH = "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node"
+NODE_REPL_TRUSTED_CODE_PATHS = "/Users/mcuste/.codex:/Applications/ChatGPT.app/Contents/Resources/cua_node/lib/node_modules"
+CODEX_HOME = "/Users/mcuste/.codex"
+BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
+BROWSER_USE_TINYSKY_ENABLED = "1"
+NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = ""
+NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = ""
+NODE_REPL_INSTRUCTIONS_USE_CASE_COMPUTER_USE = ""
+BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
+BROWSER_USE_CODEX_APP_VERSION = "26.901.51231"
+NODE_REPL_TRUSTED_SERVICES = '{"browser":"/Users/mcuste/.codex/plugins/cache/openai-bundled/browser/26.901.51231/scripts/browser-service.mjs","sky":"@oai/sky/service"}'
+SKY_CUA_SERVICE_PATH = "/Users/mcuste/.codex/computer-use/Codex Computer Use.app"
+CODEX_CLI_PATH = "/Applications/ChatGPT.app/Contents/Resources/codex"
+
+[desktop]
+conversationDetailMode = "STEPS_PROSE"
+sansFontSize = 14
+codeFontSize = 13
+ambient-suggestions-enabled = false
+followUpQueueMode = "queue"
+
+[mcp_servers.aseprite]
+command = "/opt/homebrew/bin/uv"
+args = [
+  "--directory",
+  "/Users/mcuste/Projects/oss/aseprite-mcp",
+  "run",
+  "-m",
+  "aseprite_mcp",
+]
+
+[mcp_servers.aseprite.env]
+ASEPRITE_PATH = "/Users/mcuste/Library/Application Support/Steam/steamapps/common/Aseprite/Aseprite.app/Contents/MacOS/aseprite"
+
+[mcp_servers.computer-use]
+command = "./Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient"
+args = ["mcp"]
+cwd = "."
+enabled = false
