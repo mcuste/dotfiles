@@ -1,0 +1,69 @@
+setupVersion: 2
+defaultThinkingLevel: auto
+providers:
+  autoThinkingMaxEffort: max
+theme:
+  dark: dark-catppuccin
+  light: light-catppuccin
+modelRoles:
+  default: openai-codex/gpt-6.1-sol
+  smol: openai-codex/gpt-6-luna
+  slow: openai-codex/gpt-6-astra
+  plan: openai-codex/gpt-6-astra
+dev:
+  autoqaConsent: denied
+  autoqa: false
+disabledProviders:
+  - claude
+  - codex
+tools:
+  approvalMode: write
+  approval:
+    bash: allow
+    computer: prompt
+statusLine:
+  separator: block
+  sessionAccent: true
+  transparent: true
+  compactThinkingLevel: false
+  showHookStatus: true
+terminal:
+  showProgress: false
+tui:
+  tight: true
+display:
+  showTokenUsage: true
+  cacheMissMarker: true
+task:
+  showResolvedModelBadge: false
+  isolation:
+    enabled: true
+textVerbosity: low
+personality: default
+prewalk:
+  enabled: false
+edit:
+  mode: hashline
+readLineNumbers: true
+read:
+  renderMarkdown: true
+  toolResultPreview: false
+lsp:
+  diagnosticsOnEdit: true
+  formatOnWrite: true
+astGrep:
+  enabled: true
+vault:
+  enabled: true
+github:
+  enabled: true
+security:
+  enabled: true
+generate_image:
+  enabled: true
+composer:
+  shape: box
+extensions:
+  - /Users/mcuste/.omp/agent/extensions/herdr-omp-agent-state.ts
+isolation:
+  backend: auto

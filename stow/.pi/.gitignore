@@ -1,0 +1,13 @@
+*
+!.gitignore
+!AGENTS.md
+!agent/
+!agent/settings.json
+!agent/extensions/
+!agent/extensions/guardrails.json
+!agent/extensions/pi-permission-system/
+!agent/extensions/pi-permission-system/config.json
+!agent/npm/
+!agent/npm/.gitignore
+!agent/npm/package.json
+!agent/npm/package-lock.json

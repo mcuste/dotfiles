@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "plugins": {
+    "core@rigkit": [
+      {
+        "scope": "user",
+        "installPath": "/Users/mcuste/.claude/plugins/cache/rigkit/core/0.1.0",
+        "version": "0.1.0",
+        "installedAt": "2026-10-03T08:27:37.612Z",
+        "lastUpdated": "2026-10-03T08:27:37.612Z",
+        "gitCommitSha": "debc0f0657d6a2f543b5b81ca78b497da14d2db4"
+      }
+    ]
+  }
+}

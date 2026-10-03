@@ -1,0 +1,40 @@
+{
+  "plugins": {
+    "@mcuste/pi-graphite": {
+      "version": "0.2.1",
+      "enabledFeatures": null,
+      "enabled": true
+    },
+    "@mcuste/pi-herdr-worktree": {
+      "version": "0.1.3",
+      "enabledFeatures": null,
+      "enabled": true
+    },
+    "pi-diagram-workspace": {
+      "version": "0.6.2",
+      "enabledFeatures": null,
+      "enabled": true
+    },
+    "@mcuste/pi-diagram": {
+      "version": "0.6.3",
+      "enabledFeatures": null,
+      "enabled": true
+    },
+    "core": {
+      "version": "0.1.3",
+      "enabledFeatures": null,
+      "enabled": true
+    },
+    "obs": {
+      "version": "0.1.0",
+      "enabledFeatures": null,
+      "enabled": true
+    },
+    "dev": {
+      "version": "0.1.0",
+      "enabledFeatures": null,
+      "enabled": true
+    }
+  },
+  "settings": {}
+}

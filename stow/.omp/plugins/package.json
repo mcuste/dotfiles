@@ -1,0 +1,9 @@
+{
+  "name": "omp-plugins",
+  "private": true,
+  "dependencies": {
+    "@mcuste/pi-diagram": "^0.6.3",
+    "@mcuste/pi-graphite": "^0.2.1",
+    "@mcuste/pi-herdr-worktree": "^0.1.3"
+  }
+}

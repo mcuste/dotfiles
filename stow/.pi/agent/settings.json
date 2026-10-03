@@ -1,0 +1,17 @@
+{
+  "theme": "dark",
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-5.6-terra",
+  "defaultThinkingLevel": "medium",
+  "packages": [
+    "npm:@juicesharp/rpiv-ask-user-question",
+    "npm:@ff-labs/pi-fff",
+    "npm:pi-zentui",
+    "npm:@juicesharp/rpiv-todo",
+    "npm:pi-lens",
+    "npm:@aliou/pi-guardrails",
+    "npm:@mcuste/pi-diagram",
+    "npm:@mcuste/pi-herdr-worktree"
+  ],
+  "lastChangelogVersion": "0.84.3"
+}

@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "marketplaces": [
+    {
+      "name": "rigkit",
+      "sourceType": "github",
+      "sourceUri": "mcuste/rigkit",
+      "catalogPath": "/Users/mcuste/.omp/plugins/cache/marketplaces/rigkit/marketplace.json",
+      "addedAt": "2026-10-03T08:27:18.373Z",
+      "updatedAt": "2026-10-03T12:31:17.089Z"
+    }
+  ]
+}

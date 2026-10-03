@@ -1,0 +1,10 @@
+*
+!.gitignore
+!AGENTS.md
+!settings.json
+!statusline.sh
+!hooks/
+!hooks/bash-guardrails.js
+!plugins/
+!plugins/installed_plugins.json
+!plugins/known_marketplaces.json

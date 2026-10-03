@@ -3,4 +3,4 @@ default:
   @just --list
 
 stow:
-  stow stow
+  stow --dir "{{justfile_directory()}}" --target "$HOME" stow

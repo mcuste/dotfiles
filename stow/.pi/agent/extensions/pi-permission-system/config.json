@@ -1,0 +1,54 @@
+{
+  "$schema": "https://raw.githubusercontent.com/gotgenes/pi-permission-system/main/schemas/permissions.schema.json",
+
+  "debugLog": false,
+  "permissionReviewLog": true,
+  "yoloMode": false,
+
+  "permission": {
+    "*": "ask",
+
+    "path": {
+      "*": "allow",
+      "*.env": "deny",
+      "*.env.*": "deny",
+      "*.env.example": "allow",
+      "~/.ssh/*": "deny"
+    },
+
+    "external_directory": "allow",
+
+    "read": "allow",
+    "ls": "allow",
+    "pwd": "allow",
+    "find": "allow",
+    "grep": "allow",
+    "rg": "allow",
+    "fffind": "allow",
+    "ffgrep": "allow",
+    "fff-multi-grep": "allow",
+    "ast_grep_search": "allow",
+    "ast_grep_outline": "allow",
+    "ast_grep_dump": "allow",
+    "ast_dump": "allow",
+    "lsp_diagnostics": "allow",
+    "lsp_navigation": "allow",
+    "lens_diagnostics": "allow",
+    "module_report": "allow",
+    "read_symbol": "allow",
+    "read_enclosing": "allow",
+    "todo": "allow",
+
+    "write": "ask",
+    "edit": "ask",
+    "bash": {
+      "*": "ask",
+      "git status": "allow",
+      "git diff": "allow",
+      "git log *": "allow",
+      "sort": "allow"
+    },
+    "mcp": { "*": "ask" },
+    "skill": { "*": "ask" }
+  }
+}
