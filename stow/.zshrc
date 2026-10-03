@@ -118,7 +118,6 @@ export PATH="$GOPATH/bin:$PATH"
 export PATH="$HOME/.dotnet/tools:$PATH"
 export XDG_CONFIG_HOME="$HOME/.config"
 export K9S_CONFIG_DIR="$HOME/.config/k9s"
-export PATH="$HOME/scripts/bash:$PATH"
 
 
 # Share Cargo output between worktrees of the current repository.

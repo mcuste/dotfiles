@@ -55,7 +55,6 @@ fish_add_path $PNPM_HOME $PNPM_HOME/bin
 fish_add_path $HOME/.dotnet/tools
 set -gx XDG_CONFIG_HOME $HOME/.config
 set -gx K9S_CONFIG_DIR $HOME/.config/k9s
-fish_add_path $HOME/scripts/bash
 
 # Share Cargo output between worktrees of the current repository.
 function _update_cargo_target_dir --on-variable PWD

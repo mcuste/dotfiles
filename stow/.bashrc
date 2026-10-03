@@ -9,6 +9,7 @@ case ":$PATH:" in
 esac
 export PATH
 export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 
 # Share Cargo output between worktrees of the current repository.

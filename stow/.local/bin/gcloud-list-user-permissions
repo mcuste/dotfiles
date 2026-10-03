@@ -1,0 +1,234 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# Script to list GCP IAM permissions for a given user or service account
+
+# Check if gum is installed
+if ! command -v gum &>/dev/null; then
+  echo "Error: gum is not installed. Please install it first."
+  echo "Install gum: brew install gum"
+  exit 1
+fi
+
+# Function to display usage
+usage() {
+  gum style --foreground 45 --bold "Usage: $(basename "$0") [OPTIONS] <email_or_user_id>"
+  echo
+  gum style --foreground 226 "List GCP IAM permissions for a given user or service account across projects."
+  echo
+  gum style --foreground 82 "Arguments:"
+  echo "    email_or_user_id    Email address or user ID to check permissions for"
+  echo
+  gum style --foreground 82 "Options:"
+  echo "    -p, --project       Specific project ID to check (default: current project)"
+  echo "    -a, --all-projects  Check permissions across all accessible projects"
+  echo "    -o, --output        Output format: table, json, yaml (default: table)"
+  echo "    -h, --help          Show this help message"
+  echo
+  gum style --foreground 82 "Examples:"
+  echo "    $(basename "$0") user@example.com"
+  echo "    $(basename "$0") -p my-project user@example.com"
+  echo "    $(basename "$0") -a serviceaccount@project.iam.gserviceaccount.com"
+  echo "    $(basename "$0") --output json user@example.com"
+  exit 0
+}
+
+# Function to display error messages
+error() {
+  gum style --foreground 196 "Error: $1" >&2
+  exit 1
+}
+
+# Function to check if gcloud is installed and authenticated
+check_prerequisites() {
+  if ! command -v gcloud &>/dev/null; then
+    gum style --foreground 196 "Error: gcloud CLI is not installed. Please install it first."
+    exit 1
+  fi
+
+  if ! gcloud auth list --filter=status:ACTIVE --format="value(account)" &>/dev/null; then
+    gum style --foreground 196 "Error: You are not authenticated with gcloud. Please run 'gcloud auth login' first."
+    exit 1
+  fi
+}
+
+# Function to get permissions for a single project
+get_project_permissions() {
+  local project=$1
+  local user=$2
+  local format=$3
+
+  if [ "$format" = "table" ]; then
+    gum style --foreground 45 "Checking project: $project" >&2
+  else
+    echo "Checking project: $project" >&2
+  fi
+
+  case "$format" in
+  json)
+    gcloud projects get-iam-policy "$project" \
+      --flatten="bindings[].members" \
+      --filter="bindings.members:$user" \
+      --format="json" 2>/dev/null || true
+    ;;
+  yaml)
+    gcloud projects get-iam-policy "$project" \
+      --flatten="bindings[].members" \
+      --filter="bindings.members:$user" \
+      --format="yaml" 2>/dev/null || true
+    ;;
+  table | *)
+    local roles=$(gcloud projects get-iam-policy "$project" \
+      --flatten="bindings[].members" \
+      --filter="bindings.members:$user" \
+      --format="value(bindings.role)" 2>/dev/null || true)
+
+    if [ -n "$roles" ]; then
+      echo ""
+      gum style --foreground 226 --bold "Project: $project"
+      echo "----------------------------------------"
+      echo "$roles" | sort | while IFS= read -r role; do
+        echo "  $role"
+      done
+      echo ""
+    fi
+    ;;
+  esac
+}
+
+# Parse command line arguments
+ALL_PROJECTS=false
+OUTPUT_FORMAT="table"
+PROJECT=""
+USER=""
+
+while [[ $# -gt 0 ]]; do
+  case $1 in
+  -h | --help)
+    usage
+    ;;
+  -p | --project)
+    PROJECT="$2"
+    shift 2
+    ;;
+  -a | --all-projects)
+    ALL_PROJECTS=true
+    shift
+    ;;
+  -o | --output)
+    OUTPUT_FORMAT="$2"
+    shift 2
+    ;;
+  -*)
+    error "Unknown option: $1"
+    ;;
+  *)
+    USER="$1"
+    shift
+    ;;
+  esac
+done
+
+# Check if user/email was provided
+if [ -z "$USER" ]; then
+  # Interactive mode - prompt for user email
+  gum style --foreground 45 --bold "Enter user email or service account:"
+  USER=$(gum input --placeholder "user@example.com")
+  if [ -z "$USER" ]; then
+    error "No user email or ID provided."
+  fi
+fi
+
+# Validate output format
+case "$OUTPUT_FORMAT" in
+table | json | yaml) ;;
+*)
+  error "Invalid output format: $OUTPUT_FORMAT. Must be one of: table, json, yaml"
+  ;;
+esac
+
+# Check prerequisites
+check_prerequisites
+
+# If no project specified and not all projects, offer interactive selection
+if [ -z "$PROJECT" ] && [ "$ALL_PROJECTS" != true ]; then
+  gum style --foreground 226 --bold "Select project scope:"
+  SCOPE=$(gum choose "Current project" "Select specific project" "All projects")
+
+  case "$SCOPE" in
+  "Select specific project")
+    gum spin --spinner dot --title "Fetching available projects..." -- sleep 1
+    PROJECTS_LIST=$(gcloud projects list --format="table[no-heading](projectId,name)" 2>/dev/null)
+
+    if [ -z "$PROJECTS_LIST" ]; then
+      error "No accessible projects found."
+    fi
+
+    gum style --foreground 45 --bold "Select a project:"
+    SELECTED=$(echo "$PROJECTS_LIST" | gum choose --height 15)
+
+    if [ -z "$SELECTED" ]; then
+      error "No project selected."
+    fi
+
+    PROJECT=$(echo "$SELECTED" | awk '{print $1}')
+    gum style --foreground 82 "✓ Selected project: $PROJECT"
+    echo
+    ;;
+  "All projects")
+    ALL_PROJECTS=true
+    ;;
+  "Current project")
+    # Will use current project
+    ;;
+  *)
+    error "No selection made."
+    ;;
+  esac
+fi
+
+# Main execution
+if [ "$OUTPUT_FORMAT" = "table" ]; then
+  gum style --foreground 82 --bold "Fetching IAM permissions for: $USER" >&2
+  echo "" >&2
+else
+  echo "Fetching IAM permissions for: $USER" >&2
+  echo "" >&2
+fi
+
+if [ "$ALL_PROJECTS" = true ]; then
+  # Get all accessible projects
+  if [ "$OUTPUT_FORMAT" = "table" ]; then
+    gum spin --spinner dot --title "Fetching all accessible projects..." -- sleep 1
+    PROJECTS=$(gcloud projects list --format="value(projectId)" 2>/dev/null)
+  else
+    echo "Fetching all accessible projects..." >&2
+    PROJECTS=$(gcloud projects list --format="value(projectId)" 2>/dev/null)
+  fi
+
+  if [ -z "$PROJECTS" ]; then
+    error "No accessible projects found."
+  fi
+
+  # Check permissions for each project
+  for proj in $PROJECTS; do
+    get_project_permissions "$proj" "$USER" "$OUTPUT_FORMAT"
+  done
+elif [ -n "$PROJECT" ]; then
+  # Use specified project
+  get_project_permissions "$PROJECT" "$USER" "$OUTPUT_FORMAT"
+else
+  # Use current project
+  CURRENT_PROJECT=$(gcloud config get-value project 2>/dev/null)
+  if [ -z "$CURRENT_PROJECT" ]; then
+    error "No project is set. Please specify a project with -p or set a default project."
+  fi
+  get_project_permissions "$CURRENT_PROJECT" "$USER" "$OUTPUT_FORMAT"
+fi
+
+if [ "$OUTPUT_FORMAT" = "table" ]; then
+  echo ""
+  echo "----------------------------------------"
+  gum style --foreground 82 --bold "✓ Permission check complete."
+fi

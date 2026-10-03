@@ -4,6 +4,9 @@ stow/.config/fish/fish_variables
 # Local Scripts
 stow/.local/bin/*
 !stow/.local/bin/sync-*
+!stow/.local/bin/fetch-prs.sh
+!stow/.local/bin/gcloud-cluster-setup
+!stow/.local/bin/gcloud-list-user-permissions
 
 stow/.config/k9s/clusters
 stow/.config/fish/completions/docker.fish

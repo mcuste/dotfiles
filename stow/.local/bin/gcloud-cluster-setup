@@ -1,0 +1,177 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# Check if gcloud is installed
+if ! command -v gcloud &>/dev/null; then
+  gum style --foreground 196 "Error: gcloud CLI is not installed. Please install it first."
+  exit 1
+fi
+
+# Check if gum is installed (fallback to fzf if not)
+if command -v gum &>/dev/null; then
+  USE_GUM=true
+elif command -v fzf &>/dev/null; then
+  USE_GUM=false
+else
+  echo "Error: Neither gum nor fzf is installed. Please install one of them for interactive selection."
+  echo "Install gum: brew install gum"
+  echo "Install fzf: brew install fzf"
+  exit 1
+fi
+
+# Check if user is authenticated
+if ! gcloud auth list --filter=status:ACTIVE --format="value(account)" &>/dev/null; then
+  if [ "$USE_GUM" = true ]; then
+    gum style --foreground 196 "Error: You are not authenticated with gcloud. Please run 'gcloud auth login' first."
+  else
+    echo "Error: You are not authenticated with gcloud. Please run 'gcloud auth login' first."
+  fi
+  exit 1
+fi
+
+# Get current project
+CURRENT_PROJECT=$(gcloud config get-value project 2>/dev/null)
+
+# Fetch available projects
+if [ "$USE_GUM" = true ]; then
+  gum spin --spinner dot --title "Fetching available projects..." -- sleep 1
+else
+  echo "Fetching available projects..."
+fi
+
+PROJECTS=$(gcloud projects list --format="table[no-heading](projectId,name)" 2>/dev/null)
+
+if [ -z "$PROJECTS" ]; then
+  if [ "$USE_GUM" = true ]; then
+    gum style --foreground 196 "No projects found. Please check your access permissions."
+  else
+    echo "No projects found. Please check your access permissions."
+  fi
+  exit 1
+fi
+
+# Select project using gum or fzf
+if [ "$USE_GUM" = true ]; then
+  if [ -n "$CURRENT_PROJECT" ]; then
+    gum style --foreground 226 "Current project: $CURRENT_PROJECT"
+    echo
+  fi
+  gum style --foreground 45 --bold "Select a GCP project:"
+  PROJECT_SELECTED=$(echo "$PROJECTS" | gum choose --height 10)
+else
+  if [ -n "$CURRENT_PROJECT" ]; then
+    echo "Current project: $CURRENT_PROJECT"
+    echo
+  fi
+  echo "Select a GCP project:"
+  PROJECT_SELECTED=$(echo "$PROJECTS" | fzf --height 40% --reverse --header="Select a GCP project")
+fi
+
+if [ -z "$PROJECT_SELECTED" ]; then
+  if [ "$USE_GUM" = true ]; then
+    gum style --foreground 196 "No project selected. Exiting."
+  else
+    echo "No project selected. Exiting."
+  fi
+  exit 1
+fi
+
+# Parse the selected project ID
+PROJECT=$(echo "$PROJECT_SELECTED" | awk '{print $1}')
+
+# Set the project
+if [ "$USE_GUM" = true ]; then
+  gum style --foreground 82 "✓ Selected project: $PROJECT"
+  echo
+  gum spin --spinner dot --title "Setting project configuration..." -- \
+    gcloud config set project "$PROJECT"
+  echo
+  gum spin --spinner dot --title "Fetching available GKE clusters..." -- sleep 1
+else
+  echo "✓ Selected project: $PROJECT"
+  echo
+  echo "Setting project configuration..."
+  gcloud config set project "$PROJECT"
+  echo
+  echo "Fetching available GKE clusters..."
+fi
+
+# Fetch available clusters with their locations
+CLUSTERS=$(gcloud container clusters list --format="table[no-heading](name,location)" 2>/dev/null)
+
+if [ -z "$CLUSTERS" ]; then
+  if [ "$USE_GUM" = true ]; then
+    gum style --foreground 196 "No GKE clusters found in project $PROJECT"
+  else
+    echo "No GKE clusters found in project $PROJECT"
+  fi
+  exit 1
+fi
+
+# Select cluster using gum or fzf
+if [ "$USE_GUM" = true ]; then
+  gum style --foreground 45 --bold "Select a GKE cluster:"
+  SELECTED=$(echo "$CLUSTERS" | gum choose --height 10)
+else
+  echo "Select a GKE cluster:"
+  SELECTED=$(echo "$CLUSTERS" | fzf --height 40% --reverse --header="Select a GKE cluster")
+fi
+
+if [ -z "$SELECTED" ]; then
+  if [ "$USE_GUM" = true ]; then
+    gum style --foreground 196 "No cluster selected. Exiting."
+  else
+    echo "No cluster selected. Exiting."
+  fi
+  exit 1
+fi
+
+# Parse the selected cluster name and location
+CLUSTER_NAME=$(echo "$SELECTED" | awk '{print $1}')
+LOCATION=$(echo "$SELECTED" | awk '{print $2}')
+
+if [ "$USE_GUM" = true ]; then
+  gum style --foreground 82 "✓ Selected cluster: $CLUSTER_NAME in $LOCATION"
+  echo
+else
+  echo "✓ Selected cluster: $CLUSTER_NAME in $LOCATION"
+  echo
+fi
+
+# Determine if location is a zone or region
+if [[ "$LOCATION" =~ ^[a-z]+-[a-z]+[0-9]+-[a-z]$ ]]; then
+  LOCATION_FLAG="--zone"
+else
+  LOCATION_FLAG="--region"
+fi
+
+# Setup kubectl access
+if [ "$USE_GUM" = true ]; then
+  gum spin --spinner dot --title "Configuring kubectl access to cluster '$CLUSTER_NAME'..." -- \
+    gcloud container clusters get-credentials "$CLUSTER_NAME" $LOCATION_FLAG "$LOCATION"
+
+  gum style --foreground 82 --bold "✓ Successfully configured kubectl to use cluster '$CLUSTER_NAME'"
+  echo
+
+  gum style --foreground 45 --bold "Cluster info:"
+  kubectl cluster-info
+  echo
+
+  gum style --foreground 45 --bold "Cluster nodes:"
+  kubectl get nodes
+else
+  echo "Configuring kubectl access to cluster '$CLUSTER_NAME'..."
+  if gcloud container clusters get-credentials "$CLUSTER_NAME" $LOCATION_FLAG "$LOCATION"; then
+    echo "✓ Successfully configured kubectl to use cluster '$CLUSTER_NAME'"
+    echo
+    echo "Cluster info:"
+    kubectl cluster-info
+    echo
+    echo "Cluster nodes:"
+    kubectl get nodes
+  else
+    echo "Failed to configure kubectl access"
+    exit 1
+  fi
+fi
