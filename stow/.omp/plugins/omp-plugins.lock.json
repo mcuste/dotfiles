@@ -25,13 +25,18 @@
       "enabledFeatures": null,
       "enabled": true
     },
-    "obs": {
+    "td": {
       "version": "0.1.1",
       "enabledFeatures": null,
       "enabled": true
     },
     "dev": {
       "version": "0.1.3",
+      "enabledFeatures": null,
+      "enabled": true
+    },
+    "obs": {
+      "version": "0.1.1",
       "enabledFeatures": null,
       "enabled": true
     }

@@ -63,7 +63,5 @@ generate_image:
   enabled: true
 composer:
   shape: box
-extensions:
-  - /Users/mcuste/.omp/agent/extensions/herdr-omp-agent-state.ts
 isolation:
   backend: auto

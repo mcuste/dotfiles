@@ -12,6 +12,8 @@ registries, package manifests, and lock files. Credentials, caches, sessions,
 databases, memories, and other generated files stay local.
 OMP's installed plugin registry and plugin caches stay local. Track its plugin
 manifest and lock files.
+OMP loads `@mcuste/pi-herdr-worktree` through the plugin registry. Register local
+extensions only when their files exist.
 Pi uses `settings.json` and `extensions/guardrails.json` without separate templates.
 Pi uses `@mcuste/pi-herdr-worktree` for worktree operations.
 Codex tracks `config.toml`, `AGENTS.md`, and `rules/default.rules`.
@@ -22,6 +24,12 @@ their tracked counterparts. Keep a backup outside `~/.codex`.
 
 User instructions come from the core plugin's bundled `AGENTS.md`.
 Use the `core-sync` skill in OMP or Claude to refresh plugins and user instructions.
+
+Claude and OMP use the same global Rigkit plugin set: `core` and `td`.
+Install each package with `claude plugin install <package>@rigkit --scope user`
+and `omp plugin install <package>@rigkit --scope user`.
+The TD skills require the `td` toolbox for Jenkins inspection and
+`josh_ci_cli` in the target project for GraphCI validation.
 
 ## Utility scripts
 

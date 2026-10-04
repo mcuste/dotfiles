@@ -1,6 +1,5 @@
 *
 !.gitignore
-!AGENTS.md
 !settings.json
 !statusline.sh
 !hooks/

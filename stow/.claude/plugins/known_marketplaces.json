@@ -5,6 +5,22 @@
       "repo": "mcuste/rigkit"
     },
     "installLocation": "/Users/mcuste/.claude/plugins/marketplaces/rigkit",
-    "lastUpdated": "2026-10-03T08:27:20.372Z"
+    "lastUpdated": "2026-10-04T14:33:28.207Z"
+  },
+  "claude-plugins-official": {
+    "source": {
+      "source": "github",
+      "repo": "anthropics/claude-plugins-official"
+    },
+    "installLocation": "/Users/mcuste/.claude/plugins/marketplaces/claude-plugins-official",
+    "lastUpdated": "2026-10-04T14:36:42.221Z"
+  },
+  "claude-code-plugins": {
+    "source": {
+      "source": "github",
+      "repo": "anthropics/claude-code"
+    },
+    "installLocation": "/Users/mcuste/.claude/plugins/marketplaces/claude-code-plugins",
+    "lastUpdated": "2026-10-04T14:36:44.743Z"
   }
 }

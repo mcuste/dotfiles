@@ -4,11 +4,111 @@
     "core@rigkit": [
       {
         "scope": "user",
-        "installPath": "/Users/mcuste/.claude/plugins/cache/rigkit/core/0.1.0",
-        "version": "0.1.0",
+        "installPath": "/Users/mcuste/.claude/plugins/cache/rigkit/core/0.1.3",
+        "version": "0.1.3",
         "installedAt": "2026-10-03T08:27:37.612Z",
-        "lastUpdated": "2026-10-03T08:27:37.612Z",
-        "gitCommitSha": "debc0f0657d6a2f543b5b81ca78b497da14d2db4"
+        "lastUpdated": "2026-10-04T14:16:56.850Z",
+        "gitCommitSha": "eff3c647a1e0ea934319906abb34560e14958fe1"
+      }
+    ],
+    "td@rigkit": [
+      {
+        "scope": "user",
+        "installPath": "/Users/mcuste/.claude/plugins/cache/rigkit/td/0.1.1",
+        "version": "0.1.1",
+        "installedAt": "2026-10-04T14:29:41.364Z",
+        "lastUpdated": "2026-10-04T14:29:41.364Z",
+        "gitCommitSha": "eff3c647a1e0ea934319906abb34560e14958fe1"
+      }
+    ],
+    "security-guidance@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/mcuste/.claude/plugins/cache/claude-plugins-official/security-guidance/2.0.9",
+        "version": "2.0.9",
+        "installedAt": "2026-10-04T14:32:11.203Z",
+        "lastUpdated": "2026-10-04T14:32:11.203Z",
+        "gitCommitSha": "d182ca456ca09d31d139f7d3818d1d333b103cce"
+      }
+    ],
+    "rust-analyzer-lsp@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/mcuste/.claude/plugins/cache/claude-plugins-official/rust-analyzer-lsp/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-10-04T14:32:11.203Z",
+        "lastUpdated": "2026-10-04T14:32:11.203Z",
+        "gitCommitSha": "d182ca456ca09d31d139f7d3818d1d333b103cce"
+      }
+    ],
+    "typescript-lsp@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/mcuste/.claude/plugins/cache/claude-plugins-official/typescript-lsp/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-10-04T14:32:11.203Z",
+        "lastUpdated": "2026-10-04T14:32:11.203Z",
+        "gitCommitSha": "d182ca456ca09d31d139f7d3818d1d333b103cce"
+      }
+    ],
+    "lua-lsp@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/mcuste/.claude/plugins/cache/claude-plugins-official/lua-lsp/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-10-04T14:32:11.203Z",
+        "lastUpdated": "2026-10-04T14:32:11.203Z",
+        "gitCommitSha": "d182ca456ca09d31d139f7d3818d1d333b103cce"
+      }
+    ],
+    "gopls-lsp@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/mcuste/.claude/plugins/cache/claude-plugins-official/gopls-lsp/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-10-04T14:32:11.203Z",
+        "lastUpdated": "2026-10-04T14:32:11.203Z",
+        "gitCommitSha": "d182ca456ca09d31d139f7d3818d1d333b103cce"
+      }
+    ],
+    "pyright-lsp@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/mcuste/.claude/plugins/cache/claude-plugins-official/pyright-lsp/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-10-04T14:32:11.203Z",
+        "lastUpdated": "2026-10-04T14:32:11.203Z",
+        "gitCommitSha": "d182ca456ca09d31d139f7d3818d1d333b103cce"
+      }
+    ],
+    "clangd-lsp@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/mcuste/.claude/plugins/cache/claude-plugins-official/clangd-lsp/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-10-04T14:32:11.203Z",
+        "lastUpdated": "2026-10-04T14:32:11.203Z",
+        "gitCommitSha": "d182ca456ca09d31d139f7d3818d1d333b103cce"
+      }
+    ],
+    "obs@rigkit": [
+      {
+        "scope": "user",
+        "installPath": "/Users/mcuste/.claude/plugins/cache/rigkit/obs/0.1.0",
+        "version": "0.1.0",
+        "installedAt": "2026-10-04T14:32:45.571Z",
+        "lastUpdated": "2026-10-04T14:32:45.571Z",
+        "gitCommitSha": "eff3c647a1e0ea934319906abb34560e14958fe1"
+      }
+    ],
+    "dev@rigkit": [
+      {
+        "scope": "user",
+        "installPath": "/Users/mcuste/.claude/plugins/cache/rigkit/dev/0.1.2",
+        "version": "0.1.2",
+        "installedAt": "2026-10-04T14:32:46.303Z",
+        "lastUpdated": "2026-10-04T14:32:46.303Z",
+        "gitCommitSha": "eff3c647a1e0ea934319906abb34560e14958fe1"
       }
     ]
   }
