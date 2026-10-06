@@ -7,13 +7,17 @@ Run `just stow` from this repository to install the dotfiles and command links.
 ## Agent configuration
 
 `stow/.omp/`, `stow/.pi/`, `stow/.claude/`, and `stow/.codex/` contain the agent setup.
-Their `.gitignore` files allow only explicit configuration files, plugin
-registries, package manifests, and lock files. Credentials, caches, sessions,
+Their `.gitignore` files allow only explicit configuration files, integration
+extensions, plugin registries, package manifests, and lock files. Credentials, caches, sessions,
 databases, memories, and other generated files stay local.
 OMP's installed plugin registry and plugin caches stay local. Track its plugin
 manifest and lock files.
 OMP loads `@mcuste/pi-herdr-worktree` through the plugin registry. Register local
 extensions only when their files exist.
+OMP discovers the tracked `agent/extensions/herdr-omp-agent-state.ts` integration
+for Herdr pane state and completion notifications. Refresh it with
+`herdr integration install omp`. Run `/reload` in existing OMP sessions after
+installing or refreshing the integration.
 Pi uses `settings.json` and `extensions/guardrails.json` without separate templates.
 Pi uses `@mcuste/pi-herdr-worktree` for worktree operations.
 Codex tracks `config.toml`, `AGENTS.md`, and `rules/default.rules`.
