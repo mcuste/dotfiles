@@ -4,7 +4,7 @@
   "dependencies": {
     "@aliou/pi-guardrails": "^0.17.1",
     "@ff-labs/pi-fff": "^0.10.6",
-    "@juicesharp/rpiv-ask-user-question": "^2.9.0",
+    "@juicesharp/rpiv-ask-user-question": "^2.13.9",
     "@juicesharp/rpiv-todo": "^2.9.0",
     "@mcuste/pi-diagram": "^0.6.2",
     "@mcuste/pi-herdr-worktree": "^0.1.3",

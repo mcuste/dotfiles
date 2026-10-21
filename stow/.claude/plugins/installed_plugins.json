@@ -4,11 +4,11 @@
     "core@rigkit": [
       {
         "scope": "user",
-        "installPath": "/Users/mcuste/.claude/plugins/cache/rigkit/core/0.1.3",
-        "version": "0.1.3",
+        "installPath": "/Users/mcuste/.claude/plugins/cache/rigkit/core/0.1.4",
+        "version": "0.1.4",
         "installedAt": "2026-10-03T08:27:37.612Z",
-        "lastUpdated": "2026-10-04T14:16:56.850Z",
-        "gitCommitSha": "eff3c647a1e0ea934319906abb34560e14958fe1"
+        "lastUpdated": "2026-10-21T11:01:13.927Z",
+        "gitCommitSha": "8bd956b539886ab67518f9ab30fa0dc0a6698ba4"
       }
     ],
     "td@rigkit": [
@@ -24,11 +24,11 @@
     "security-guidance@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/mcuste/.claude/plugins/cache/claude-plugins-official/security-guidance/2.0.10",
-        "version": "2.0.10",
+        "installPath": "/Users/mcuste/.claude/plugins/cache/claude-plugins-official/security-guidance/2.0.15",
+        "version": "2.0.15",
         "installedAt": "2026-10-04T14:32:11.203Z",
-        "lastUpdated": "2026-10-06T09:43:46.030Z",
-        "gitCommitSha": "d4226d062928f8d9505dbdeadd10217d23361052"
+        "lastUpdated": "2026-10-21T08:42:34.272Z",
+        "gitCommitSha": "d1adba47161a271799de7b548225d929310046bd"
       }
     ],
     "rust-analyzer-lsp@claude-plugins-official": [
