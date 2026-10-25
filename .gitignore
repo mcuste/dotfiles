@@ -22,3 +22,4 @@ stow/.config/k9s/clusters
 /stow/.config/herdr/herdr-server.log
 /stow/.config/herdr/session-snapshots
 /stow/.config/herdr/release-notes.json
+/stow/.config/herdr/herdr.sock.agent
