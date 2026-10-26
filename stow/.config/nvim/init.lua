@@ -10,7 +10,10 @@
 -- ├── 10_options.lua  Built-in Neovim behavior
 -- ├── 20_keymaps.lua  Custom mappings
 -- ├── 30_mini.lua     MINI configuration
--- ├── 40_plugins.lua  Plugins outside of MINI
+--     31_treesitter.lua  Parsers and syntax highlighting
+--     32_lsp.lua         Language servers
+--     33_formatting.lua  Formatting and format on save
+--     34_lint.lua        External linters
 -- ├ after/            Files to override behavior added by plugins
 -- ├── ftplugin/       Files for filetype behavior (has demo file)
 -- ├── lsp/            Language server configurations (has demo file)
@@ -79,7 +82,7 @@ end
 
 -- Define custom `vim.pack.add()` hook helper. Plugin data is passed as
 -- argument to the callback. See `:h vim.pack-events`.
--- Example usage: see 'plugin/40_plugins.lua'.
+-- Example usage: see 'plugin/31_treesitter.lua'.
 -- If any plugin requires installation hooks, add them after this function
 -- and before the first `vim.pack.add()` call.
 Config.on_packchanged = function(plugin_name, kinds, callback, desc)
@@ -117,7 +120,7 @@ vim.pack.add({ 'https://github.com/nvim-mini/mini.nvim' })
 --
 -- See also:
 -- - `:h MiniMisc.safely()`
--- - 'plugin/30_mini.lua' and 'plugin/40_plugins.lua'
+-- - 'plugin/30_mini.lua' and 'plugin/32_lsp.lua'
 local misc = require('mini.misc')
 Config.now = function(f) misc.safely('now', f) end
 Config.later = function(f) misc.safely('later', f) end

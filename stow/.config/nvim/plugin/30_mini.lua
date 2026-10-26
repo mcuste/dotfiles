@@ -25,6 +25,9 @@
 --   Sometimes needed only if Neovim is started as `nvim -- path/to/file`.
 -- - Everything else is delayed until the first draw with `later()`.
 local now, now_if_args, later = Config.now, Config.now_if_args, Config.later
+local setup = function(when, name)
+  when(function() require('mini.' .. name).setup() end)
+end
 
 -- Step one ===================================================================
 -- Load Catppuccin before the first draw so every UI element uses Mocha.
@@ -86,9 +89,7 @@ end)
 --
 -- See also:
 -- - `:h MiniNotify.config` for some of common configuration examples.
-now(function()
-  require('mini.notify').setup()
-end)
+setup(now, 'notify')
 
 -- Start screen. This is what is shown when you open Neovim like `nvim`.
 -- Example usage:
@@ -99,20 +100,14 @@ end)
 -- See also:
 -- - `:h MiniStarter-example-config` - non-default config examples
 -- - `:h MiniStarter-lifecycle` - how to work with Starter buffer
-now(function()
-  require('mini.starter').setup()
-end)
+setup(now, 'starter')
 
 -- Statusline. Shows mode, Git, diagnostics, file details, and cursor position.
-now(function()
-  require('mini.statusline').setup()
-end)
+setup(now, 'statusline')
 
 -- Tabline. Sets `:h 'tabline'` to show all listed buffers in a line at the top.
 -- Buffers are ordered as they were created. Navigate with `[b` and `]b`.
-now(function()
-  require('mini.tabline').setup()
-end)
+setup(now, 'tabline')
 
 -- Step one or two ============================================================
 -- Load now if Neovim is started like `nvim -- path/to/file`, otherwise - later.
@@ -243,9 +238,7 @@ end)
 --   Calling `setup()` makes 'mini.pick' respect 'mini.extra' pickers.
 -- - `:h MiniExtra.gen_ai_spec` - 'mini.ai' textobject specifications
 -- - `:h MiniExtra.gen_highlighter` - 'mini.hipatterns' highlighters
-later(function()
-  require('mini.extra').setup()
-end)
+setup(later, 'extra')
 
 -- Extend and create a/i textobjects, like `:h a(`, `:h a'`, and more).
 -- Contains not only `a` and `i` type of textobjects, but also their "next" and
@@ -296,9 +289,7 @@ end)
 -- - `:h MiniAlign-example` - hands-on list of examples to practice aligning
 -- - `:h MiniAlign.gen_step` - list of support step customizations
 -- - `:h MiniAlign-algorithm` - how alignment is done on algorithmic level
-later(function()
-  require('mini.align').setup()
-end)
+setup(later, 'align')
 
 -- Animate common Neovim actions. Like cursor movement, scroll, window resize,
 -- window open, window close. Animations are done based on Neovim events and
@@ -319,18 +310,14 @@ end)
 --
 -- See also:
 -- - `:h MiniBracketed` - overall mapping design and list of targets
-later(function()
-  require('mini.bracketed').setup()
-end)
+setup(later, 'bracketed')
 
 -- Remove buffers. Opened files occupy space in tabline and buffer picker.
 -- When not needed, they can be removed. Example usage:
 -- - `<Leader>bw` - completely wipeout current buffer (see `:h :bwipeout`)
 -- - `<Leader>bW` - completely wipeout current buffer even if it has changes
 -- - `<Leader>bd` - delete current buffer (see `:h :bdelete`)
-later(function()
-  require('mini.bufremove').setup()
-end)
+setup(later, 'bufremove')
 
 -- Show next key clues in a bottom right window. Requires explicit opt-in for
 -- keys that act as clue trigger. Example usage:
@@ -393,9 +380,7 @@ end)
 -- - Autocompletion. Basically an automated `:h cmdline-completion`.
 -- - Autocorrection of words as-you-type. Like `:W`->`:w`, `:lau`->`:lua`, etc.
 -- - Autopeek command range (like line number at the start) as-you-type.
-later(function()
-  require('mini.cmdline').setup()
-end)
+setup(later, 'cmdline')
 
 -- Tweak and save any color scheme. Contains utility functions to work with
 -- color spaces and color schemes. Example usage:
@@ -420,9 +405,7 @@ end)
 --
 -- The built-in `:h commenting` is based on 'mini.comment'. Yet this module is
 -- still enabled as it provides more customization opportunities.
-later(function()
-  require('mini.comment').setup()
-end)
+setup(later, 'comment')
 
 -- Autohighlight word under cursor with a customizable delay.
 -- Word boundaries are defined based on `:h 'iskeyword'` option.
@@ -445,9 +428,7 @@ end)
 -- - `:h MiniDiff-overview` - overview of how module works
 -- - `:h MiniDiff-diff-summary` - available summary information
 -- - `:h MiniDiff.gen_source` - available built-in sources
-later(function()
-  require('mini.diff').setup()
-end)
+setup(later, 'diff')
 
 -- Git integration for more straightforward Git actions based on Neovim's state.
 -- It is not meant as a fully featured Git client, only to provide helpers that
@@ -461,9 +442,7 @@ end)
 -- - `:h MiniGit-examples` - examples of common setups
 -- - `:h :Git` - more details about `:Git` user command
 -- - `:h MiniGit.show_at_cursor()` - what information at cursor is shown
-later(function()
-  require('mini.git').setup()
-end)
+setup(later, 'git')
 
 -- Highlight patterns in text. Like `TODO`/`NOTE` or color hex codes.
 -- Example usage:
@@ -499,9 +478,7 @@ end)
 --
 -- See also:
 -- - `:h MiniIndentscope.gen_animation` - available animation rules
-later(function()
-  require('mini.indentscope').setup()
-end)
+setup(later, 'indentscope')
 
 -- Customizable user input. Improves how Neovim and plugins ask for input.
 -- By default shows a floating window with the input prompt as title. Window
@@ -525,9 +502,7 @@ end)
 -- - `:h MiniInput.gen_view` - bundled view customizations (adjust how floating
 --   window is shown or use statusline/tabline/winbar/virtual text)
 -- - `:h MiniInput-lifecycle` - details about how a custom mode emulation works
-later(function()
-  require('mini.input').setup()
-end)
+setup(later, 'input')
 
 -- Special key mappings. Provides helpers to map:
 -- - Multi-step actions. Apply action 1 if condition is met; else apply
@@ -558,9 +533,7 @@ end)
 --
 -- Example usage in Visual mode:
 -- - `<M-h>`/`<M-j>`/`<M-k>`/`<M-l>` - move selection left/down/up/right
-later(function()
-  require('mini.move').setup()
-end)
+setup(later, 'move')
 
 -- Text edit operators. All operators have mappings for:
 -- - Regular operator (waits for motion/textobject to use)
@@ -651,16 +624,12 @@ end)
 --
 -- See also:
 -- - `:h MiniSplitjoin.gen_hook` - list of available hooks
-later(function()
-  require('mini.splitjoin').setup()
-end)
+setup(later, 'splitjoin')
 
 -- Highlight and remove trailspace. Temporarily stops highlighting in Insert mode
 -- to reduce noise when typing. Example usage:
 -- - `<Leader>ot` - trim all trailing whitespace in a buffer
-later(function()
-  require('mini.trailspace').setup()
-end)
+setup(later, 'trailspace')
 
 -- Track and reuse file system visits. Every file/directory visit is persistently
 -- tracked on disk to later reuse: show in special frecency order, etc. It also
@@ -674,9 +643,7 @@ end)
 -- See also:
 -- - `:h MiniVisits-overview` - overview of how module works
 -- - `:h MiniVisits-examples` - examples of common setups
-later(function()
-  require('mini.visits').setup()
-end)
+setup(later, 'visits')
 
 -- Not mentioned here, but can be useful:
 -- - 'mini.doc' - needed only for plugin developers.
