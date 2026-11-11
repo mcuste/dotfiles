@@ -1,21 +1,24 @@
 #!/usr/bin/env bash
 
-# Print a markdown report of GitHub PRs in the current repository.
+# Print a markdown report of GitHub PRs.
 #
-# Usage: fetch-prs.sh [-f] [-a login] [period...]
+# Usage: fetch-prs.sh [-f] [-a login] [-r owner/repo]... [period...]
 #   -f        include PR descriptions
 #   -a login  report PRs of this GitHub user (default: you)
+#   -r repo   report this repository; repeat for more (default: repository of the current directory)
 #   period    PR creation year or quarter, for example 2026 or 2025-Q4 (default: current year)
 
 set -euo pipefail
 
 author="@me"
 full=false
-while getopts "fa:" opt; do
+repos=()
+while getopts "fa:r:" opt; do
     case "$opt" in
         f) full=true ;;
         a) author="$OPTARG" ;;
-        *) echo "Usage: fetch-prs.sh [-f] [-a login] [period...]" >&2; exit 1 ;;
+        r) repos+=("$OPTARG") ;;
+        *) echo "Usage: fetch-prs.sh [-f] [-a login] [-r owner/repo]... [period...]" >&2; exit 1 ;;
     esac
 done
 shift $((OPTIND - 1))
@@ -24,6 +27,11 @@ if [ $# -gt 0 ]; then
     periods=("$@")
 else
     periods=("$(date +%Y)")
+fi
+
+# An empty name selects the repository of the current directory.
+if [ ${#repos[@]} -eq 0 ]; then
+    repos=("")
 fi
 
 quarter_first_days=(01-01 04-01 07-01 10-01)
@@ -79,7 +87,7 @@ fi
 
 # Warn about commits on the default branch that have no PR, because the report does not show them.
 warn_commits_without_pr() {
-    local period="$1" commits count
+    local commits count
     commits=$(gh api graphql --paginate \
         -F owner='{owner}' -F name='{repo}' \
         -f id="$author_id" \
@@ -103,28 +111,35 @@ query($owner:String!, $name:String!, $id:ID!, $since:GitTimestamp!, $until:GitTi
     [ -z "$commits" ] && return 0
     count=$(wc -l <<< "$commits" | tr -d ' ')
     {
-        echo "warning: $count commits in $period have no PR and are not in this report:"
+        echo "warning: $count commits in $label have no PR and are not in this report:"
         head -n 5 <<< "$commits"
         [ "$count" -gt 5 ] && echo "  ..."
         true
     } >&2
 }
 
-for period in "${periods[@]}"; do
-    set_period_days "$period"
-    echo "# Pull requests $period"
-    echo
-
-    report=$(gh pr list --author "$author" --state all --limit 1000 \
-        --search "created:${first_day}..${last_day} sort:created-asc" \
-        --json "$fields" --template "$template")
-
-    if [ -n "$report" ]; then
-        echo "$report"
-    else
-        echo "*No pull requests found.*"
+for repo in "${repos[@]}"; do
+    if [ -n "$repo" ]; then
+        export GH_REPO="$repo"
     fi
-    echo
 
-    warn_commits_without_pr "$period"
+    for period in "${periods[@]}"; do
+        set_period_days "$period"
+        label="${repo:+$repo }$period"
+        echo "# Pull requests $label"
+        echo
+
+        report=$(gh pr list --author "$author" --state all --limit 1000 \
+            --search "created:${first_day}..${last_day} sort:created-asc" \
+            --json "$fields" --template "$template")
+
+        if [ -n "$report" ]; then
+            echo "$report"
+        else
+            echo "*No pull requests found.*"
+        fi
+        echo
+
+        warn_commits_without_pr
+    done
 done
