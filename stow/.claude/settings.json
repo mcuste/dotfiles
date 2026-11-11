@@ -34,7 +34,7 @@
     ],
     "defaultMode": "auto"
   },
-  "model": "opus[1m]",
+  "model": "claude-fable-5-2",
   "hooks": {
     "PreToolUse": [
       {

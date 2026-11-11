@@ -9,6 +9,17 @@ later(function()
   require('conform').setup({
     default_format_opts = { lsp_format = 'fallback' },
     format_on_save = { timeout_ms = 2000, lsp_format = 'fallback' },
+    formatters = {
+      prettier = {
+        -- Prettier reads indent_size from .editorconfig, and an indent of 4 breaks YAML code blocks.
+        prepend_args = function(_, ctx)
+          if vim.bo[ctx.buf].filetype == 'markdown' then
+            return { '--tab-width', '2' }
+          end
+          return {}
+        end,
+      },
+    },
     formatters_by_ft = {
       bash = { 'shfmt' },
       css = web,
