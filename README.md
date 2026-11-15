@@ -44,8 +44,8 @@ shortcuts and apply the same bindings without creating duplicates.
 It does not replace actions in existing shortcuts. To use a changed definition,
 remove the old shortcut in Shortcuts, then run `just shortcuts` again.
 
-Allow script execution in Shortcuts settings when prompted. Disable Raycast's
-matching hotkey. Apps may need relaunching to load changed keyboard bindings.
+Allow script execution in Shortcuts settings when prompted.
+Apps may need relaunching to load changed keyboard bindings.
 
 ## Voice input on macOS
 

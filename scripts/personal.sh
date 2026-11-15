@@ -112,7 +112,6 @@ install_brew_cask "brave-browser"
 
 # GUI Tools
 install_brew_cask "karabiner-elements"
-install_brew_cask "raycast"
 install_brew_cask "ghostty"
 install_brew_cask "handy"
 install_brew_cask "protonvpn"

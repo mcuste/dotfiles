@@ -36,12 +36,10 @@
             <string>is.workflow.actions.runshellscript</string>
             <key>WFWorkflowActionParameters</key>
             <dict>
-                <key>WFShellScript</key>
+                <key>Script</key>
                 <string>/usr/bin/open -b com.brave.Browser</string>
-                <key>WFScriptShell</key>
+                <key>Shell</key>
                 <string>/bin/zsh</string>
-                <key>WFScriptInputIsStdin</key>
-                <true/>
             </dict>
         </dict>
         <dict>
