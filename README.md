@@ -8,10 +8,16 @@ Both work (`scripts/setup.sh`) and personal (`scripts/personal.sh`) setups insta
 [Tart](https://tart.run/) from `openai/tools/tart` for macOS virtual machines
 on Apple Silicon.
 
-## ISO keyboard on macOS
+Both setups also install KeyPath from `mcuste/tap`. Run KeyPath's setup wizard
+after installation to configure its driver, services, and permissions.
 
-Kanata swaps `grv` and `102d` on all layers to correct the § and backtick keys
-with its US virtual keyboard.
+### KeyPath configuration
+
+`~/.config/keypath` links directly to `stow/.config/keypath`. KeyPath edits
+the tracked config and rule files in that directory. Local `.backups` stay
+untracked.
+
+`kanata.custom.kbd` preserves the original custom Kanata layout as a backup.
 
 ## macOS shortcuts
 

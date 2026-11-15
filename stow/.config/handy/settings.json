@@ -23,7 +23,13 @@
         "name": "Transcribe with Post-Processing"
       }
     },
-    "custom_words": ["Kanata", "Karabiner", "dotfiles", "idempotent"],
+    "custom_words": [
+      "Kanata",
+      "Karabiner",
+      "dotfiles",
+      "idempotent",
+      "justfile"
+    ],
     "shortcut_activation": "hold_or_toggle",
     "hold_threshold_ms": 300,
     "keyboard_implementation": "handy_keys",

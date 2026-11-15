@@ -111,7 +111,7 @@ install_uv_tool() {
 install_brew_cask "brave-browser"
 
 # GUI Tools
-install_brew_cask "karabiner-elements"
+install_brew_cask "mcuste/tap/keypath"
 install_brew_cask "ghostty"
 install_brew_cask "handy"
 install_brew_cask "protonvpn"
@@ -124,15 +124,12 @@ install_brew_cask "obsidian"
 install_brew_cask "visual-studio-code"
 
 # Tools
-install_brew_package "kanata"
 install_brew_package "ffmpeg"
 install_brew_package "herdr"
 install_brew_package "pnpm"
 install_brew_package "rtk"
-install_brew_package "sesh"
 install_brew_package "uv"
 install_brew_package "fish"
-install_brew_package "tmux"
 install_brew_package "starship"
 install_brew_package "lazygit"
 install_brew_package "gh"
@@ -279,28 +276,6 @@ install_brew_tap_package "can1357/tap" "omp"
 # Packages from taps
 install_brew_tap_package "withgraphite/tap" "graphite"
 install_brew_tap_package "openai/tools" "tart"
-
-# Tmux Plugin Manager Setup
-if [ -d "$HOME/.config/tmux/plugins/tpm" ]; then
-	echo "✓ Tmux Plugin Manager (TPM) is already installed"
-else
-	echo "Installing Tmux Plugin Manager (TPM)..."
-	mkdir -p "$HOME/.config/tmux/plugins"
-	git clone https://github.com/tmux-plugins/tpm "$HOME/.config/tmux/plugins/tpm"
-	echo "✓ TPM installed successfully"
-fi
-
-# Setup Kanata keyboard remapper
-echo ""
-echo "Setting up Kanata keyboard remapper..."
-if [ -f "./scripts/kanata/kanata.sh" ]; then
-	pushd scripts/kanata
-	bash ./kanata.sh
-	echo ""
-	popd
-else
-	echo "⚠ Kanata setup script not found at ./scripts/kanata/kanata.sh"
-fi
 
 # Setup SSH Key
 if [ ! -f ~/.ssh/id_ed25519 ]; then
