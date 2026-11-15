@@ -272,6 +272,7 @@ install_brew_tap_package "can1357/tap" "omp"
 
 # Packages from taps
 install_brew_tap_package "withgraphite/tap" "graphite"
+install_brew_tap_package "openai/tools" "tart"
 
 # Tmux Plugin Manager Setup
 if [ -d "$HOME/.config/tmux/plugins/tpm" ]; then

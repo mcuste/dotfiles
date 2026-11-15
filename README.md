@@ -4,6 +4,10 @@
 
 Run `just stow` from this repository to install the dotfiles and command links.
 
+Both work (`scripts/setup.sh`) and personal (`scripts/personal.sh`) setups install
+[Tart](https://tart.run/) from `openai/tools/tart` for macOS virtual machines
+on Apple Silicon.
+
 ## ISO keyboard on macOS
 
 Kanata swaps `grv` and `102d` on all layers to correct the § and backtick keys
