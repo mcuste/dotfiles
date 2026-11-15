@@ -1,0 +1,5 @@
+{
+    "Window->Move & Resize->Left": "^~$@l",
+    "Window->Move & Resize->Right": "^~$@r",
+    "Window->Fill": "^~$@f"
+}

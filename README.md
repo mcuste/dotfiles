@@ -13,6 +13,40 @@ on Apple Silicon.
 Kanata swaps `grv` and `102d` on all layers to correct the § and backtick keys
 with its US virtual keyboard.
 
+## macOS shortcuts
+
+On macOS, `just stow` also syncs shortcuts from `stow/.config/shortcuts/`.
+Run `just shortcuts` to sync them separately. This requires macOS, `jq`, and an
+interactive terminal for new imports. Signing may require an iCloud login.
+
+The setup keeps an existing shortcut with the same name. For a missing shortcut,
+it signs the tracked file and opens Apple's import dialog. Confirm **Add Shortcut**,
+then press Enter in the terminal. The setup checks that the import completed
+before applying its keyboard binding.
+
+App shortcuts and their keyboard bindings live in `bindings.json`.
+
+| Binding | Action                                       |
+| ------- | -------------------------------------------- |
+| Hyper+G | Open or focus Ghostty                        |
+| Hyper+B | Open or focus Brave                          |
+| Hyper+O | Open or focus OrbStack                       |
+| Hyper+L | Move the current window to the left half     |
+| Hyper+R | Move the current window to the right half    |
+| Hyper+F | Fill the screen without entering full screen |
+
+Window bindings live in `menu-bindings.json`. They use the native Window menu
+and require macOS 15 or later and English menu titles. They only work in apps
+that expose those menu commands.
+
+The setup preserves unrelated keyboard bindings. Repeated runs skip installed
+shortcuts and apply the same bindings without creating duplicates.
+It does not replace actions in existing shortcuts. To use a changed definition,
+remove the old shortcut in Shortcuts, then run `just shortcuts` again.
+
+Allow script execution in Shortcuts settings when prompted. Disable Raycast's
+matching hotkey. Apps may need relaunching to load changed keyboard bindings.
+
 ## Voice input on macOS
 
 Both setup profiles install [Handy](https://handy.computer/docs) for local dictation
@@ -22,11 +56,11 @@ On each Mac:
 
 1. Grant Microphone and Accessibility permissions.
 2. Download a speech model.
-3. Quit Handy.
-4. Run `just stow` (requires `jq` on macOS).
-5. Reopen Handy and add it to macOS **Open at Login**.
+3. Run `just stow` (requires `jq` on macOS).
+4. Add Handy to macOS **Open at Login**.
 
-Edit `stow/.config/handy/settings.json`, then quit Handy and run `just stow`
+The settings sync quits Handy if it is running and relaunches it afterward.
+Edit `stow/.config/handy/settings.json`, then run `just stow`
 to apply changes. The saved shortcut is **§**, with
 tap-to-toggle or hold-to-talk and mute while recording.
 Add preferred spellings to `settings.custom_words` in that file.

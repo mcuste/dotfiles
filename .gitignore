@@ -16,6 +16,8 @@ stow/.config/fish/conf.d/fish_frozen_key_bindings.fish
 stow/.config/k9s/clusters
 /stow/.config/fish/completions/loom.fish
 /stow/.config/herdr/plugins/github
+/stow/.config/herdr/plugins/github-installations
+/stow/.config/herdr/plugins/.locks
 /stow/.config/herdr/plugins.json
 /stow/.config/herdr/herdr-client.log
 /stow/.config/herdr/session.json

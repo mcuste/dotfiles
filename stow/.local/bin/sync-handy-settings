@@ -6,23 +6,42 @@ if [[ "$(uname -s)" != Darwin ]]; then
     exit 1
 fi
 
-if pgrep -f '/Handy.app/Contents/MacOS/handy' >/dev/null; then
-    echo "Quit Handy before applying settings." >&2
-    exit 1
-fi
-
 command -v jq >/dev/null || { echo "Install jq first." >&2; exit 1; }
 preferences="${XDG_CONFIG_HOME:-$HOME/.config}/handy/settings.json"
 settings="$HOME/Library/Application Support/com.pais.handy/settings_store.json"
 
 if [[ ! -f "$settings" ]]; then
-    echo "Launch Handy once, then quit it before applying settings." >&2
+    echo "Launch Handy once before applying settings." >&2
     exit 1
+fi
+
+restart=false
+temporary=""
+cleanup() {
+    [[ -z "$temporary" ]] || rm -f "$temporary"
+    if [[ "$restart" == true ]]; then
+        open -a Handy
+    fi
+}
+trap cleanup EXIT
+
+if pgrep -f '/Handy.app/Contents/MacOS/handy' >/dev/null; then
+    restart=true
+    osascript -e 'tell application "Handy" to quit'
+    for ((attempt = 0; attempt < 100; attempt++)); do
+        if ! pgrep -f '/Handy.app/Contents/MacOS/handy' >/dev/null; then
+            break
+        fi
+        sleep 0.1
+    done
+    if pgrep -f '/Handy.app/Contents/MacOS/handy' >/dev/null; then
+        echo "Handy did not quit. Settings were not changed." >&2
+        exit 1
+    fi
 fi
 
 umask 077
 temporary="$(mktemp "${settings}.XXXXXX")"
-trap 'rm -f "$temporary"' EXIT
 jq -e -s '
     if length == 2 and (.[0].settings | type) == "object"
         and (.[1].settings | type) == "object"
@@ -31,4 +50,4 @@ jq -e -s '
     end
 ' "$settings" "$preferences" > "$temporary"
 mv "$temporary" "$settings"
-echo "Applied Handy preferences. Open Handy to use them."
+echo "Applied Handy preferences."

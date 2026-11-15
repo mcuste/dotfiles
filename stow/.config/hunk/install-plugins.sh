@@ -5,6 +5,7 @@ config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/hunk"
 
 extensions=(
   evantravers/hunk-mark-as-reviewed
+  mcuste/hunk-markdown-preview
 )
 
 for source in "${extensions[@]}"; do
@@ -31,5 +32,5 @@ if [[ -f "$records" ]]; then
     if [[ "$keep" == false ]]; then
       hunk extension remove "$name"
     fi
-  done <<< "$installed"
+  done <<<"$installed"
 fi
