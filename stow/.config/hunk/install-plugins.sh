@@ -4,8 +4,8 @@ set -euo pipefail
 config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/hunk"
 
 extensions=(
-  evantravers/hunk-mark-as-reviewed
   mcuste/hunk-markdown-preview
+  mcuste/hunk-stage
 )
 
 for source in "${extensions[@]}"; do
