@@ -1,0 +1,5 @@
+theme = "catppuccin-mocha"
+mode = "split"
+line_numbers = true
+wrap_lines = false
+transparent_background = true
