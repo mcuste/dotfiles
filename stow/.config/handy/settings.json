@@ -1,0 +1,46 @@
+{
+  "settings": {
+    "bindings": {
+      "cancel": {
+        "current_binding": "escape",
+        "default_binding": "escape",
+        "description": "Cancels the current recording.",
+        "id": "cancel",
+        "name": "Cancel"
+      },
+      "transcribe": {
+        "current_binding": "§",
+        "default_binding": "option+space",
+        "description": "Converts your speech into text.",
+        "id": "transcribe",
+        "name": "Transcribe"
+      },
+      "transcribe_with_post_process": {
+        "current_binding": "option+shift+space",
+        "default_binding": "option+shift+space",
+        "description": "Converts your speech into text and applies AI post-processing.",
+        "id": "transcribe_with_post_process",
+        "name": "Transcribe with Post-Processing"
+      }
+    },
+    "custom_words": ["Kanata", "Karabiner", "dotfiles", "idempotent"],
+    "shortcut_activation": "hold_or_toggle",
+    "hold_threshold_ms": 300,
+    "keyboard_implementation": "handy_keys",
+    "mute_while_recording": true,
+    "audio_feedback": true,
+    "audio_feedback_volume": 1.0,
+    "sound_theme": "marimba",
+    "paste_method": "ctrl_v",
+    "clipboard_handling": "dont_modify",
+    "append_trailing_space": false,
+    "auto_submit": false,
+    "auto_submit_key": "enter",
+    "selected_language": "auto",
+    "translate_to_english": false,
+    "overlay_position": "bottom",
+    "overlay_style": "live",
+    "show_tray_icon": true,
+    "start_hidden": false
+  }
+}

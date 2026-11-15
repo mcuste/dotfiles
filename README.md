@@ -18,11 +18,16 @@ On each Mac:
 
 1. Grant Microphone and Accessibility permissions.
 2. Download a speech model.
-3. Enable **Push To Talk** and **Mute While Recording**.
-4. Disable **Audio Feedback**.
-5. Add Handy to macOS **Open at Login**.
+3. Quit Handy.
+4. Run `just stow` (requires `jq` on macOS).
+5. Reopen Handy and add it to macOS **Open at Login**.
 
-Keep Handy running in the background. Keep its settings and voice data local.
+Edit `stow/.config/handy/settings.json`, then quit Handy and run `just stow`
+to apply changes. The saved shortcut is **§**, with
+tap-to-toggle or hold-to-talk and mute while recording.
+Add preferred spellings to `settings.custom_words` in that file.
+Keys, audio devices, models, and voice data stay local. Keep Handy running
+in the background.
 
 ## Agent configuration
 

@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ "$(uname -s)" != Darwin ]]; then
+    echo "This command supports macOS only." >&2
+    exit 1
+fi
+
+if pgrep -f '/Handy.app/Contents/MacOS/handy' >/dev/null; then
+    echo "Quit Handy before applying settings." >&2
+    exit 1
+fi
+
+command -v jq >/dev/null || { echo "Install jq first." >&2; exit 1; }
+preferences="${XDG_CONFIG_HOME:-$HOME/.config}/handy/settings.json"
+settings="$HOME/Library/Application Support/com.pais.handy/settings_store.json"
+
+if [[ ! -f "$settings" ]]; then
+    echo "Launch Handy once, then quit it before applying settings." >&2
+    exit 1
+fi
+
+umask 077
+temporary="$(mktemp "${settings}.XXXXXX")"
+trap 'rm -f "$temporary"' EXIT
+jq -e -s '
+    if length == 2 and (.[0].settings | type) == "object"
+        and (.[1].settings | type) == "object"
+    then .[0] * .[1]
+    else error("Expected Handy settings objects")
+    end
+' "$settings" "$preferences" > "$temporary"
+mv "$temporary" "$settings"
+echo "Applied Handy preferences. Open Handy to use them."
