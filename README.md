@@ -4,6 +4,21 @@
 
 Run `just stow` from this repository to install the dotfiles and command links.
 
+## Voice input on macOS
+
+Both setup profiles install [Handy](https://handy.computer/docs) for local dictation
+into any focused prompt. Default shortcut: **Option + Space**.
+
+On each Mac:
+
+1. Grant Microphone and Accessibility permissions.
+2. Download a speech model.
+3. Enable **Push To Talk** and **Mute While Recording**.
+4. Disable **Audio Feedback**.
+5. Add Handy to macOS **Open at Login**.
+
+Keep Handy running in the background. Keep its settings and voice data local.
+
 ## Agent configuration
 
 `stow/.omp/`, `stow/.pi/`, `stow/.claude/`, and `stow/.codex/` contain the agent setup.

@@ -114,6 +114,7 @@ install_brew_cask "brave-browser"
 install_brew_cask "karabiner-elements"
 install_brew_cask "raycast"
 install_brew_cask "ghostty"
+install_brew_cask "handy"
 install_brew_cask "protonvpn"
 install_brew_cask "proton-pass"
 
