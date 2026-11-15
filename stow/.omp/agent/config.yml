@@ -1,4 +1,4 @@
-setupVersion: 2
+setupVersion: 3
 defaultThinkingLevel: auto
 providers:
   autoThinkingMaxEffort: max
@@ -65,3 +65,5 @@ composer:
   shape: box
 isolation:
   backend: auto
+update:
+  auto: false
