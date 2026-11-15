@@ -126,56 +126,56 @@
     grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
     tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
     caps a    s    d    f    g    h    j    k    l    ;    '    ret
-    lsft z    x    c    v    b    n    m    ,    .    /    rsft
+    lsft 102d z    x    c    v    b    n    m    ,    .    /    rsft
     fn   lctl lalt lmet           spc            rmet ralt
 )
 
 ;; Nomods (gaming) Layer
 (deflayer nomods
     esc   @mf1 @mf2 @mf3 @mf4 @mf5 @mf6 @mf7 @mf8 @mf9 @mf10 @mf11 @mf12
-    grv   1    2    3    4    5    6    7    8    9    0    -    =    bspc
+    102d  1    2    3    4    5    6    7    8    9    0    -    =    bspc
     tab   q    w    e    r    t    y    u    i    o    p    [    ]    \
     @caphypr a    s    d    f    @game-off h    j    k    l    ;    '    ret
-    lsft  z    x    c    v    b    n    m    ,    .    /    rsft
+    lsft grv z    x    c    v    b    n    m    ,    .    /    rsft
     fn    lctl lalt lmet           spc            rmet ralt
 )
 
 ;; Temporary layer used after tapping a home-row key
 (deflayer base-plain
     esc   @mf1 @mf2 @mf3 @mf4 @mf5 @mf6 @mf7 @mf8 @mf9 @mf10 @mf11 @mf12
-    grv   1    2    3    4    5    6    7    8    9    0    -    =    bspc
+    102d  1    2    3    4    5    6    7    8    9    0    -    =    bspc
     tab   q    w    e    r    t    y    u    i    o    p    [    ]    \
     @hypr a    s    d    f    @game-on h    j    k    l    ;    @'   ret
-    lsft  z    x    c    v    b    n    m    ,    .    /    rsft
+    lsft grv z    x    c    v    b    n    m    ,    .    /    rsft
     fn    lctl lalt lmet          @spc            rmet ralt
 )
 
 ;; Modified base layer
 (deflayer base
     esc   @mf1 @mf2 @mf3 @mf4 @mf5 @mf6 @mf7 @mf8 @mf9 @mf10 @mf11 @mf12
-    grv   1    2    3    4    5    6    7    8    9    0    -    =    bspc
+    102d  1    2    3    4    5    6    7    8    9    0    -    =    bspc
     tab   q    w    e    r    t    y    u    i    o    p    [    ]    \
     @hypr @a   @s   @d   @f   @game-on h    @j   @k   @l   @;   @'   ret
-    lsft  z    x    c    v    b    n    m    ,    .    /    rsft
+    lsft grv z    x    c    v    b    n    m    ,    .    /    rsft
     fn    lctl lalt lmet          @spc            rmet ralt
 )
 
 ;; Symbols and Navigation Layer
 (deflayer symbols
     esc  @mf1 @mf2 @mf3 @mf4 @mf5 @mf6   @mf7   @mf8 @mf9    @mf10 @mf11 @mf12
-    grv  1    2    3    4    5    6      7      8    9       0    -    +    del
+    102d 1    2    3    4    5    6      7      8    9       0    -    +    del
     tab  S-1  S-2  S-3  S-4  S-5  home   pgdn   pgup end     XX   {    }    XX
     esc  @a   @s   @d   @f   S-\  left   down   up   right   XX   XX   ret
-    lsft S-6  S-7  S-9  S-0  S-8  S-left S-down S-up S-right XX   rsft
+    lsft grv S-6  S-7  S-9  S-0  S-8  S-left S-down S-up S-right XX   rsft
     fn   lctl lalt lmet           XX            rmet ralt
 )
 
 ;; Unicode char layer
 (deflayer unicodechars
   esc   @mf1 @mf2 @mf3 @mf4 @mf5 @mf6 @mf7 @mf8 @mf9 @mf10 @mf11 @mf12
-  grv   1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  102d  1    2    3    4    5    6    7    8    9    0    -    =    bspc
   tab   q    w    e    r    t    y    @ue  @ii  @oe  p    [    ]    \
   @hypr @ae  @sh  @d   @f   @gg  h    @j   @k   @l   @;   @'   ret
-  lsft  z    x    @ch  v    @ss  n    m    ,    .    /    rsft
+  lsft grv z    x    @ch  v    @ss  n    m    ,    .    /    rsft
   fn    lctl lalt lmet          @spc            rmet ralt
 )

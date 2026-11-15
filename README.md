@@ -4,6 +4,11 @@
 
 Run `just stow` from this repository to install the dotfiles and command links.
 
+## ISO keyboard on macOS
+
+Kanata swaps `grv` and `102d` on all layers to correct the § and backtick keys
+with its US virtual keyboard.
+
 ## Voice input on macOS
 
 Both setup profiles install [Handy](https://handy.computer/docs) for local dictation
