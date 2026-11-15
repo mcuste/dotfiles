@@ -24,11 +24,11 @@
     "security-guidance@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/mcuste/.claude/plugins/cache/claude-plugins-official/security-guidance/2.0.19",
-        "version": "2.0.19",
+        "installPath": "/Users/mcuste/.claude/plugins/cache/claude-plugins-official/security-guidance/2.0.20",
+        "version": "2.0.20",
         "installedAt": "2026-10-04T14:32:11.203Z",
-        "lastUpdated": "2026-11-10T08:19:07.392Z",
-        "gitCommitSha": "dceb15d50832e6adf380bedc26dde03d251324b9"
+        "lastUpdated": "2026-11-15T16:00:24.596Z",
+        "gitCommitSha": "b5b01ac4f889fec0c4c6bb89f27ca7c8574473f6"
       }
     ],
     "rust-analyzer-lsp@claude-plugins-official": [
