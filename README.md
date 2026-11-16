@@ -74,8 +74,33 @@ just apply work headless --host hermes-vm --group hermes_agents
 | `ansible/roles/managed_files/`           | Shared linking, template, and safe-removal tasks |
 
 `host_vars/localhost.yml` is ignored by Git. Use it for local overrides, such as
-`agents_claude_code_cask` to keep an installed Claude Code channel.
+`agents_claude_code_cask` to select a Claude Code channel. Both profiles default
+to `claude-code@latest`; the `agents` role does not install the Claude desktop app.
 The `agents` role manages Claude Code and OMP. Hunk and Herdr have separate roles.
+
+Graphite belongs to the work profile, and Slack belongs to work desktops.
+Personal desktops include Blender, Godot, Steam, and the gdtoolkit uv tool.
+
+Go manages gopls, goimports, and gofumpt. pnpm manages TypeScript,
+typescript-language-server, and Knip. uv manages Trafilatura in both profiles.
+Keep one installation of each tool under its declared manager.
+
+The project-local `package-audit` skill works in Claude (`/package-audit`) and OMP
+(`/skill:package-audit`) from this repository. OMP's `.omp/skills/package-audit`
+links to `.claude/skills/package-audit`, so both use one source even with OMP's
+Claude provider disabled. Nothing installs globally.
+It lists global packages with short descriptions, omits defaults and required
+dependencies, and makes no changes.
+
+Use `/package-cleanup <packages>` in Claude or `/skill:package-cleanup <packages>`
+in OMP after an audit. It requires explicit approval of the exact uninstall and
+leftover-file removal plan before changing anything. The cleanup skill uses the
+same project-local symlink layout.
+
+Use `/leftover-audit` in Claude or `/skill:leftover-audit` in OMP to check macOS
+caches and application remnants without package names. It reports sizes,
+ownership evidence, and cleanup risks without deleting anything. It also uses
+one shared project-local source.
 
 ## Removal and safety
 

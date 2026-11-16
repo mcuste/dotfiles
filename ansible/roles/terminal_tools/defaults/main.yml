@@ -25,3 +25,6 @@ terminal_tools_packages:
   - yazi
   - gum
   - lazygit
+  - d2
+  - stow
+  - vhs

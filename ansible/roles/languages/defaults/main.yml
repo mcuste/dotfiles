@@ -10,8 +10,10 @@ languages_packages:
   - shfmt
   - cmake-language-server
   - dotnet@8
+  - hashicorp/tap/packer
   - hashicorp/tap/terraform
   - terraform-ls
+  - terramate
   - lua
   - luv
   - lpeg
@@ -23,6 +25,7 @@ languages_packages:
   - go
   - delve
   - golangci-lint
+  - golangci-lint-langserver
   - rustup
   - llvm
   - protobuf
@@ -60,6 +63,8 @@ languages_rust_components:
 languages_cargo_tools:
   - cargo-machete
   - cargo-deny
+  - cargo-claim
+  - cross
 languages_pnpm_home: "{{ dotfiles_home }}/{{ 'Library/pnpm' if ansible_facts['system'] == 'Darwin' else '.local/share/pnpm' }}"
 languages_pnpm_tools:
   - name: typescript
@@ -68,6 +73,9 @@ languages_pnpm_tools:
     package: typescript-language-server
   - name: knip
     package: knip
+languages_uv_tools:
+  - name: trafilatura
+    command: trafilatura
 languages_personal_uv_tools:
   - name: gdtoolkit
     command: gdlint

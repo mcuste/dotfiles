@@ -3,12 +3,9 @@
   ansible.builtin.stat:
     path: "{{ dotfiles_brew_path }}/uv"
   register: languages_uv_executable
-  when: dotfiles_personal | bool or languages_state == 'absent'
 
-- name: Manage personal uv tools
-  when:
-    - dotfiles_personal | bool or languages_state == 'absent'
-    - languages_uv_executable.stat.exists
+- name: Manage uv tools
+  when: languages_uv_executable.stat.exists
   block:
     - name: Read installed uv tools
       ansible.builtin.command:
@@ -22,7 +19,7 @@
 
     - name: Manage owned uv tools
       ansible.builtin.include_tasks: uv_tool.yml
-      loop: "{{ languages_personal_uv_tools }}"
+      loop: "{{ languages_uv_tools + (languages_personal_uv_tools if languages_state == 'absent' or (dotfiles_personal | bool and 'desktop' in group_names) else []) }}"
       loop_control:
         loop_var: languages_uv_tool
         label: "{{ languages_uv_tool.name }}"

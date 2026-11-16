@@ -27,7 +27,7 @@
       ansible.builtin.include_tasks: python.yml
       when: languages_state == 'present'
 
-    - name: Manage personal Python tools
+    - name: Manage Python tools
       ansible.builtin.include_tasks: uv.yml
 
     - name: Remove language packages after their tools

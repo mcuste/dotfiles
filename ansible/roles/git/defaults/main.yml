@@ -1,8 +1,10 @@
 ---
 git_state: present
-git_packages:
+git_common_packages:
   - gh
   - git-lfs
   - git-delta
   - gnupg
+git_work_packages:
   - withgraphite/tap/graphite
+git_packages: "{{ git_common_packages + (git_work_packages if dotfiles_profile == 'work' else []) }}"

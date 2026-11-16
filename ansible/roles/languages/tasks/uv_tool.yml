@@ -13,11 +13,11 @@
       - "{{ dotfiles_brew_path }}/uv"
       - tool
       - install
+      - --force
       - "{{ languages_uv_tool.name }}"
   when:
     - languages_state == 'present'
     - languages_uv_command.rc != 0
-    - languages_uv_list.stdout is not search('(?m)^' ~ languages_uv_tool.name ~ ' v')
 
 - name: Remove owned uv tool
   ansible.builtin.command:

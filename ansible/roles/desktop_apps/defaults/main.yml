@@ -13,6 +13,8 @@ desktop_apps_common_casks:
 desktop_apps_personal_casks:
   - protonvpn
   - godot
+  - blender
+  - steam
   - calibre
   - anki
 desktop_apps_work_casks:
