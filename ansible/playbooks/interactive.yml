@@ -1,0 +1,17 @@
+- name: Validate interactive desktop setup
+  hosts: desktop:&interactive
+  gather_facts: true
+  gather_subset: ["!all", "!min", system, architecture, user_dir]
+  environment:
+    PATH: "{{ dotfiles_path if 'user_dir' in ansible_facts else '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/homebrew/bin:/home/linuxbrew/.linuxbrew/bin' }}"
+  tasks:
+    - name: Validate Handy setup
+      ansible.builtin.include_role:
+        name: handy
+        tasks_from: interactive
+      when: dotfiles_interactive_feature | default('all') in ['all', 'handy']
+    - name: Validate Shortcuts setup
+      ansible.builtin.include_role:
+        name: shortcuts
+        tasks_from: interactive
+      when: dotfiles_interactive_feature | default('all') in ['all', 'shortcuts']

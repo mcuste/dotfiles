@@ -1,0 +1,65 @@
+- name: Inspect the destination
+  ansible.builtin.stat:
+    path: "{{ dotfiles_home }}/{{ managed_file.path }}"
+    follow: false
+    checksum_algorithm: sha256
+  register: managed_file_target
+
+- name: Refuse to replace unrelated files with links
+  ansible.builtin.assert:
+    that:
+      - not managed_file_target.stat.exists or managed_file_target.stat.islnk | default(false)
+    fail_msg: "Move the existing regular file aside before linking {{ managed_file.path }}."
+  when:
+    - managed_files_state == 'present'
+    - not managed_file.template | default(false) | bool
+
+- name: Create configuration parent directories
+  ansible.builtin.file:
+    path: "{{ dotfiles_home }}/{{ managed_file.path | dirname }}"
+    state: directory
+  when: managed_files_state == 'present'
+
+- name: Link configuration from the persistent checkout
+  ansible.builtin.file:
+    src: "{{ dotfiles_checkout }}/ansible/roles/{{ managed_files_owner }}/files/{{ managed_file.path }}"
+    path: "{{ dotfiles_home }}/{{ managed_file.path }}"
+    state: link
+  when:
+    - managed_files_state == 'present'
+    - not managed_file.template | default(false) | bool
+
+- name: Render target-user configuration
+  ansible.builtin.template:
+    src: "{{ playbook_dir }}/../roles/{{ managed_files_owner }}/templates/{{ managed_file.path }}.j2"
+    dest: "{{ dotfiles_home }}/{{ managed_file.path }}"
+    mode: "{{ managed_file.mode }}"
+    follow: false
+    backup: true
+  when:
+    - managed_files_state == 'present'
+    - managed_file.template | default(false) | bool
+
+- name: Verify ownership before removal
+  ansible.builtin.assert:
+    that:
+      - >-
+        (managed_file_target.stat.islnk | default(false) and
+         managed_file_target.stat.lnk_source == dotfiles_checkout + '/ansible/roles/' + managed_files_owner + '/files/' + managed_file.path)
+        or
+        (managed_file.template | default(false) | bool and
+         managed_file_target.stat.isreg | default(false) and
+         managed_file_target.stat.checksum ==
+         (lookup('ansible.builtin.template', playbook_dir + '/../roles/' + managed_files_owner + '/templates/' + managed_file.path + '.j2') | hash('sha256')))
+    fail_msg: "Refusing to remove an unowned or edited file: {{ managed_file.path }}. Remove it explicitly after review."
+  when:
+    - managed_files_state == 'absent'
+    - managed_file_target.stat.exists or managed_file_target.stat.islnk | default(false)
+
+- name: Remove unchanged owned configuration
+  ansible.builtin.file:
+    path: "{{ dotfiles_home }}/{{ managed_file.path }}"
+    state: absent
+  when:
+    - managed_files_state == 'absent'
+    - managed_file_target.stat.exists or managed_file_target.stat.islnk | default(false)

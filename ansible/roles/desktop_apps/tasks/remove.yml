@@ -1,0 +1,16 @@
+---
+- name: Remove desktop casks without application data
+  community.general.homebrew_cask:
+    name: "{{ desktop_apps_casks }}"
+    state: absent
+    path: "{{ dotfiles_brew_path }}"
+    update_homebrew: false
+  when: ansible_facts['system'] == 'Darwin'
+
+- name: Remove desktop formulae
+  community.general.homebrew:
+    name: "{{ desktop_apps_formulae }}"
+    state: absent
+    path: "{{ dotfiles_brew_path }}"
+    update_homebrew: false
+  when: ansible_facts['system'] == 'Darwin'

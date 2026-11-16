@@ -1,0 +1,19 @@
+---
+- name: Validate Git state
+  ansible.builtin.assert:
+    that: git_state in ['present', 'absent']
+
+- name: Manage Git packages
+  community.general.homebrew:
+    name: "{{ git_packages }}"
+    state: "{{ git_state }}"
+    path: "{{ dotfiles_brew_path }}"
+    update_homebrew: false
+  environment:
+    HOMEBREW_NO_AUTO_UPDATE: "1"
+    HOMEBREW_NO_INSTALL_UPGRADE: "1"
+    HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: "1"
+  when: dotfiles_install_software | bool
+
+- name: Configure Git
+  ansible.builtin.import_tasks: configure.yml

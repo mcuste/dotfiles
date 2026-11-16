@@ -1,0 +1,11 @@
+---
+cloud_tools_state: present
+cloud_tools_casks:
+  - gcloud-cli
+cloud_tools_supported_systems:
+  - Darwin
+  - Linux
+cloud_tools_supported_architectures:
+  - arm64
+  - aarch64
+  - x86_64

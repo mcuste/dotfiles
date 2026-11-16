@@ -1,0 +1,54 @@
+---
+- name: Remove owned Herdr plugins and integrations
+  when: herdr_executable.stat.exists
+  block:
+    - name: Read installed Herdr plugin metadata
+      ansible.builtin.command:
+        argv:
+          - "{{ dotfiles_brew_path }}/herdr"
+          - plugin
+          - list
+          - --json
+      register: herdr_plugin_metadata
+      changed_when: false
+      check_mode: false
+
+    - name: Uninstall only declared Herdr plugins
+      ansible.builtin.command:
+        argv:
+          - "{{ dotfiles_brew_path }}/herdr"
+          - plugin
+          - uninstall
+          - "{{ item }}"
+      loop: "{{ herdr_owned_plugins }}"
+      when: item in ((herdr_plugin_metadata.stdout | from_json).result.plugins | map(attribute='plugin_id') | list)
+      changed_when: true
+
+    - name: Read Herdr integration status
+      ansible.builtin.command:
+        argv:
+          - "{{ dotfiles_brew_path }}/herdr"
+          - integration
+          - status
+      register: herdr_integration_status
+      changed_when: false
+      check_mode: false
+
+    - name: Uninstall only declared Herdr integrations
+      ansible.builtin.command:
+        argv:
+          - "{{ dotfiles_brew_path }}/herdr"
+          - integration
+          - uninstall
+          - "{{ item }}"
+      loop: "{{ herdr_integrations }}"
+      when: "(herdr_integration_status.stdout_lines | select('match', '^' ~ item ~ ': (current|outdated)(?: |$)') | list | length) > 0"
+      changed_when: true
+
+- name: Remove Herdr formulae
+  community.general.homebrew:
+    name: "{{ herdr_formulae }}"
+    state: absent
+    path: "{{ dotfiles_brew_path }}"
+    update_homebrew: false
+  when: dotfiles_install_software | bool

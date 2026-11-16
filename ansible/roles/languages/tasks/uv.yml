@@ -1,0 +1,28 @@
+---
+- name: Inspect uv executable
+  ansible.builtin.stat:
+    path: "{{ dotfiles_brew_path }}/uv"
+  register: languages_uv_executable
+  when: dotfiles_personal | bool or languages_state == 'absent'
+
+- name: Manage personal uv tools
+  when:
+    - dotfiles_personal | bool or languages_state == 'absent'
+    - languages_uv_executable.stat.exists
+  block:
+    - name: Read installed uv tools
+      ansible.builtin.command:
+        argv:
+          - "{{ dotfiles_brew_path }}/uv"
+          - tool
+          - list
+      register: languages_uv_list
+      changed_when: false
+      check_mode: false
+
+    - name: Manage owned uv tools
+      ansible.builtin.include_tasks: uv_tool.yml
+      loop: "{{ languages_personal_uv_tools }}"
+      loop_control:
+        loop_var: languages_uv_tool
+        label: "{{ languages_uv_tool.name }}"

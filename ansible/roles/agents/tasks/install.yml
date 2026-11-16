@@ -1,0 +1,16 @@
+---
+- name: Install agent formulae
+  community.general.homebrew:
+    name: "{{ agents_formulae }}"
+    state: present
+    path: "{{ dotfiles_brew_path }}"
+    update_homebrew: false
+
+- name: Install agent casks
+  community.general.homebrew_cask:
+    name: "{{ agents_casks }}"
+    state: present
+    path: "{{ dotfiles_brew_path }}"
+    update_homebrew: false
+    install_options: "appdir={{ dotfiles_home }}/Applications"
+  when: ansible_facts['system'] == 'Darwin'

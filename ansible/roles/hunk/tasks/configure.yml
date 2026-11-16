@@ -1,0 +1,9 @@
+- name: Deploy hunk configuration
+  ansible.builtin.include_role:
+    name: managed_files
+  vars:
+    managed_files_owner: hunk
+    managed_files_state: "{{ hunk_state }}"
+    managed_files_entries:
+      - path: ".config/hunk/config.toml"
+        mode: "0644"

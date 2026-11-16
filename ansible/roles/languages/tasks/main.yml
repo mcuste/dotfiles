@@ -1,0 +1,38 @@
+---
+- name: Validate languages state
+  ansible.builtin.assert:
+    that: languages_state in ['present', 'absent']
+
+- name: Manage language software
+  when: dotfiles_install_software | bool
+  environment:
+    HOMEBREW_NO_AUTO_UPDATE: "1"
+    HOMEBREW_NO_INSTALL_UPGRADE: "1"
+    HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: "1"
+  block:
+    - name: Install language packages before their tools
+      ansible.builtin.include_tasks: packages.yml
+      when: languages_state == 'present'
+
+    - name: Manage Go tools
+      ansible.builtin.include_tasks: go.yml
+
+    - name: Manage Rust tools
+      ansible.builtin.include_tasks: rust.yml
+
+    - name: Manage pnpm tools
+      ansible.builtin.include_tasks: pnpm.yml
+
+    - name: Install uv-managed Python versions
+      ansible.builtin.include_tasks: python.yml
+      when: languages_state == 'present'
+
+    - name: Manage personal Python tools
+      ansible.builtin.include_tasks: uv.yml
+
+    - name: Remove language packages after their tools
+      ansible.builtin.include_tasks: packages.yml
+      when: languages_state == 'absent'
+
+- name: Configure languages
+  ansible.builtin.import_tasks: configure.yml

@@ -1,0 +1,7 @@
+---
+neovim_state: present
+neovim_packages:
+  - neovim
+  - imagemagick
+  - ghostscript
+  - tectonic

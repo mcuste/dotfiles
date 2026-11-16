@@ -1,0 +1,21 @@
+---
+desktop_apps_state: present
+desktop_apps_formulae:
+  - openai/tools/tart
+desktop_apps_common_casks:
+  - brave-browser
+  - ghostty
+  - proton-pass
+  - font-jetbrains-mono-nerd-font
+  - obsidian
+  - visual-studio-code
+  - spotify
+desktop_apps_personal_casks:
+  - protonvpn
+  - godot
+  - calibre
+  - anki
+desktop_apps_work_casks:
+  - slack
+  - jetbrains-toolbox
+desktop_apps_casks: "{{ desktop_apps_common_casks + (desktop_apps_work_casks if dotfiles_profile == 'work' else desktop_apps_personal_casks) }}"

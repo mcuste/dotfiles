@@ -1,0 +1,32 @@
+- name: Deploy containers configuration
+  ansible.builtin.include_role:
+    name: managed_files
+  vars:
+    managed_files_owner: containers
+    managed_files_state: "{{ containers_state }}"
+    managed_files_entries:
+      - path: ".config/k9s/aliases.yaml"
+        mode: "0644"
+      - path: ".config/k9s/clusters/gke_tensorflow-training-176320_us-west1_datacenter-playground-cluster/gke_tensorflow-training-176320_us-west1_datacenter-playground-cluster/benchmarks.yaml"
+        mode: "0644"
+      - path: ".config/k9s/clusters/gke_tensorflow-training-176320_us-west1_datacenter-playground-cluster/gke_tensorflow-training-176320_us-west1_datacenter-playground-cluster/config.yaml"
+        mode: "0644"
+      - path: ".config/k9s/config.yaml"
+        mode: "0644"
+        template: true
+      - path: ".config/k9s/skins/catppuccin-frappe-transparent.yaml"
+        mode: "0644"
+      - path: ".config/k9s/skins/catppuccin-frappe.yaml"
+        mode: "0644"
+      - path: ".config/k9s/skins/catppuccin-latte-transparent.yaml"
+        mode: "0644"
+      - path: ".config/k9s/skins/catppuccin-latte.yaml"
+        mode: "0644"
+      - path: ".config/k9s/skins/catppuccin-macchiato-transparent.yaml"
+        mode: "0644"
+      - path: ".config/k9s/skins/catppuccin-macchiato.yaml"
+        mode: "0644"
+      - path: ".config/k9s/skins/catppuccin-mocha-transparent.yaml"
+        mode: "0644"
+      - path: ".config/k9s/skins/catppuccin-mocha.yaml"
+        mode: "0644"

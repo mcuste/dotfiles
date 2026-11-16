@@ -1,0 +1,27 @@
+---
+terminal_tools_state: present
+terminal_tools_packages:
+  - ffmpeg
+  - lsof
+  - unzip
+  - wget
+  - rsync
+  - eza
+  - fzf
+  - fd
+  - ripgrep
+  - zoxide
+  - bat
+  - ncdu
+  - jq
+  - hyperfine
+  - entr
+  - just
+  - make
+  - fastfetch
+  - htop
+  - bottom
+  - tokei
+  - yazi
+  - gum
+  - lazygit

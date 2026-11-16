@@ -1,0 +1,55 @@
+---
+- name: Inspect pnpm executable
+  ansible.builtin.stat:
+    path: "{{ dotfiles_brew_path }}/pnpm"
+  register: languages_pnpm_executable
+
+- name: Manage global pnpm packages
+  when: languages_pnpm_executable.stat.exists
+  environment:
+    PNPM_HOME: "{{ languages_pnpm_home }}"
+  block:
+    - name: Read installed global pnpm packages
+      ansible.builtin.command:
+        argv:
+          - "{{ dotfiles_brew_path }}/pnpm"
+          - list
+          - --global
+          - --depth=0
+          - --json
+      register: languages_pnpm_list
+      changed_when: false
+      check_mode: false
+
+    - name: Record installed global pnpm packages
+      ansible.builtin.set_fact:
+        languages_pnpm_installed: >-
+          {{ ((languages_pnpm_list.stdout | from_json | first | default({})).dependencies | default({})).keys() | list }}
+
+    - name: Install missing global pnpm packages
+      ansible.builtin.command:
+        argv:
+          - "{{ dotfiles_brew_path }}/pnpm"
+          - add
+          - --global
+          - "{{ item.package }}"
+      loop: "{{ languages_pnpm_tools }}"
+      loop_control:
+        label: "{{ item.name }}"
+      when:
+        - languages_state == 'present'
+        - item.name not in languages_pnpm_installed
+
+    - name: Remove owned global pnpm packages
+      ansible.builtin.command:
+        argv:
+          - "{{ dotfiles_brew_path }}/pnpm"
+          - remove
+          - --global
+          - "{{ item.name }}"
+      loop: "{{ languages_pnpm_tools }}"
+      loop_control:
+        label: "{{ item.name }}"
+      when:
+        - languages_state == 'absent'
+        - item.name in languages_pnpm_installed

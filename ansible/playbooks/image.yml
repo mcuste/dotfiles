@@ -1,0 +1,16 @@
+- name: Require explicit image-build inventory
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Validate image deployment boundaries
+      tags: [always]
+      ansible.builtin.assert:
+        that:
+          - "'image_builds' in group_names"
+          - dotfiles_image_build | bool
+          - not dotfiles_interactive | bool
+          - "'interactive' not in group_names"
+        fail_msg: Select an image inventory. The default local inventory is not an image target.
+
+- name: Configure image user defaults
+  ansible.builtin.import_playbook: configure.yml

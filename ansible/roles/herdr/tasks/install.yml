@@ -1,0 +1,7 @@
+---
+- name: Install herdr formulae
+  community.general.homebrew:
+    name: "{{ herdr_formulae }}"
+    state: present
+    path: "{{ dotfiles_brew_path }}"
+    update_homebrew: false

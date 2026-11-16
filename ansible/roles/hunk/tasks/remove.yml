@@ -1,0 +1,35 @@
+---
+- name: Remove owned Hunk extensions
+  when: hunk_executable.stat.exists
+  block:
+    - name: Inspect Hunk extension records
+      ansible.builtin.stat:
+        path: "{{ dotfiles_home }}/.config/hunk/extensions/installed/records.json"
+      register: hunk_extension_records_file
+
+    - name: Read Hunk extension records
+      ansible.builtin.slurp:
+        src: "{{ dotfiles_home }}/.config/hunk/extensions/installed/records.json"
+      register: hunk_extension_records
+      when: hunk_extension_records_file.stat.exists
+
+    - name: Remove declared Hunk extensions through the native CLI
+      ansible.builtin.command:
+        argv:
+          - "{{ dotfiles_brew_path }}/hunk"
+          - extension
+          - remove
+          - "{{ item }}"
+      loop: "{{ hunk_owned_extensions }}"
+      when:
+        - hunk_extension_records_file.stat.exists
+        - item in (hunk_extension_records.content | b64decode | from_json).installs
+      changed_when: true
+
+- name: Remove Hunk formulae
+  community.general.homebrew:
+    name: "{{ hunk_formulae }}"
+    state: absent
+    path: "{{ dotfiles_brew_path }}"
+    update_homebrew: false
+  when: dotfiles_install_software | bool

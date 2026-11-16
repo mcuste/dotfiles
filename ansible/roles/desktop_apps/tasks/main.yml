@@ -1,0 +1,20 @@
+---
+- name: Validate desktop_apps state
+  ansible.builtin.assert:
+    that:
+      - desktop_apps_state in ['present', 'absent']
+
+- name: Install desktop_apps software
+  ansible.builtin.import_tasks: install.yml
+  when:
+    - desktop_apps_state == 'present'
+    - dotfiles_install_software | bool
+
+- name: Remove desktop_apps software
+  ansible.builtin.import_tasks: remove.yml
+  when:
+    - desktop_apps_state == 'absent'
+    - dotfiles_install_software | bool
+
+- name: Manage desktop_apps configuration
+  ansible.builtin.import_tasks: configure.yml

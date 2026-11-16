@@ -1,0 +1,38 @@
+---
+- name: Inspect Hunk extension records
+  ansible.builtin.stat:
+    path: "{{ dotfiles_home }}/.config/hunk/extensions/installed/records.json"
+  register: hunk_extension_records_file
+
+- name: Read Hunk extension records
+  ansible.builtin.slurp:
+    src: "{{ dotfiles_home }}/.config/hunk/extensions/installed/records.json"
+  register: hunk_extension_records
+  when: hunk_extension_records_file.stat.exists
+
+- name: Collect installed Hunk extension names
+  ansible.builtin.set_fact:
+    hunk_installed_extensions: "{{ (hunk_extension_records.content | b64decode | from_json).installs.keys() | list if hunk_extension_records_file.stat.exists else [] }}"
+    hunk_desired_extensions: "{{ hunk_extensions | map('regex_replace', '^.*/', '') | list }}"
+
+- name: Install missing Hunk extensions
+  ansible.builtin.command:
+    argv:
+      - "{{ dotfiles_brew_path }}/hunk"
+      - extension
+      - install
+      - "{{ item }}"
+      - --yes
+  loop: "{{ hunk_extensions }}"
+  when: item.split('/')[-1] not in hunk_installed_extensions
+  changed_when: true
+
+- name: Remove Hunk extensions omitted from the declared list
+  ansible.builtin.command:
+    argv:
+      - "{{ dotfiles_brew_path }}/hunk"
+      - extension
+      - remove
+      - "{{ item }}"
+  loop: "{{ hunk_installed_extensions | intersect(hunk_owned_extensions) | difference(hunk_desired_extensions) }}"
+  changed_when: true

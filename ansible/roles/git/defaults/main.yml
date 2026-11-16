@@ -1,0 +1,8 @@
+---
+git_state: present
+git_packages:
+  - gh
+  - git-lfs
+  - git-delta
+  - gnupg
+  - withgraphite/tap/graphite

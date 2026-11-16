@@ -1,0 +1,30 @@
+---
+- name: Create Go tool directory
+  ansible.builtin.file:
+    path: "{{ languages_go_bin }}"
+    state: directory
+    mode: "0755"
+  when: languages_state == 'present'
+
+- name: Install missing Go tools
+  ansible.builtin.command:
+    argv:
+      - "{{ dotfiles_brew_path }}/go"
+      - install
+      - "{{ item.package }}@latest"
+    creates: "{{ languages_go_bin }}/{{ item.name }}"
+  environment:
+    GOBIN: "{{ languages_go_bin }}"
+  loop: "{{ languages_go_tools }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when: languages_state == 'present'
+
+- name: Remove owned Go tools
+  ansible.builtin.file:
+    path: "{{ languages_go_bin }}/{{ item.name }}"
+    state: absent
+  loop: "{{ languages_go_tools }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when: languages_state == 'absent'

@@ -1,0 +1,102 @@
+---
+- name: Read installed Herdr plugin metadata
+  ansible.builtin.command:
+    argv:
+      - "{{ dotfiles_brew_path }}/herdr"
+      - plugin
+      - list
+      - --json
+  register: herdr_plugin_metadata
+  changed_when: false
+  check_mode: false
+
+- name: Collect installed Herdr plugin states
+  ansible.builtin.set_fact:
+    herdr_installed_plugins: "{{ (herdr_plugin_metadata.stdout | from_json).result.plugins }}"
+
+- name: Remove owned Herdr plugins omitted from the declared list
+  ansible.builtin.command:
+    argv:
+      - "{{ dotfiles_brew_path }}/herdr"
+      - plugin
+      - uninstall
+      - "{{ item }}"
+  loop: "{{ herdr_installed_plugins | map(attribute='plugin_id') | intersect(herdr_owned_plugins) | difference(herdr_plugins | map(attribute='name') | list) }}"
+  register: herdr_plugin_removals
+  changed_when: true
+
+- name: Install missing Herdr plugins
+  ansible.builtin.command:
+    argv:
+      - "{{ dotfiles_brew_path }}/herdr"
+      - plugin
+      - install
+      - "{{ item.source }}"
+      - --yes
+  loop: "{{ herdr_plugins }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when: item.name not in (herdr_installed_plugins | map(attribute='plugin_id') | list)
+  register: herdr_plugin_installs
+  changed_when: true
+
+- name: Enable declared Herdr plugins
+  ansible.builtin.command:
+    argv:
+      - "{{ dotfiles_brew_path }}/herdr"
+      - plugin
+      - enable
+      - "{{ item.name }}"
+  loop: "{{ herdr_plugins }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when: item.name not in (herdr_installed_plugins | selectattr('enabled') | map(attribute='plugin_id') | list)
+  register: herdr_plugin_enables
+  changed_when: true
+
+- name: Read Herdr integration status
+  ansible.builtin.command:
+    argv:
+      - "{{ dotfiles_brew_path }}/herdr"
+      - integration
+      - status
+  register: herdr_integration_status
+  changed_when: false
+  check_mode: false
+
+- name: Install missing Herdr integrations
+  ansible.builtin.command:
+    argv:
+      - "{{ dotfiles_brew_path }}/herdr"
+      - integration
+      - install
+      - "{{ item }}"
+  loop: "{{ herdr_integrations }}"
+  when: "(herdr_integration_status.stdout_lines | select('match', '^' ~ item ~ ': not installed(?: |$)') | list | length) > 0"
+  changed_when: true
+
+- name: Inspect running Herdr server
+  ansible.builtin.command:
+    argv:
+      - pgrep
+      - -f
+      - "(^|/)herdr server($| )"
+  register: herdr_server_process
+  changed_when: false
+  failed_when: herdr_server_process.rc not in [0, 1]
+  check_mode: false
+  when:
+    - not dotfiles_image_build | bool
+    - herdr_plugin_installs is changed or herdr_plugin_enables is changed or herdr_plugin_removals is changed
+
+- name: Reload Herdr plugins in the running server
+  ansible.builtin.command:
+    argv:
+      - "{{ dotfiles_brew_path }}/herdr"
+      - server
+      - reload-config
+  when:
+    - not dotfiles_image_build | bool
+    - herdr_plugin_installs is changed or herdr_plugin_enables is changed or herdr_plugin_removals is changed
+    - herdr_server_process.rc | default(1) == 0
+  changed_when: true

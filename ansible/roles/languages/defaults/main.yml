@@ -1,0 +1,76 @@
+---
+languages_state: present
+languages_packages:
+  - pnpm
+  - oven-sh/bun/bun
+  - uv
+  - marksman
+  - bash-language-server
+  - shellcheck
+  - shfmt
+  - cmake-language-server
+  - dotnet@8
+  - hashicorp/tap/terraform
+  - terraform-ls
+  - lua
+  - luv
+  - lpeg
+  - luajit
+  - luarocks
+  - lua-language-server
+  - stylua
+  - selene
+  - go
+  - delve
+  - golangci-lint
+  - rustup
+  - llvm
+  - protobuf
+  - cargo-nextest
+  - taplo
+  - sccache
+  - ruff
+  - pyright
+  - node
+  - vscode-langservers-extracted
+  - superhtml
+  - tailwindcss-language-server
+  - biome
+  - eslint
+  - prettier
+  - tree-sitter
+  - tree-sitter-cli
+languages_casks:
+  - terraform-linters/tap/tflint
+languages_go_bin: "{{ dotfiles_home }}/.go/bin"
+languages_go_tools:
+  - name: gopls
+    package: golang.org/x/tools/gopls
+  - name: goimports
+    package: golang.org/x/tools/cmd/goimports
+  - name: gofumpt
+    package: mvdan.cc/gofumpt
+languages_cargo_home: "{{ dotfiles_home }}/.cargo"
+languages_rustup_home: "{{ dotfiles_home }}/.rustup"
+languages_rustup_bin: "{{ dotfiles_brew_path | dirname }}/opt/rustup/bin"
+languages_rust_components:
+  - rust-analyzer
+  - rustfmt
+  - clippy
+languages_cargo_tools:
+  - cargo-machete
+  - cargo-deny
+languages_pnpm_home: "{{ dotfiles_home }}/{{ 'Library/pnpm' if ansible_facts['system'] == 'Darwin' else '.local/share/pnpm' }}"
+languages_pnpm_tools:
+  - name: typescript
+    package: typescript@6
+  - name: typescript-language-server
+    package: typescript-language-server
+  - name: knip
+    package: knip
+languages_personal_uv_tools:
+  - name: gdtoolkit
+    command: gdlint
+languages_python_versions:
+  - "3"
+  - "3.13"

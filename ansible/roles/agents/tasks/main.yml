@@ -1,0 +1,20 @@
+---
+- name: Validate agents state
+  ansible.builtin.assert:
+    that:
+      - agents_state in ['present', 'absent']
+
+- name: Install agents software
+  ansible.builtin.import_tasks: install.yml
+  when:
+    - agents_state == 'present'
+    - dotfiles_install_software | bool
+
+- name: Remove agents software
+  ansible.builtin.import_tasks: remove.yml
+  when:
+    - agents_state == 'absent'
+    - dotfiles_install_software | bool
+
+- name: Manage agents configuration
+  ansible.builtin.import_tasks: configure.yml

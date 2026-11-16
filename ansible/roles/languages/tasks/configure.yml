@@ -1,0 +1,9 @@
+- name: Deploy languages configuration
+  ansible.builtin.include_role:
+    name: managed_files
+  vars:
+    managed_files_owner: languages
+    managed_files_state: "{{ languages_state }}"
+    managed_files_entries:
+      - path: ".cargo/config.toml"
+        mode: "0644"

@@ -1,0 +1,14 @@
+---
+herdr_state: present
+herdr_formulae:
+  - herdr
+herdr_plugins:
+  - name: herdr-splits
+    source: lmilojevicc/herdr-splits.nvim
+  - name: herdr-workspacer
+    source: mcuste/herdr-workspacer
+herdr_owned_plugins:
+  - herdr-splits
+  - herdr-workspacer
+herdr_integrations:
+  - omp

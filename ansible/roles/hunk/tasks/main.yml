@@ -1,0 +1,30 @@
+---
+- name: Validate hunk state
+  ansible.builtin.assert:
+    that:
+      - hunk_state in ['present', 'absent']
+
+- name: Install hunk software
+  ansible.builtin.import_tasks: install.yml
+  when:
+    - hunk_state == 'present'
+    - dotfiles_install_software | bool
+
+- name: Inspect hunk executable
+  ansible.builtin.stat:
+    path: "{{ dotfiles_brew_path }}/hunk"
+  register: hunk_executable
+
+- name: Remove hunk software
+  ansible.builtin.import_tasks: remove.yml
+  when:
+    - hunk_state == 'absent'
+
+- name: Manage hunk configuration
+  ansible.builtin.import_tasks: configure.yml
+
+- name: Configure hunk plugins
+  ansible.builtin.import_tasks: plugins.yml
+  when:
+    - hunk_state == 'present'
+    - hunk_executable.stat.exists

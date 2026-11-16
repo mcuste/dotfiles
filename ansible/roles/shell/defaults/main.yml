@@ -1,0 +1,41 @@
+---
+shell_state: present
+shell_packages:
+  - fish
+  - zsh
+  - starship
+
+shell_brew_prefix: "{{ dotfiles_brew_path | dirname }}"
+shell_environment:
+  EDITOR: nvim
+  VISUAL: nvim
+  GOPATH: "$HOME/.go"
+  DOTNET_ROOT: "{{ shell_brew_prefix }}/opt/dotnet@8/libexec"
+  PNPM_HOME: "{{ '$HOME/Library/pnpm' if ansible_facts['system'] == 'Darwin' else '$HOME/.local/share/pnpm' }}"
+  XDG_CONFIG_HOME: "$HOME/.config"
+  K9S_CONFIG_DIR: "$HOME/.config/k9s"
+shell_paths:
+  - "$HOME/.dotnet/tools"
+  - "{{ shell_environment.PNPM_HOME }}/bin"
+  - "{{ shell_environment.PNPM_HOME }}"
+  - "$HOME/.go/bin"
+  - "$HOME/.local/bin"
+  - "{{ shell_brew_prefix }}/opt/dotnet@8/bin"
+  - "{{ shell_brew_prefix }}/opt/llvm/bin"
+  - "$HOME/.cargo/bin"
+  - "{{ shell_brew_prefix }}/opt/rustup/bin"
+  - "{{ shell_brew_prefix }}/sbin"
+  - "{{ shell_brew_prefix }}/bin"
+shell_aliases:
+  eza: "eza --icons auto --git"
+  ls: eza
+  l: eza
+  la: "eza -a"
+  ll: "eza -l"
+  lt: "eza --tree"
+  lla: "eza -la"
+  g: git
+  v: nvim
+  k: kubectl
+  lg: lazygit
+  vimdiff: "nvim -d"

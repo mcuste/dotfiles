@@ -1,0 +1,9 @@
+---
+- name: Install handy casks
+  community.general.homebrew_cask:
+    name: "{{ handy_casks }}"
+    state: present
+    path: "{{ dotfiles_brew_path }}"
+    update_homebrew: false
+    install_options: "appdir={{ dotfiles_home }}/Applications"
+  when: ansible_facts['system'] == 'Darwin'

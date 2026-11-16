@@ -1,0 +1,101 @@
+- name: Validate inventory selection
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Require one profile and one machine category
+      tags: [always]
+      ansible.builtin.assert:
+        that:
+          - group_names | intersect(['personal', 'work']) | length == 1
+          - group_names | intersect(['headless', 'desktop']) | length == 1
+          - dotfiles_profile in group_names
+          - "'interactive' not in group_names or 'desktop' in group_names"
+          - "not dotfiles_image_build or ('interactive' not in group_names and not dotfiles_interactive)"
+        fail_msg: Select one profile and headless or desktop. Interactive requires desktop and is not allowed in images.
+
+- name: Configure shared command-line tools
+  hosts: headless:desktop
+  gather_facts: true
+  gather_subset:
+    [
+      "!all",
+      "!min",
+      system,
+      architecture,
+      distribution,
+      user_dir,
+      user_id,
+      user_uid,
+    ]
+  environment:
+    PATH: "{{ dotfiles_path if 'user_dir' in ansible_facts else '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/homebrew/bin:/home/linuxbrew/.linuxbrew/bin' }}"
+    HOMEBREW_NO_AUTO_UPDATE: "1"
+  pre_tasks:
+    - name: Validate deployment settings
+      tags: [always]
+      ansible.builtin.assert:
+        that:
+          - dotfiles_checkout.startswith('/')
+          - dotfiles_home.startswith('/')
+          - ansible_facts['user_id'] != 'root'
+        fail_msg: Run as the intended non-root user and use an absolute persistent checkout path for links.
+    - name: Inspect Homebrew prerequisite
+      tags: [always]
+      ansible.builtin.stat:
+        path: "{{ homebrew_bin }}"
+      register: dotfiles_homebrew
+    - name: Require bootstrapped Homebrew
+      tags: [always]
+      ansible.builtin.assert:
+        that: dotfiles_homebrew.stat.executable | default(false)
+        fail_msg: Run bootstrap.sh as the target user before applying Ansible.
+  roles:
+    - role: shell
+      tags: [shell]
+    - role: git
+      tags: [git]
+    - role: terminal_tools
+      tags: [terminal_tools]
+    - role: scripts
+      tags: [scripts]
+    - role: languages
+      tags: [languages]
+    - role: neovim
+      tags: [neovim]
+    - role: containers
+      tags: [containers]
+    - role: cloud_tools
+      tags: [cloud_tools]
+    - role: agents
+      tags: [agents]
+    - role: hunk
+      tags: [hunk]
+    - role: herdr
+      tags: [herdr]
+
+- name: Configure desktop applications
+  hosts: desktop
+  gather_facts: true
+  gather_subset: ["!all", "!min", system, architecture, distribution, user_dir]
+  environment:
+    PATH: "{{ dotfiles_path }}"
+    HOMEBREW_NO_AUTO_UPDATE: "1"
+  roles:
+    - role: desktop_apps
+      when: ansible_facts['system'] == 'Darwin'
+      tags: [desktop_apps]
+
+- name: Configure tools for attended setup
+  hosts: desktop:&interactive
+  gather_facts: true
+  gather_subset: ["!all", "!min", system, architecture, user_dir]
+  environment:
+    PATH: "{{ dotfiles_path }}"
+    HOMEBREW_NO_AUTO_UPDATE: "1"
+  roles:
+    - role: handy
+      when: ansible_facts['system'] == 'Darwin'
+      tags: [handy]
+    - role: shortcuts
+      when: ansible_facts['system'] == 'Darwin'
+      tags: [shortcuts]

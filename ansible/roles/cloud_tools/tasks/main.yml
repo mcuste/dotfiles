@@ -1,0 +1,30 @@
+---
+- name: Validate cloud tools state
+  ansible.builtin.assert:
+    that: cloud_tools_state in ['present', 'absent']
+
+- name: Manage cloud software
+  when: dotfiles_install_software | bool
+  environment:
+    HOMEBREW_NO_AUTO_UPDATE: "1"
+    HOMEBREW_NO_INSTALL_UPGRADE: "1"
+    HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: "1"
+  block:
+    - name: Validate cloud CLI platform support
+      ansible.builtin.assert:
+        that:
+          - ansible_facts['system'] in cloud_tools_supported_systems
+          - ansible_facts['architecture'] in cloud_tools_supported_architectures
+        fail_msg: >-
+          The gcloud-cli Homebrew cask supports macOS and Linux on ARM64 and x86_64.
+          Exclude cloud_tools on other platforms or provision the CLI yourself.
+
+    - name: Manage cloud CLI casks
+      community.general.homebrew_cask:
+        name: "{{ cloud_tools_casks }}"
+        state: "{{ cloud_tools_state }}"
+        path: "{{ dotfiles_brew_path }}"
+        update_homebrew: false
+
+- name: Configure cloud tools
+  ansible.builtin.import_tasks: configure.yml

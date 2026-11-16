@@ -1,0 +1,36 @@
+- name: Deploy agents configuration
+  ansible.builtin.include_role:
+    name: managed_files
+  vars:
+    managed_files_owner: agents
+    managed_files_state: "{{ agents_state }}"
+    managed_files_entries:
+      - path: ".claude/hooks/bash-guardrails.js"
+        mode: "0755"
+      - path: ".claude/plugins/installed_plugins.json"
+        mode: "0644"
+        template: true
+      - path: ".claude/plugins/known_marketplaces.json"
+        mode: "0644"
+        template: true
+      - path: ".claude/settings.json"
+        mode: "0644"
+      - path: ".claude/statusline.sh"
+        mode: "0644"
+      - path: ".omp/agent/RULES.md"
+        mode: "0644"
+      - path: ".omp/agent/config.yml"
+        mode: "0600"
+      - path: ".omp/agent/extensions/herdr-omp-agent-state.ts"
+        mode: "0644"
+      - path: ".omp/agent/hooks/pre/bash-guardrails.ts"
+        mode: "0644"
+      - path: ".omp/marketplaces.json"
+        mode: "0644"
+        template: true
+      - path: ".omp/plugins/bun.lock"
+        mode: "0644"
+      - path: ".omp/plugins/omp-plugins.lock.json"
+        mode: "0600"
+      - path: ".omp/plugins/package.json"
+        mode: "0644"

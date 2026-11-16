@@ -1,0 +1,14 @@
+---
+- name: Validate shortcuts state
+  ansible.builtin.assert:
+    that:
+      - shortcuts_state in ['present', 'absent']
+
+- name: Manage shortcuts configuration
+  ansible.builtin.import_tasks: configure.yml
+
+- name: Prepare interactive synchronization
+  ansible.builtin.import_tasks: interactive.yml
+  when:
+    - dotfiles_interactive | bool
+    - not dotfiles_image_build | bool

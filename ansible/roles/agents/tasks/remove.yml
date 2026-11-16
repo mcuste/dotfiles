@@ -1,0 +1,15 @@
+---
+- name: Remove agent casks without application data
+  community.general.homebrew_cask:
+    name: "{{ agents_casks }}"
+    state: absent
+    path: "{{ dotfiles_brew_path }}"
+    update_homebrew: false
+  when: ansible_facts['system'] == 'Darwin'
+
+- name: Remove agent formulae
+  community.general.homebrew:
+    name: "{{ agents_formulae }}"
+    state: absent
+    path: "{{ dotfiles_brew_path }}"
+    update_homebrew: false

@@ -1,0 +1,14 @@
+---
+- name: Validate scripts state
+  ansible.builtin.assert:
+    that: scripts_state in ['present', 'absent']
+
+- name: Deploy standalone scripts
+  ansible.builtin.include_role:
+    name: managed_files
+  vars:
+    managed_files_owner: scripts
+    managed_files_state: "{{ scripts_state }}"
+    managed_files_entries:
+      - path: ".local/bin/fetch-prs.sh"
+        mode: "0755"

@@ -1,0 +1,15 @@
+---
+containers_state: present
+containers_packages:
+  - kubectl
+  - k9s
+  - k3d
+  - helm
+  - helm-ls
+  - dockerfile-language-server
+  - yaml-language-server
+  - docker-compose-langserver
+  - hadolint
+  - yamlfmt
+  - yamllint
+containers_macos_casks: "{{ ['orbstack'] if 'desktop' in group_names else [] }}"

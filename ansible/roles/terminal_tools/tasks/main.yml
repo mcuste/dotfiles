@@ -1,0 +1,19 @@
+---
+- name: Validate terminal tools state
+  ansible.builtin.assert:
+    that: terminal_tools_state in ['present', 'absent']
+
+- name: Manage terminal packages
+  community.general.homebrew:
+    name: "{{ terminal_tools_packages }}"
+    state: "{{ terminal_tools_state }}"
+    path: "{{ dotfiles_brew_path }}"
+    update_homebrew: false
+  environment:
+    HOMEBREW_NO_AUTO_UPDATE: "1"
+    HOMEBREW_NO_INSTALL_UPGRADE: "1"
+    HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: "1"
+  when: dotfiles_install_software | bool
+
+- name: Configure terminal tools
+  ansible.builtin.import_tasks: configure.yml

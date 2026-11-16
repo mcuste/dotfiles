@@ -1,0 +1,7 @@
+---
+agents_state: present
+agents_formulae:
+  - rtk
+  - can1357/tap/omp
+agents_claude_code_cask: "{{ 'claude-code@latest' if dotfiles_profile == 'work' else 'claude-code' }}"
+agents_casks: "{{ [agents_claude_code_cask] + (['claude'] if dotfiles_profile == 'personal' and 'desktop' in group_names else []) }}"

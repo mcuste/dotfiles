@@ -1,0 +1,18 @@
+---
+- name: Inspect uv executable for Python management
+  ansible.builtin.stat:
+    path: "{{ dotfiles_brew_path }}/uv"
+  register: languages_python_uv
+
+- name: Install or update uv-managed Python versions
+  ansible.builtin.command:
+    argv:
+      - "{{ dotfiles_brew_path }}/uv"
+      - python
+      - install
+      - --upgrade
+      - "{{ item }}"
+  loop: "{{ languages_python_versions }}"
+  register: languages_python_install
+  changed_when: "'Installed Python' in languages_python_install.stderr"
+  when: languages_python_uv.stat.exists

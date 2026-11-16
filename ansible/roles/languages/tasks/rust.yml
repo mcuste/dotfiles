@@ -1,0 +1,102 @@
+---
+- name: Inspect Homebrew rustup
+  ansible.builtin.stat:
+    path: "{{ languages_rustup_bin }}/rustup"
+  register: languages_rustup_executable
+
+- name: Manage Rust installation
+  when: languages_rustup_executable.stat.exists
+  environment:
+    CARGO_HOME: "{{ languages_cargo_home }}"
+    RUSTUP_HOME: "{{ languages_rustup_home }}"
+    RUSTUP_TOOLCHAIN: stable
+    PATH: "{{ languages_rustup_bin }}:{{ dotfiles_path }}"
+  block:
+    - name: List installed Rust toolchains
+      ansible.builtin.command:
+        argv:
+          - "{{ languages_rustup_bin }}/rustup"
+          - toolchain
+          - list
+      register: languages_rust_toolchains
+      changed_when: false
+      check_mode: false
+
+    - name: Install missing stable Rust toolchain
+      ansible.builtin.command:
+        argv:
+          - "{{ languages_rustup_bin }}/rustup"
+          - toolchain
+          - install
+          - stable
+          - --profile
+          - minimal
+      when:
+        - languages_state == 'present'
+        - languages_rust_toolchains.stdout is not search('(?m)^stable(?:-|\\s|$)')
+
+    - name: Read default Rust toolchain
+      ansible.builtin.command:
+        argv:
+          - "{{ languages_rustup_bin }}/rustup"
+          - default
+      register: languages_rust_default
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      when: languages_state == 'present'
+
+    - name: Select stable Rust toolchain
+      ansible.builtin.command:
+        argv:
+          - "{{ languages_rustup_bin }}/rustup"
+          - default
+          - stable
+      when:
+        - languages_state == 'present'
+        - languages_rust_default.rc != 0 or languages_rust_default.stdout is not search('^stable(?:-|\\s|$)')
+
+    - name: Read installed stable Rust components
+      ansible.builtin.command:
+        argv:
+          - "{{ languages_rustup_bin }}/rustup"
+          - component
+          - list
+          - --installed
+          - --toolchain
+          - stable
+      register: languages_rust_installed_components
+      changed_when: false
+      check_mode: false
+      when:
+        - languages_state == 'present'
+        - not ansible_check_mode or languages_rust_toolchains.stdout is search('(?m)^stable(?:-|\\s|$)')
+
+    - name: Install missing stable Rust components
+      ansible.builtin.command:
+        argv: >-
+          {{ [languages_rustup_bin ~ '/rustup', 'component', 'add', '--toolchain', 'stable']
+             + languages_rust_components | difference(languages_rust_installed_components.stdout | default('')
+               | regex_findall('(?m)^(rust-analyzer|rustfmt|clippy)(?:-|\\s|$)')) }}
+      when:
+        - languages_state == 'present'
+        - >-
+          languages_rust_components | difference(languages_rust_installed_components.stdout | default('')
+          | regex_findall('(?m)^(rust-analyzer|rustfmt|clippy)(?:-|\\s|$)')) | length > 0
+
+    - name: Manage Cargo tools
+      ansible.builtin.include_tasks: cargo.yml
+      loop: "{{ languages_cargo_tools }}"
+      loop_control:
+        loop_var: languages_cargo_tool
+
+    - name: Remove owned stable Rust toolchain
+      ansible.builtin.command:
+        argv:
+          - "{{ languages_rustup_bin }}/rustup"
+          - toolchain
+          - uninstall
+          - stable
+      when:
+        - languages_state == 'absent'
+        - languages_rust_toolchains.stdout is search('(?m)^stable(?:-|\\s|$)')

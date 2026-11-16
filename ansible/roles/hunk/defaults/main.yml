@@ -1,0 +1,10 @@
+---
+hunk_state: present
+hunk_formulae:
+  - hunk
+hunk_extensions:
+  - mcuste/hunk-markdown-preview
+  - mcuste/hunk-stage
+hunk_owned_extensions:
+  - hunk-markdown-preview
+  - hunk-stage

@@ -1,0 +1,8 @@
+---
+- name: Remove handy casks
+  community.general.homebrew_cask:
+    name: "{{ handy_casks }}"
+    state: absent
+    path: "{{ dotfiles_brew_path }}"
+    update_homebrew: false
+  when: ansible_facts['system'] == 'Darwin'

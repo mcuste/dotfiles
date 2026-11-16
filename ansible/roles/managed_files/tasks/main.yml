@@ -1,0 +1,12 @@
+- name: Validate configuration ownership
+  ansible.builtin.assert:
+    that:
+      - managed_files_state in ['present', 'absent']
+      - managed_files_owner is match('^[a-z_]+$')
+
+- name: Manage owned configuration files
+  ansible.builtin.include_tasks: entry.yml
+  loop: "{{ managed_files_entries }}"
+  loop_control:
+    loop_var: managed_file
+    label: "{{ managed_file.path }}"

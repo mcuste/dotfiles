@@ -1,0 +1,50 @@
+---
+- name: Add the official Bun tap
+  community.general.homebrew_tap:
+    name: oven-sh/bun
+    state: present
+    path: "{{ dotfiles_brew_path }}"
+  when:
+    - languages_state == 'present'
+    - "'oven-sh/bun/bun' in languages_packages"
+
+- name: Read explicitly trusted Homebrew packages
+  ansible.builtin.command:
+    argv:
+      - "{{ dotfiles_brew_path }}/brew"
+      - trust
+      - --json=v1
+  register: languages_brew_trust
+  changed_when: false
+  check_mode: false
+  when:
+    - languages_state == 'present'
+    - "'oven-sh/bun/bun' in languages_packages"
+
+- name: Trust the official Bun formula
+  ansible.builtin.command:
+    argv:
+      - "{{ dotfiles_brew_path }}/brew"
+      - trust
+      - --formula
+      - oven-sh/bun/bun
+  when:
+    - languages_state == 'present'
+    - "'oven-sh/bun/bun' in languages_packages"
+    - "'oven-sh/bun' not in (languages_brew_trust.stdout | from_json).taps"
+    - "'oven-sh/bun/bun' not in (languages_brew_trust.stdout | from_json).formulae"
+  changed_when: true
+
+- name: Manage language packages
+  community.general.homebrew:
+    name: "{{ languages_packages }}"
+    state: "{{ languages_state }}"
+    path: "{{ dotfiles_brew_path }}"
+    update_homebrew: false
+
+- name: Manage Terraform linter
+  community.general.homebrew_cask:
+    name: "{{ languages_casks }}"
+    state: "{{ languages_state }}"
+    path: "{{ dotfiles_brew_path }}"
+    update_homebrew: false

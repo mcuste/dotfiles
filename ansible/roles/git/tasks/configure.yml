@@ -1,0 +1,11 @@
+- name: Deploy git configuration
+  ansible.builtin.include_role:
+    name: managed_files
+  vars:
+    managed_files_owner: git
+    managed_files_state: "{{ git_state }}"
+    managed_files_entries:
+      - path: ".config/git/config"
+        mode: "0644"
+      - path: ".config/git/ignore"
+        mode: "0644"

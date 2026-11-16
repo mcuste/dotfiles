@@ -1,0 +1,26 @@
+---
+- name: Validate handy state
+  ansible.builtin.assert:
+    that:
+      - handy_state in ['present', 'absent']
+
+- name: Install handy software
+  ansible.builtin.import_tasks: install.yml
+  when:
+    - handy_state == 'present'
+    - dotfiles_install_software | bool
+
+- name: Remove handy software
+  ansible.builtin.import_tasks: remove.yml
+  when:
+    - handy_state == 'absent'
+    - dotfiles_install_software | bool
+
+- name: Manage handy configuration
+  ansible.builtin.import_tasks: configure.yml
+
+- name: Prepare interactive synchronization
+  ansible.builtin.import_tasks: interactive.yml
+  when:
+    - dotfiles_interactive | bool
+    - not dotfiles_image_build | bool

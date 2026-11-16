@@ -1,0 +1,39 @@
+---
+- name: Find existing Cargo tool command
+  ansible.builtin.shell: "command -v {{ languages_cargo_tool | quote }}"
+  register: languages_cargo_command
+  changed_when: false
+  failed_when: false
+  check_mode: false
+  when: languages_state == 'present'
+
+- name: Install missing Cargo tool
+  ansible.builtin.command:
+    argv:
+      - "{{ languages_rustup_bin }}/cargo"
+      - install
+      - --locked
+      - --root
+      - "{{ languages_cargo_home }}"
+      - "{{ languages_cargo_tool }}"
+  when:
+    - languages_state == 'present'
+    - languages_cargo_command.rc != 0
+
+- name: Inspect owned Cargo tool
+  ansible.builtin.stat:
+    path: "{{ languages_cargo_home }}/bin/{{ languages_cargo_tool }}"
+  register: languages_cargo_owned_binary
+  when: languages_state == 'absent'
+
+- name: Remove owned Cargo tool
+  ansible.builtin.command:
+    argv:
+      - "{{ languages_rustup_bin }}/cargo"
+      - uninstall
+      - --root
+      - "{{ languages_cargo_home }}"
+      - "{{ languages_cargo_tool }}"
+  when:
+    - languages_state == 'absent'
+    - languages_cargo_owned_binary.stat.exists

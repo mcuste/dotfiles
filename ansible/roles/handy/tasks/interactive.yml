@@ -1,0 +1,21 @@
+---
+- name: Validate interactive handy synchronization
+  ansible.builtin.assert:
+    that:
+      - ansible_facts['system'] == 'Darwin'
+      - handy_state == 'present'
+      - dotfiles_interactive | bool
+      - not dotfiles_image_build | bool
+    fail_msg: "Run the handy synchronization recipe on a configured macOS desktop."
+
+- name: Inspect handy synchronization helper
+  ansible.builtin.stat:
+    path: "{{ dotfiles_home }}/.local/bin/sync-handy-settings"
+  register: handy_sync_helper
+
+- name: Require installed handy synchronization helper
+  ansible.builtin.assert:
+    that:
+      - handy_sync_helper.stat.exists
+      - handy_sync_helper.stat.executable
+    fail_msg: "Configure handy before running its synchronization recipe."

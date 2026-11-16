@@ -1,0 +1,31 @@
+{% for name, value in shell_environment.items() %}
+export {{ name }}="{{ value }}"
+{% endfor %}
+
+{% for path in shell_paths | reverse %}
+case ":$PATH:" in
+  *:"{{ path }}":*) ;;
+  *) PATH="{{ path }}:$PATH" ;;
+esac
+{% endfor %}
+export PATH
+
+case $- in
+  *i*)
+{% for name, value in shell_aliases.items() %}
+    alias {{ name }}={{ value | quote }}
+{% endfor %}
+    ;;
+esac
+
+# Worktrees share the repository's Cargo build output.
+_update_cargo_target_dir() {
+  local command_status=$?
+  local common_dir
+  if common_dir="$(command git rev-parse --path-format=absolute --git-common-dir 2>/dev/null)"; then
+    export CARGO_TARGET_DIR="$common_dir/cargo-target"
+  else
+    unset CARGO_TARGET_DIR
+  fi
+  return "$command_status"
+}

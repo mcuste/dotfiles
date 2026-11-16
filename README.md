@@ -1,118 +1,119 @@
 # dotfiles
 
-## Installation
+Install software and configure your user account with Homebrew and Ansible.
+Keep this repository on the machine: configuration files link into it.
 
-Run `just stow` from this repository to install the dotfiles and command links.
+## First setup
 
-Both work (`scripts/setup.sh`) and personal (`scripts/personal.sh`) setups install
-[Tart](https://tart.run/) from `openai/tools/tart` for macOS virtual machines
-on Apple Silicon.
+Run as your normal user, not root:
 
-Both setups also install KeyPath from `mcuste/tap`. Run KeyPath's setup wizard
-after installation to configure its driver, services, and permissions.
+```sh
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/mcuste/dotfiles/main/bootstrap.sh)" -- --profile personal --category desktop --interactive
+```
 
-### KeyPath configuration
+Review the script before running it. It installs Homebrew, Git, uv, Python,
+and Ansible, then applies your choices. Homebrew may ask for your sudo password.
+The checkout stays at `~/dotfiles`; use `--checkout PATH` to change that.
+Use `--source PATH` for an existing checkout. Existing checkouts are not updated.
 
-`~/.config/keypath` links directly to `stow/.config/keypath`. KeyPath edits
-the tracked config and rule files in that directory. Local `.backups` stay
-untracked.
+| Choice        | Values                | Meaning                                        |
+| ------------- | --------------------- | ---------------------------------------------- |
+| Profile       | `personal`, `work`    | Which software and settings to use             |
+| Category      | `headless`, `desktop` | CLI tools only, or CLI tools plus desktop apps |
+| Optional flag | `--interactive`       | Include Handy and Shortcuts setup tools        |
 
-`kanata.custom.kbd` preserves the original custom Kanata layout as a backup.
+Always choose a profile and category. The OS does not choose them for you.
+`--interactive` requires desktop. Run its setup commands separately, below.
+Linux desktop currently has no GUI packages defined.
 
-## macOS shortcuts
+## Normal use
 
-On macOS, `just stow` also syncs shortcuts from `stow/.config/shortcuts/`.
-Run `just shortcuts` to sync them separately. This requires macOS, `jq`, and an
-interactive terminal for new imports. Signing may require an iCloud login.
+Run from the checkout after `git pull`:
 
-The setup keeps an existing shortcut with the same name. For a missing shortcut,
-it signs the tracked file and opens Apple's import dialog. Confirm **Add Shortcut**,
-then press Enter in the terminal. The setup checks that the import completed
-before applying its keyboard binding.
+| Command                                      | Purpose                                              |
+| -------------------------------------------- | ---------------------------------------------------- |
+| `just bootstrap`                             | Sync Python dependencies and Ansible collections     |
+| `just apply work headless`                   | Install missing software and apply settings          |
+| `just config personal desktop --interactive` | Apply settings without software installation/removal |
+| `just plan personal desktop --interactive`   | Preview changes                                      |
+| `just apply work desktop --tags languages`   | Apply one role                                       |
 
-App shortcuts and their keyboard bindings live in `bindings.json`.
+These commands run locally. Each requires a profile and category; they do not
+remember the last selection or use the checked-in host groups.
+Add `--interactive` when you want those tools included. Pass other Ansible
+options after the selections. Avoid `--diff` on private settings.
 
-| Binding | Action                                       |
-| ------- | -------------------------------------------- |
-| Hyper+G | Open or focus Ghostty                        |
-| Hyper+B | Open or focus Brave                          |
-| Hyper+O | Open or focus OrbStack                       |
-| Hyper+L | Move the current window to the left half     |
-| Hyper+R | Move the current window to the right half    |
-| Hyper+F | Fill the screen without entering full screen |
+Applies do not generally upgrade existing software. Use Homebrew or each tool's
+update command. Python is an exception: uv updates the latest stable Python and
+Python 3.13. All Python dependency and version management uses uv.
 
-Window bindings live in `menu-bindings.json`. They use the native Window menu
-and require macOS 15 or later and English menu titles. They only work in apps
-that expose those menu commands.
+## Machine-specific setup
 
-The setup preserves unrelated keyboard bindings. Repeated runs skip installed
-shortcuts and apply the same bindings without creating duplicates.
-It does not replace actions in existing shortcuts. To use a changed definition,
-remove the old shortcut in Shortcuts, then run `just shortcuts` again.
+```sh
+just apply work headless --host hermes-vm --group hermes_agents
+```
 
-Allow script execution in Shortcuts settings when prompted.
-Apps may need relaunching to load changed keyboard bindings.
+- `--host` selects `host_vars/<name>.yml`; the default is `localhost`.
+- `--group` selects extra `group_vars/<name>.yml` files. Repeat it if needed.
+- Extra groups do not install tools by themselves. Add a role and a play for
+  that group in `configure.yml`. No Hermes role exists yet.
+- Ansible replaces lists between groups; it does not combine them automatically.
 
-## Voice input on macOS
+## Where to change things
 
-Both setup profiles install [Handy](https://handy.computer/docs) for local dictation
-into any focused prompt. Default shortcut: **Option + Space**.
+| Location                                 | Change here                                      |
+| ---------------------------------------- | ------------------------------------------------ |
+| `ansible/roles/<name>/defaults/main.yml` | Packages and role options                        |
+| `ansible/roles/<name>/tasks/`            | Installation, configuration, and removal         |
+| `ansible/roles/<name>/files/`            | Static configuration and helpers                 |
+| `ansible/roles/<name>/templates/`        | Configuration that needs target-specific values  |
+| `ansible/playbooks/configure.yml`        | Which groups run which roles                     |
+| `ansible/inventory/group_vars/`          | Profile and machine-group settings               |
+| `ansible/inventory/host_vars/`           | One machine's exceptions                         |
+| `ansible/inventory/hosts.yml`            | Hosts and groups for direct Ansible use          |
+| `ansible/roles/managed_files/`           | Shared linking, template, and safe-removal tasks |
 
-On each Mac:
+`host_vars/localhost.yml` is ignored by Git. Use it for local overrides, such as
+`agents_claude_code_cask` to keep an installed Claude Code channel.
+The `agents` role manages Claude Code and OMP. Hunk and Herdr have separate roles.
 
-1. Grant Microphone and Accessibility permissions.
-2. Download a speech model.
-3. Run `just stow` (requires `jq` on macOS).
-4. Add Handy to macOS **Open at Login**.
+## Removal and safety
 
-The settings sync quits Handy if it is running and relaunches it afterward.
-Edit `stow/.config/handy/settings.json`, then run `just stow`
-to apply changes. The saved shortcut is **§**, with
-tap-to-toggle or hold-to-talk and mute while recording.
-Add preferred spellings to `settings.custom_words` in that file.
-Keys, audio devices, models, and voice data stay local. Keep Handy running
-in the background.
+- Removing a package from a list does **not** uninstall it.
+- Removing a role or changing category does **not** remove its old setup.
+- Most roles accept `<role>_state=absent`. Keep the role selected while removing
+  it, for example `just apply work headless --tags scripts -e scripts_state=absent`.
+- Removal uses the current package list and preserves application data.
+- Hunk removes only extensions listed in `hunk_owned_extensions` but omitted
+  from `hunk_extensions`. Other extensions stay installed.
+- Herdr applies the same rule using `herdr_owned_plugins` and `herdr_plugins`.
+- Managed file removal refuses unrelated links or edited templates.
+- Keep credentials, sessions, caches, and databases out of this repository.
 
-## Agent configuration
+Ansible trusts the official Bun formula (`oven-sh/bun/bun`), not its whole tap.
+Other Homebrew trust approvals remain manual.
 
-`stow/.omp/`, `stow/.pi/`, `stow/.claude/`, and `stow/.codex/` contain the agent setup.
-Their `.gitignore` files allow only explicit configuration files, integration
-extensions, plugin registries, package manifests, and lock files. Credentials, caches, sessions,
-databases, memories, and other generated files stay local.
-OMP's installed plugin registry and plugin caches stay local. Track its plugin
-manifest and lock files.
-OMP loads `@mcuste/pi-herdr-worktree` through the plugin registry. Register local
-extensions only when their files exist.
-OMP discovers the tracked `agent/extensions/herdr-omp-agent-state.ts` integration
-for Herdr pane state and completion notifications. Refresh it with
-`herdr integration install omp`. Run `/reload` in existing OMP sessions after
-installing or refreshing the integration.
-Pi uses `settings.json` and `extensions/guardrails.json` without separate templates.
-Pi uses `@mcuste/pi-herdr-worktree` for worktree operations.
-Codex tracks `config.toml`, `AGENTS.md`, and `rules/default.rules`.
-Its configuration includes machine-specific paths and local plugin registrations.
-Codex credentials, bundled skills, plugin caches, and runtime state stay local.
-Existing regular files in `~/.codex` must move aside before `just stow` can link
-their tracked counterparts. Keep a backup outside `~/.codex`.
+## Manual desktop steps
 
-User instructions come from the core plugin's bundled `AGENTS.md`.
-Use the `core-sync` skill in OMP or Claude to refresh plugins and user instructions.
+Requires macOS and an apply with `--interactive`. Replace `personal` with `work`
+where needed.
 
-Claude and OMP use the same global Rigkit plugin set: `core` and `td`.
-Install each package with `claude plugin install <package>@rigkit --scope user`
-and `omp plugin install <package>@rigkit --scope user`.
-The TD skills require the `td` toolbox for Jenkins inspection and
-`josh_ci_cli` in the target project for GraphCI validation.
+| Tool      | Steps                                                                                                                                                      |
+| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Handy     | Launch it, grant Microphone and Accessibility permissions, download a model, and add it to Open at Login. Run `just handy personal desktop --interactive`. |
+| Shortcuts | Run `just shortcuts personal desktop --interactive` in a terminal and confirm imports. Signing may require iCloud.                                         |
 
-## Utility scripts
+Handy keeps device/model settings and uses **§**. Shortcuts keeps existing
+shortcuts and unrelated bindings. Window bindings need macOS 15+ and English
+menu titles. Remove an existing shortcut first if you want to replace it.
+These helpers do not undo prior imports or preferences.
 
-Keep executable utility scripts in `stow/.local/bin/`. Stow links them into
-`~/.local/bin`, which the Bash, Zsh, and Fish configurations add to `PATH`.
-This directory is hidden in file browsers by default.
+SSH key creation and GitHub enrollment remain manual. Reload OMP after changing
+Herdr integration. Use `core-sync` to refresh global Rigkit plugins/instructions.
 
-- `fetch-prs.sh`: export GitHub PR reports. Requires Git and `gh`.
-- `gcloud-cluster-setup`: select a GCP project and configure cluster access.
-  Requires `gcloud` and `gum` or `fzf`.
-- `gcloud-list-user-permissions`: inspect GCP IAM permissions.
-  Requires `gcloud` and `gum`.
-- `sync-notes`: commit and push changes in `~/Projects/personal/notes`.
+## Images
+
+See [Packer setup](packer/README.md) for images. Images retain the checkout and
+reject interactive setup. For an external Ansible controller, prepare Python,
+Homebrew, and the same checkout revision on the target. Set `dotfiles_checkout`
+to its absolute path. The `just` commands are for local maintenance.

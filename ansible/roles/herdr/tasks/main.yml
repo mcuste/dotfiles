@@ -1,0 +1,30 @@
+---
+- name: Validate herdr state
+  ansible.builtin.assert:
+    that:
+      - herdr_state in ['present', 'absent']
+
+- name: Install herdr software
+  ansible.builtin.import_tasks: install.yml
+  when:
+    - herdr_state == 'present'
+    - dotfiles_install_software | bool
+
+- name: Inspect herdr executable
+  ansible.builtin.stat:
+    path: "{{ dotfiles_brew_path }}/herdr"
+  register: herdr_executable
+
+- name: Remove herdr software
+  ansible.builtin.import_tasks: remove.yml
+  when:
+    - herdr_state == 'absent'
+
+- name: Manage herdr configuration
+  ansible.builtin.import_tasks: configure.yml
+
+- name: Configure herdr plugins
+  ansible.builtin.import_tasks: plugins.yml
+  when:
+    - herdr_state == 'present'
+    - herdr_executable.stat.exists
