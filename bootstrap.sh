@@ -180,5 +180,5 @@ if "$image"; then
 fi
 "$uv_bin" run --project "$root" ansible-playbook "$playbook" -i "$inventory" "$@" --extra-vars "$settings"
 if "$interactive"; then
-  printf '%s\n' 'After initial app setup, run ~/.local/bin/sync-handy-settings and ~/.local/bin/sync-shortcuts in a terminal.'
+  printf '%s\n' 'After initial app setup, run ~/.local/bin/sync-handy-settings in a terminal.'
 fi

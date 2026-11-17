@@ -9,9 +9,3 @@
       ansible.builtin.include_role:
         name: handy
         tasks_from: interactive
-      when: dotfiles_interactive_feature | default('all') in ['all', 'handy']
-    - name: Validate Shortcuts setup
-      ansible.builtin.include_role:
-        name: shortcuts
-        tasks_from: interactive
-      when: dotfiles_interactive_feature | default('all') in ['all', 'shortcuts']

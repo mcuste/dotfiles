@@ -20,7 +20,7 @@ Use `--source PATH` for an existing checkout. Existing checkouts are not updated
 | ------------- | --------------------- | ---------------------------------------------- |
 | Profile       | `personal`, `work`    | Which software and settings to use             |
 | Category      | `headless`, `desktop` | CLI tools only, or CLI tools plus desktop apps |
-| Optional flag | `--interactive`       | Include Handy, Shortcuts, and iKanata          |
+| Optional flag | `--interactive`       | Include Handy, Hammerspoon, and iKanata        |
 
 Always choose a profile and category. The OS does not choose them for you.
 `--interactive` requires desktop. Run its setup commands separately, below.
@@ -127,12 +127,8 @@ where needed.
 | Tool      | Steps                                                                                                                                                      |
 | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Handy     | Launch it, grant Microphone and Accessibility permissions, download a model, and add it to Open at Login. Run `just handy personal desktop --interactive`. |
-| Shortcuts | Run `just shortcuts personal desktop --interactive` in a terminal and confirm imports. Signing may require iCloud.                                         |
 
-Handy keeps device/model settings and uses **§**. Shortcuts keeps existing
-shortcuts and unrelated bindings. Window bindings need macOS 15+ and English
-menu titles. Remove an existing shortcut first if you want to replace it.
-These helpers do not undo prior imports or preferences.
+Handy keeps device and model settings and uses **§**.
 
 SSH key creation and GitHub enrollment remain manual. Reload OMP after changing
 Herdr integration. Use `core-sync` to refresh global Rigkit plugins/instructions.
@@ -151,6 +147,13 @@ Move an existing `config.kbd` aside before applying the role.
 3. Run `just apply personal desktop --interactive --tags kanata`.
 4. Complete iKanata onboarding for Accessibility, Input Monitoring, and
    the background service and VirtualHID driver in Login Items & Extensions.
+
+### Hammerspoon
+
+On macOS 13+, run `just apply personal desktop --interactive --tags hammerspoon`.
+Move any existing regular `~/.hammerspoon/init.lua` aside first.
+Open Hammerspoon, grant Accessibility permission, and enable launch at login.
+The default Kanata Hyper key works without changes.
 
 ## Images
 

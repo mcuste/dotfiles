@@ -8,9 +8,7 @@ import tempfile
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "action", choices=["apply", "config", "plan", "image", "handy", "shortcuts"]
-    )
+    parser.add_argument("action", choices=["apply", "config", "plan", "image", "handy"])
     parser.add_argument("profile", choices=["personal", "work"])
     parser.add_argument("category", choices=["headless", "desktop"])
     parser.add_argument("--interactive", action="store_true")
@@ -23,7 +21,7 @@ def main():
         options.category != "desktop" or options.action == "image"
     ):
         parser.error("interactive requires desktop and cannot be used for images")
-    attended = options.action in {"handy", "shortcuts"}
+    attended = options.action == "handy"
     if attended and not options.interactive:
         parser.error("attended setup requires --interactive")
     reserved = {
@@ -61,8 +59,6 @@ def main():
     }
     if options.action == "config":
         settings["dotfiles_install_software"] = False
-    if attended:
-        settings["dotfiles_interactive_feature"] = options.action
     playbook = (
         "interactive"
         if attended
@@ -92,10 +88,9 @@ def main():
         command += ["--extra-vars", json.dumps(settings)]
         subprocess.run(command, cwd=root / "ansible", env=env, check=True)
     if attended:
-        helper = (
-            "sync-handy-settings" if options.action == "handy" else "sync-shortcuts"
+        subprocess.run(
+            [str(Path.home() / ".local/bin/sync-handy-settings")], check=True
         )
-        subprocess.run([str(Path.home() / ".local/bin" / helper)], check=True)
 
 
 if __name__ == "__main__":

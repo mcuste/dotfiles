@@ -96,9 +96,11 @@
     - role: handy
       when: ansible_facts['system'] == 'Darwin'
       tags: [handy]
-    - role: shortcuts
-      when: ansible_facts['system'] == 'Darwin'
-      tags: [shortcuts]
+    - role: hammerspoon
+      when:
+        - ansible_facts['system'] == 'Darwin'
+        - ansible_facts['distribution_major_version'] | int >= 13
+      tags: [hammerspoon]
     - role: kanata
       when:
         - ansible_facts['system'] == 'Darwin'

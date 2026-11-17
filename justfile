@@ -25,9 +25,6 @@ image profile category *args:
 handy profile category *args:
     cd "{{root}}" && uv run python scripts/provision.py handy {{quote(profile)}} {{quote(category)}} {{args}}
 
-shortcuts profile category *args:
-    cd "{{root}}" && uv run python scripts/provision.py shortcuts {{quote(profile)}} {{quote(category)}} {{args}}
-
 # Show local macOS VM requirements and safety limits.
 vm-help:
     @printf '%s\n' \

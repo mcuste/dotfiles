@@ -1,0 +1,20 @@
+---
+- name: Validate Hammerspoon state
+  ansible.builtin.assert:
+    that: hammerspoon_state in ['present', 'absent']
+
+- name: Manage the Hammerspoon configuration
+  ansible.builtin.include_role:
+    name: managed_files
+  vars:
+    managed_files_owner: hammerspoon
+    managed_files_state: "{{ hammerspoon_state }}"
+    managed_files_entries:
+      - path: .hammerspoon/init.lua
+
+- name: Manage the Hammerspoon cask
+  community.general.homebrew_cask:
+    name: hammerspoon
+    state: "{{ hammerspoon_state }}"
+    path: "{{ dotfiles_brew_path }}"
+  when: dotfiles_install_software | bool
