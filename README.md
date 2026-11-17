@@ -79,6 +79,7 @@ to `claude-code@latest`; the `agents` role does not install the Claude desktop a
 The `agents` role manages Claude Code and OMP. Hunk and Herdr have separate roles.
 
 Graphite belongs to the work profile, and Slack belongs to work desktops.
+The Git role explicitly adds the Graphite tap before installing it on clean hosts.
 Personal desktops include Blender, Godot, Steam, and the gdtoolkit uv tool.
 
 Go manages gopls, goimports, and gofumpt. pnpm manages TypeScript,
@@ -138,7 +139,21 @@ Herdr integration. Use `core-sync` to refresh global Rigkit plugins/instructions
 
 ## Images
 
-See [Packer setup](packer/README.md) for images. Images retain the checkout and
-reject interactive setup. For an external Ansible controller, prepare Python,
+For a local Tart VM, run `just vm-build work headless` and `just vm-run`.
+Both profile (`work` or `personal`) and category (`headless` or `desktop`) are
+required. The build installs Homebrew, applies dotfiles through
+`bootstrap.sh --image`, hardens the account, and shuts the guest down.
+Interactive setup is never included.
+
+The guest downloads bootstrap and clones this GitHub repository at
+`PKR_VAR_dotfiles_ref` (default `main`). Use a published branch or tag, for example
+`PKR_VAR_dotfiles_ref=vm-image just vm-build personal desktop`. Commit and push
+changes before building: local changes are not uploaded. The checkout stays at
+`/Users/admin/dotfiles` because configuration files link into it. Host credentials
+and directories are not copied or shared.
+
+The build definition is `ansible/packer/macos.pkr.hcl`.
+See [VM setup](packer/README.md) for credentials, requirements, validation, and
+lifecycle commands. For an external Ansible controller, prepare Python,
 Homebrew, and the same checkout revision on the target. Set `dotfiles_checkout`
 to its absolute path. The `just` commands are for local maintenance.

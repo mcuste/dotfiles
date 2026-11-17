@@ -3,6 +3,16 @@
   ansible.builtin.assert:
     that: git_state in ['present', 'absent']
 
+- name: Add the Graphite tap
+  community.general.homebrew_tap:
+    name: withgraphite/tap
+    state: present
+    path: "{{ dotfiles_brew_path }}"
+  when:
+    - dotfiles_install_software | bool
+    - git_state == 'present'
+    - "'withgraphite/tap/graphite' in git_packages"
+
 - name: Manage Git packages
   community.general.homebrew:
     name: "{{ git_packages }}"

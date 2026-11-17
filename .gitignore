@@ -4,3 +4,12 @@
 /ansible/inventory/host_vars/localhost.yml
 /ansible/roles/keypath/files/.config/keypath/.backups/
 /stow/
+/.secrets/
+/.packer.d/
+/packer_cache/
+/ansible/packer/.packer.d/
+/ansible/packer/packer_cache/
+/ansible/packer/*.pkrvars.hcl
+/ansible/packer/*.pkrvars.json
+/crash.log
+/vm-build.log

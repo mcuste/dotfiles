@@ -6,9 +6,9 @@ theme:
   dark: dark-catppuccin
   light: light-catppuccin
 modelRoles:
-  default: openai-codex/gpt-6.1-sol
+  default: openai-codex/gpt-6.2-sol
   smol: openai-codex/gpt-6-luna
-  slow: openai-codex/gpt-6-astra
+  slow: openai-codex/gpt-6.2-astra
   plan: openai-codex/gpt-6-astra
 dev:
   autoqaConsent: denied
