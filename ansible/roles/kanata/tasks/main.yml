@@ -1,0 +1,40 @@
+---
+- name: Validate Kanata state
+  ansible.builtin.assert:
+    that: kanata_state in ['present', 'absent']
+
+- name: Remove iKanata before removing the managed keymap
+  community.general.homebrew_cask:
+    name: mcuste/tap/ikanata
+    state: absent
+    path: "{{ dotfiles_brew_path }}"
+  when:
+    - kanata_state == 'absent'
+    - dotfiles_install_software | bool
+
+- name: Manage the Kanata keymap
+  ansible.builtin.include_role:
+    name: managed_files
+  vars:
+    managed_files_owner: kanata
+    managed_files_state: "{{ kanata_state }}"
+    managed_files_entries:
+      - path: .config/kanata/config.kbd
+
+# iKanata can create a starter keymap when its installer opens onboarding.
+- name: Install iKanata after linking the keymap
+  when:
+    - kanata_state == 'present'
+    - dotfiles_install_software | bool
+  block:
+    - name: Add the iKanata tap
+      community.general.homebrew_tap:
+        name: mcuste/tap
+        state: present
+        path: "{{ dotfiles_brew_path }}"
+
+    - name: Install the iKanata cask
+      community.general.homebrew_cask:
+        name: mcuste/tap/ikanata
+        state: present
+        path: "{{ dotfiles_brew_path }}"

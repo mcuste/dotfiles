@@ -43,7 +43,8 @@ vm-help:
       'Choose work|personal and headless|desktop for vm-build and vm-validate.' \
       'Set PKR_VAR_dotfiles_ref to a published Git branch or tag; default main.' \
       'The guest clones GitHub into ~/dotfiles. Local uncommitted changes are not included.' \
-      'No host directory sharing, host credentials, or Hermes installation.' \
+      'Use just hermes-vm work headless for a separate VM with Hermes CLI installed.' \
+      'No host directory sharing or host credentials.' \
       'VM networking is not isolated from the host or LAN.' \
       'Export results before deletion. The cached base image remains.' \
       'Details and Tart license: see packer/README.md'
@@ -63,6 +64,10 @@ vm-validate profile category: vm-configure vm-init
 # Build a stopped VM with noninteractive dotfiles and password-protected sudo.
 vm-build profile category: (vm-validate profile category)
     cd "{{root}}" && packer build -var-file=.secrets/accounts.pkrvars.json -var {{quote("vm_name=" + vm_name)}} -var {{quote("dotfiles_profile=" + profile)}} -var {{quote("dotfiles_category=" + category)}} ansible/packer/macos.pkr.hcl
+
+# Build a separate macOS VM for testing Hermes Agent.
+hermes-vm profile category:
+    PKR_VAR_install_hermes=true just --set vm_name hermes-vm vm-build {{quote(profile)}} {{quote(category)}}
 
 # Open the VM desktop.
 vm-run:

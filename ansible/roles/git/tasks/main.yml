@@ -13,6 +13,33 @@
     - git_state == 'present'
     - "'withgraphite/tap/graphite' in git_packages"
 
+- name: Approve the selected Graphite formula
+  when:
+    - dotfiles_install_software | bool
+    - git_state == 'present'
+    - "'withgraphite/tap/graphite' in git_packages"
+  block:
+    - name: Read Homebrew trust settings
+      ansible.builtin.command:
+        argv: ["{{ dotfiles_brew_path }}/brew", trust, "--json=v1"]
+      register: git_brew_trust
+      changed_when: false
+      check_mode: false
+
+    - name: Trust the Graphite formula
+      ansible.builtin.command:
+        argv:
+          [
+            "{{ dotfiles_brew_path }}/brew",
+            trust,
+            "--formula",
+            withgraphite/tap/graphite,
+          ]
+      when:
+        - "'withgraphite/tap' not in (git_brew_trust.stdout | from_json).taps"
+        - "'withgraphite/tap/graphite' not in (git_brew_trust.stdout | from_json).formulae"
+      changed_when: true
+
 - name: Manage Git packages
   community.general.homebrew:
     name: "{{ git_packages }}"

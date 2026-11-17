@@ -52,6 +52,11 @@ variable "dotfiles_ref" {
   default = "main"
 }
 
+variable "install_hermes" {
+  type    = bool
+  default = false
+}
+
 source "tart-cli" "macos" {
   vm_base_name = var.base_image
   vm_name      = var.vm_name
@@ -71,7 +76,10 @@ build {
   }
 
   provisioner "shell" {
-    script           = "${path.root}/../../scripts/vm-provision-dotfiles.sh"
+    scripts = concat(
+      ["${path.root}/../../scripts/vm-provision-dotfiles.sh"],
+      var.install_hermes ? ["${path.root}/../../scripts/vm-install-hermes.sh"] : []
+    )
     use_env_var_file = true
     environment_vars = [
       "DOTFILES_PROFILE=${var.dotfiles_profile}",

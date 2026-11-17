@@ -20,7 +20,7 @@ Use `--source PATH` for an existing checkout. Existing checkouts are not updated
 | ------------- | --------------------- | ---------------------------------------------- |
 | Profile       | `personal`, `work`    | Which software and settings to use             |
 | Category      | `headless`, `desktop` | CLI tools only, or CLI tools plus desktop apps |
-| Optional flag | `--interactive`       | Include Handy and Shortcuts setup tools        |
+| Optional flag | `--interactive`       | Include Handy, Shortcuts, and iKanata          |
 
 Always choose a profile and category. The OS does not choose them for you.
 `--interactive` requires desktop. Run its setup commands separately, below.
@@ -136,6 +136,21 @@ These helpers do not undo prior imports or preferences.
 
 SSH key creation and GitHub enrollment remain manual. Reload OMP after changing
 Herdr integration. Use `core-sync` to refresh global Rigkit plugins/instructions.
+
+### Kanata
+
+On Apple Silicon with macOS 15 or later, `--interactive` installs iKanata
+from `mcuste/tap/ikanata` and links the Kanata keymap to `~/.config/kanata/config.kbd`.
+The keymap includes home-row modifiers, symbol and Unicode layers, and leaves
+the ISO § and backtick keys unswapped. Ansible leaves existing regular files in place.
+Move an existing `config.kbd` aside before applying the role.
+
+1. Disable KeyPath or any standalone Kanata service before starting iKanata.
+2. If Homebrew requires trust approval, run `brew tap mcuste/tap` and
+   `brew trust --cask mcuste/tap/ikanata` after reviewing the cask.
+3. Run `just apply personal desktop --interactive --tags kanata`.
+4. Complete iKanata onboarding for Accessibility, Input Monitoring, and
+   the background service and VirtualHID driver in Login Items & Extensions.
 
 ## Images
 

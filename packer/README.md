@@ -44,6 +44,19 @@ Avoid debug logs that might expose build credentials.
 See [Tart image details](https://tart.run/quick-start/) and the
 [Tart license](https://github.com/openai/tart/blob/main/LICENSE).
 
+## Hermes test VM
+
+`just hermes-vm work headless` builds a separate Tart VM named `hermes-vm`.
+It accepts the same profile, category, and dotfiles ref as `vm-build`. After
+dotfiles provisioning, it runs the [official Hermes CLI installer](https://hermes-agent.nousresearch.com/docs/getting-started/installation/)
+noninteractively as `admin` and checks `hermes --version` before account hardening.
+The default `macos-agent` build does not install Hermes.
+
+Start it with `just --set vm_name hermes-vm vm-run`. From another terminal,
+connect with `just --set vm_name hermes-vm vm-ssh`. Run `hermes setup` inside
+the guest to configure a provider. Use the same name override for `vm-stop`
+and `vm-delete`.
+
 ## Dotfiles provisioning
 
 Both `vm-build` and `vm-validate` require a profile (`work` or `personal`) and

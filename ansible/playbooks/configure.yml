@@ -88,7 +88,7 @@
 - name: Configure tools for attended setup
   hosts: desktop:&interactive
   gather_facts: true
-  gather_subset: ["!all", "!min", system, architecture, user_dir]
+  gather_subset: ["!all", "!min", system, architecture, distribution, user_dir]
   environment:
     PATH: "{{ dotfiles_path }}"
     HOMEBREW_NO_AUTO_UPDATE: "1"
@@ -99,3 +99,9 @@
     - role: shortcuts
       when: ansible_facts['system'] == 'Darwin'
       tags: [shortcuts]
+    - role: kanata
+      when:
+        - ansible_facts['system'] == 'Darwin'
+        - ansible_facts['architecture'] == 'arm64'
+        - ansible_facts['distribution_major_version'] | int >= 15
+      tags: [kanata]
