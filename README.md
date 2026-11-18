@@ -84,6 +84,7 @@ Personal desktops include Blender, Godot, Steam, and the gdtoolkit uv tool.
 
 Go manages gopls, goimports, and gofumpt. pnpm manages TypeScript,
 typescript-language-server, and Knip. uv manages Trafilatura in both profiles.
+uv also manages Python 3.12 alongside the other declared Python versions.
 Keep one installation of each tool under its declared manager.
 
 The project-local `package-audit` skill works in Claude (`/package-audit`) and OMP
@@ -116,8 +117,8 @@ one shared project-local source.
 - Managed file removal refuses unrelated links or edited templates.
 - Keep credentials, sessions, caches, and databases out of this repository.
 
-Ansible trusts the official Bun formula (`oven-sh/bun/bun`), not its whole tap.
-Other Homebrew trust approvals remain manual.
+Ansible installs Bun from Homebrew core. No third-party tap is needed for Bun.
+The tap role grants trust to listed third-party packages, not entire taps.
 
 ## Manual desktop steps
 
@@ -131,7 +132,23 @@ where needed.
 Handy keeps device and model settings and uses **§**.
 
 SSH key creation and GitHub enrollment remain manual. Reload OMP after changing
-Herdr integration. Use `core-sync` to refresh global Rigkit plugins/instructions.
+Herdr integration.
+
+The agents role seeds local copies of OMP's `package.json` and `bun.lock` without
+overwriting existing plugin files. The tracked `omp-plugins.lock.json` records
+expected plugin versions. OMP writes its own live lockfile after installation.
+
+To set up Rigkit in OMP, refresh the catalog and compare its versions with the
+tracked snapshot before installing:
+
+```sh
+omp plugin marketplace update rigkit
+omp plugin discover rigkit
+omp plugin install core@rigkit td@rigkit dev@rigkit obs@rigkit
+```
+
+Restart OMP and use the `core-sync` skill to refresh global Rigkit plugins and
+instructions.
 
 ### Kanata
 

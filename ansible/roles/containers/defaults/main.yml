@@ -1,6 +1,8 @@
 ---
 containers_state: present
 containers_packages:
+  - crane
+  - devcontainer
   - kubectl
   - k9s
   - k3d

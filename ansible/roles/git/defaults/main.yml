@@ -1,6 +1,9 @@
 ---
 git_state: present
 git_common_packages:
+  - git
+  - git-filter-repo
+  - jj
   - gh
   - git-lfs
   - git-delta

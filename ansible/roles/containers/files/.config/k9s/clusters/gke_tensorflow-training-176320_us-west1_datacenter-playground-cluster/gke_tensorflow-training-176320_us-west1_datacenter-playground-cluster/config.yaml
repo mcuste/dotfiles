@@ -7,7 +7,7 @@ k9s:
       - all
       - default
   view:
-    active: nodes
+    active: v1/pods all
   featureGates:
     nodeShell: false
   proxy: null

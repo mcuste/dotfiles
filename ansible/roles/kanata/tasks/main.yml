@@ -27,14 +27,40 @@
     - kanata_state == 'present'
     - dotfiles_install_software | bool
   block:
-    - name: Add the iKanata tap
-      community.general.homebrew_tap:
-        name: mcuste/tap
-        state: present
-        path: "{{ dotfiles_brew_path }}"
+    - name: Prepare the iKanata tap
+      ansible.builtin.include_role:
+        name: homebrew_taps
+      vars:
+        homebrew_formulae: []
+        homebrew_casks: [mcuste/tap/ikanata]
 
-    - name: Install the iKanata cask
-      community.general.homebrew_cask:
-        name: mcuste/tap/ikanata
-        state: present
-        path: "{{ dotfiles_brew_path }}"
+    # The iKanata pkg installer needs sudo, but Ansible gives Homebrew no TTY.
+    # Homebrew runs `sudo -A` when SUDO_ASKPASS is set, so ask in a dialog.
+    - name: Create a temporary sudo password prompt
+      ansible.builtin.tempfile:
+        suffix: .askpass
+      register: kanata_askpass
+
+    - name: Install iKanata with a sudo password dialog
+      block:
+        - name: Write the sudo password prompt
+          ansible.builtin.copy:
+            dest: "{{ kanata_askpass.path }}"
+            mode: "0700"
+            content: |
+              #!/bin/sh
+              exec /usr/bin/osascript \
+                -e 'text returned of (display dialog "Homebrew needs your password to install iKanata." with title "iKanata" default answer "" with hidden answer with icon caution)'
+
+        - name: Install the iKanata cask
+          community.general.homebrew_cask:
+            name: mcuste/tap/ikanata
+            state: present
+            path: "{{ dotfiles_brew_path }}"
+          environment:
+            SUDO_ASKPASS: "{{ kanata_askpass.path }}"
+      always:
+        - name: Remove the sudo password prompt
+          ansible.builtin.file:
+            path: "{{ kanata_askpass.path }}"
+            state: absent

@@ -4,6 +4,7 @@ terminal_tools_packages:
   - ffmpeg
   - lsof
   - unzip
+  - curl
   - wget
   - rsync
   - eza
@@ -26,5 +27,6 @@ terminal_tools_packages:
   - gum
   - lazygit
   - d2
+  - pandoc
   - stow
   - vhs

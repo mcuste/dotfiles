@@ -1,8 +1,8 @@
-{% for name, value in shell_environment.items() %}
+{% for name, value in shell_environment.items() if value != '' %}
 set -gx {{ name }} "{{ value }}"
 {% endfor %}
 
-{% for path in shell_paths | reverse %}
+{% for path in shell_paths | reverse if path %}
 fish_add_path --path "{{ path }}"
 {% endfor %}
 

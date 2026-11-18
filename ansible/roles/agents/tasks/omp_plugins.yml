@@ -1,0 +1,45 @@
+- name: Create OMP plugin directory
+  ansible.builtin.file:
+    path: "{{ dotfiles_home }}/.omp/plugins"
+    state: directory
+
+- name: Inspect OMP plugin file links
+  ansible.builtin.stat:
+    path: "{{ dotfiles_home }}/.omp/plugins/{{ item }}"
+    follow: false
+    get_checksum: false
+    get_attributes: false
+    get_mime: false
+  loop:
+    - package.json
+    - bun.lock
+    - omp-plugins.lock.json
+  register: omp_plugin_files
+
+- name: Seed OMP plugin manifests as local files
+  ansible.builtin.copy:
+    src: ".omp/plugins/{{ item.item }}"
+    dest: "{{ dotfiles_home }}/.omp/plugins/{{ item.item }}"
+    mode: "0644"
+    follow: false
+    force: "{{ omp_checkout_link }}"
+  vars:
+    omp_checkout_link: >-
+      {{ item.stat.lnk_source | default('') ==
+         dotfiles_checkout + '/ansible/roles/agents/files/.omp/plugins/' + item.item }}
+  loop: "{{ omp_plugin_files.results }}"
+  loop_control:
+    label: "{{ item.item }}"
+  when:
+    - item.item != 'omp-plugins.lock.json'
+    - not (item.stat.islnk | default(false)) or omp_checkout_link | bool
+
+- name: Detach the live OMP lockfile from the tracked version snapshot
+  ansible.builtin.file:
+    path: "{{ dotfiles_home }}/.omp/plugins/omp-plugins.lock.json"
+    state: absent
+  vars:
+    omp_runtime_lock: "{{ omp_plugin_files.results | selectattr('item', 'equalto', 'omp-plugins.lock.json') | first }}"
+  when: >-
+    omp_runtime_lock.stat.lnk_source | default('') ==
+    dotfiles_checkout + '/ansible/roles/agents/files/.omp/plugins/omp-plugins.lock.json'

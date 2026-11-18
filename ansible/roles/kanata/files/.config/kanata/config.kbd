@@ -1,7 +1,6 @@
 ;; Process all keys
 (defcfg
-  ;; Let macOS handle native media-row events directly. Logitech sends these
-  ;; as consumer keys, while the MacBook keyboard may send F1-F12 for remapping.
+  ;; Skip remapping media events already sent by the keyboard.
   process-unmapped-keys (all-except
     brdn brup mctl sls dtn dnd prev pp next mute vold volu
   )
@@ -12,8 +11,6 @@
   )
 )
 
-;; Distinguish the internal keyboard so its F-row follows MacBook behavior,
-;; while external keyboards keep their own media/F-key mode.
 (definputdevices
   ;; Kanata reports the internal keyboard with USB IDs 0/0 on macOS.
   1 ((vendor_id 0) (product_id 0))
@@ -95,8 +92,7 @@
   gg (fork @_gg @_Gg (lsft rsft))
 )
 
-;; MacBook media row: media action normally, standard F-key while Fn is held.
-;; External keyboards always receive the unmodified F-key action here.
+;; Use the printed actions on the MacBook and send standard F-keys with Fn.
 (defalias
   mf1  (switch ((device-history 1 1)) (fork brdn f1 (fn)) break () f1 break)
   mf2  (switch ((device-history 1 1)) (fork brup f2 (fn)) break () f2 break)

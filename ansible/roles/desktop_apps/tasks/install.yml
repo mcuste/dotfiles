@@ -4,6 +4,7 @@
     name: homebrew_taps
   vars:
     homebrew_formulae: "{{ desktop_apps_formulae }}"
+    homebrew_trusted_formulae: "{{ desktop_apps_trusted_formulae }}"
     homebrew_casks: "{{ desktop_apps_casks }}"
   when: ansible_facts['system'] == 'Darwin'
 

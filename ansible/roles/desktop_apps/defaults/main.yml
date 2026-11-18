@@ -2,6 +2,9 @@
 desktop_apps_state: present
 desktop_apps_formulae:
   - openai/tools/tart
+# Tapped dependencies of the formulae above that Homebrew must trust to load.
+desktop_apps_trusted_formulae:
+  - openai/tools/softnet
 desktop_apps_common_casks:
   - brave-browser
   - ghostty

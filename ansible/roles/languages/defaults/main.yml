@@ -1,15 +1,15 @@
 ---
 languages_state: present
-languages_packages:
+languages_common_packages:
   - pnpm
-  - oven-sh/bun/bun
+  - bun
   - uv
-  - marksman
   - bash-language-server
   - shellcheck
   - shfmt
+  - cmake
   - cmake-language-server
-  - dotnet@8
+  - pkgconf
   - hashicorp/tap/packer
   - hashicorp/tap/terraform
   - terraform-ls
@@ -29,6 +29,9 @@ languages_packages:
   - rustup
   - llvm
   - protobuf
+  - zig
+  - cargo-audit
+  - cargo-deny
   - cargo-nextest
   - taplo
   - sccache
@@ -43,6 +46,7 @@ languages_packages:
   - prettier
   - tree-sitter
   - tree-sitter-cli
+languages_packages: "{{ languages_common_packages + (['dotnet@8', 'marksman'] if dotfiles_dotnet_enabled | bool else []) }}"
 languages_casks:
   - terraform-linters/tap/tflint
 languages_go_bin: "{{ dotfiles_home }}/.go/bin"
@@ -62,7 +66,8 @@ languages_rust_components:
   - clippy
 languages_cargo_tools:
   - cargo-machete
-  - cargo-deny
+  - cargo-insta
+  - cargo-zigbuild
   - cargo-claim
   - cross
 languages_pnpm_home: "{{ dotfiles_home }}/{{ 'Library/pnpm' if ansible_facts['system'] == 'Darwin' else '.local/share/pnpm' }}"
@@ -82,3 +87,4 @@ languages_personal_uv_tools:
 languages_python_versions:
   - "3"
   - "3.13"
+  - "3.12"

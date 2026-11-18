@@ -4,6 +4,7 @@ dotfiles_home: "{{ ansible_facts['user_dir'] }}"
 dotfiles_image_build: false
 dotfiles_install_software: true
 dotfiles_interactive: false
+dotfiles_dotnet_enabled: false
 dotfiles_checkout: "{{ (playbook_dir + '/../..') | realpath if ansible_connection | default('ssh') == 'local' else dotfiles_home + '/dotfiles' }}"
 homebrew_bin: "{{ '/opt/homebrew/bin/brew' if ansible_facts['system'] == 'Darwin' and ansible_facts['architecture'] == 'arm64' else '/usr/local/bin/brew' if ansible_facts['system'] == 'Darwin' else '/home/linuxbrew/.linuxbrew/bin/brew' }}"
 dotfiles_brew_path: "{{ homebrew_bin | dirname }}"

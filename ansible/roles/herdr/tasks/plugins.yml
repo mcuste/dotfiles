@@ -50,7 +50,9 @@
   loop: "{{ herdr_plugins }}"
   loop_control:
     label: "{{ item.name }}"
-  when: item.name not in (herdr_installed_plugins | selectattr('enabled') | map(attribute='plugin_id') | list)
+  # A fresh `plugin install` enables the plugin itself, so only enable plugins
+  # that were already installed but disabled.
+  when: item.name in (herdr_installed_plugins | rejectattr('enabled') | map(attribute='plugin_id') | list)
   register: herdr_plugin_enables
   changed_when: true
 

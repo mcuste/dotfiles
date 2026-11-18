@@ -1,7 +1,8 @@
 ---
 - name: Prepare selected third-party Homebrew packages
   vars:
-    tapped_formulae: "{{ homebrew_formulae | select('match', '^[^/]+/[^/]+/[^/]+$') | list }}"
+    # homebrew_trusted_formulae lists tapped dependencies that are trusted but not installed directly.
+    tapped_formulae: "{{ (homebrew_formulae + homebrew_trusted_formulae | default([])) | select('match', '^[^/]+/[^/]+/[^/]+$') | unique | list }}"
     tapped_casks: "{{ homebrew_casks | default([]) | select('match', '^[^/]+/[^/]+/[^/]+$') | list }}"
   when: (tapped_formulae + tapped_casks) | length > 0
   block:

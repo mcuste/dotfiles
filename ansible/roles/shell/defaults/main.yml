@@ -1,8 +1,11 @@
 ---
 shell_state: present
 shell_packages:
+  - bash
   - fish
   - zsh
+  - zsh-autosuggestions
+  - zsh-syntax-highlighting
   - starship
 
 shell_brew_prefix: "{{ dotfiles_brew_path | dirname }}"
@@ -10,17 +13,17 @@ shell_environment:
   EDITOR: nvim
   VISUAL: nvim
   GOPATH: "$HOME/.go"
-  DOTNET_ROOT: "{{ shell_brew_prefix }}/opt/dotnet@8/libexec"
+  DOTNET_ROOT: "{{ shell_brew_prefix ~ '/opt/dotnet@8/libexec' if dotfiles_dotnet_enabled | bool else '' }}"
   PNPM_HOME: "{{ '$HOME/Library/pnpm' if ansible_facts['system'] == 'Darwin' else '$HOME/.local/share/pnpm' }}"
   XDG_CONFIG_HOME: "$HOME/.config"
   K9S_CONFIG_DIR: "$HOME/.config/k9s"
 shell_paths:
-  - "$HOME/.dotnet/tools"
+  - "{{ '$HOME/.dotnet/tools' if dotfiles_dotnet_enabled | bool else '' }}"
   - "{{ shell_environment.PNPM_HOME }}/bin"
   - "{{ shell_environment.PNPM_HOME }}"
   - "$HOME/.go/bin"
   - "$HOME/.local/bin"
-  - "{{ shell_brew_prefix }}/opt/dotnet@8/bin"
+  - "{{ shell_brew_prefix ~ '/opt/dotnet@8/bin' if dotfiles_dotnet_enabled | bool else '' }}"
   - "{{ shell_brew_prefix }}/opt/llvm/bin"
   - "$HOME/.cargo/bin"
   - "{{ shell_brew_prefix }}/opt/rustup/bin"
