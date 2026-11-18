@@ -1,4 +1,11 @@
 ---
+- name: Prepare agent package taps
+  ansible.builtin.import_role:
+    name: homebrew_taps
+  vars:
+    homebrew_formulae: "{{ agents_formulae }}"
+    homebrew_casks: "{{ agents_casks if ansible_facts['system'] == 'Darwin' else [] }}"
+
 - name: Install agent formulae
   community.general.homebrew:
     name: "{{ agents_formulae }}"

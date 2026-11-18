@@ -1,4 +1,12 @@
 ---
+- name: Prepare desktop package taps
+  ansible.builtin.import_role:
+    name: homebrew_taps
+  vars:
+    homebrew_formulae: "{{ desktop_apps_formulae }}"
+    homebrew_casks: "{{ desktop_apps_casks }}"
+  when: ansible_facts['system'] == 'Darwin'
+
 - name: Install desktop formulae
   community.general.homebrew:
     name: "{{ desktop_apps_formulae }}"

@@ -1,0 +1,36 @@
+---
+- name: Prepare selected third-party Homebrew packages
+  vars:
+    tapped_formulae: "{{ homebrew_formulae | select('match', '^[^/]+/[^/]+/[^/]+$') | list }}"
+    tapped_casks: "{{ homebrew_casks | default([]) | select('match', '^[^/]+/[^/]+/[^/]+$') | list }}"
+  when: (tapped_formulae + tapped_casks) | length > 0
+  block:
+    - name: Add required taps
+      community.general.homebrew_tap:
+        name: "{{ item }}"
+        state: present
+        path: "{{ dotfiles_brew_path }}"
+      loop: "{{ (tapped_formulae + tapped_casks) | map('dirname') | unique | list }}"
+
+    - name: Read Homebrew trust settings
+      ansible.builtin.command:
+        argv: ["{{ dotfiles_brew_path }}/brew", trust, "--json=v1"]
+      register: homebrew_taps_trust
+      changed_when: false
+      check_mode: false
+
+    - name: Trust selected formulae and casks
+      vars:
+        trust: "{{ homebrew_taps_trust.stdout | from_json }}"
+        formula: "{{ item in tapped_formulae }}"
+      ansible.builtin.command:
+        argv:
+          - "{{ dotfiles_brew_path }}/brew"
+          - trust
+          - "{{ '--formula' if formula else '--cask' }}"
+          - "{{ item }}"
+      loop: "{{ tapped_formulae + tapped_casks }}"
+      when:
+        - (item | dirname) not in trust.taps
+        - item not in (trust.formulae if formula else trust.casks)
+      changed_when: true
