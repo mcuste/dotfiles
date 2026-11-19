@@ -34,7 +34,7 @@
     ],
     "defaultMode": "auto"
   },
-  "model": "opus",
+  "model": "fable",
   "hooks": {
     "PreToolUse": [
       {
@@ -77,6 +77,11 @@
         "source": "github",
         "repo": "mcuste/rigkit"
       }
+    }
+  },
+  "modelSettings": {
+    "claude-fable-5-2": {
+      "effortLevel": "low"
     }
   },
   "tui": "fullscreen",
