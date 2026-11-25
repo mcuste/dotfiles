@@ -81,7 +81,7 @@
   },
   "modelSettings": {
     "claude-fable-5-2": {
-      "effortLevel": "low"
+      "effortLevel": "medium"
     }
   },
   "tui": "fullscreen",
