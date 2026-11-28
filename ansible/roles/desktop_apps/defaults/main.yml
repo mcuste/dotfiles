@@ -10,8 +10,6 @@ desktop_apps_common_casks:
   - ghostty
   - proton-pass
   - font-jetbrains-mono-nerd-font
-  - obsidian
-  - visual-studio-code
   - spotify
 desktop_apps_personal_casks:
   - protonvpn
@@ -22,5 +20,6 @@ desktop_apps_personal_casks:
   - anki
 desktop_apps_work_casks:
   - slack
+  - visual-studio-code
   - jetbrains-toolbox
 desktop_apps_casks: "{{ desktop_apps_common_casks + (desktop_apps_work_casks if dotfiles_profile == 'work' else desktop_apps_personal_casks) }}"

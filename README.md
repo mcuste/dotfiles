@@ -152,8 +152,9 @@ instructions.
 
 ### Kanata
 
-On Apple Silicon with macOS 15 or later, `--interactive` installs iKanata
-from `mcuste/tap/ikanata` and links the Kanata keymap to `~/.config/kanata/config.kbd`.
+On Apple Silicon with macOS 15 or later, `--interactive` installs or upgrades
+iKanata from `mcuste/tap/ikanata` (currently 0.2.0) and links the Kanata keymap
+to `~/.config/kanata/config.kbd`.
 The keymap includes home-row modifiers, symbol and Unicode layers, and leaves
 the ISO § and backtick keys unswapped. Ansible leaves existing regular files in place.
 Move an existing `config.kbd` aside before applying the role.
