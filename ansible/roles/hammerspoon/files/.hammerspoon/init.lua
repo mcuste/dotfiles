@@ -12,6 +12,10 @@ hs.hotkey.bind(hyper, "o", function()
     hs.application.launchOrFocusByBundleID("dev.kdrag0n.MacVirt")
 end)
 
+hs.hotkey.bind(hyper, "s", function()
+    hs.application.launchOrFocusByBundleID("com.tinyspeck.slackmacgap")
+end)
+
 local function resizeWindow(offset, width)
     local win = hs.window.focusedWindow()
     if not win or not win:isStandard() or win:isFullScreen() then

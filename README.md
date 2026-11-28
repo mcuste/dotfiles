@@ -125,9 +125,9 @@ The tap role grants trust to listed third-party packages, not entire taps.
 Requires macOS and an apply with `--interactive`. Replace `personal` with `work`
 where needed.
 
-| Tool      | Steps                                                                                                                                                      |
-| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Handy     | Launch it, grant Microphone and Accessibility permissions, download a model, and add it to Open at Login. Run `just handy personal desktop --interactive`. |
+| Tool  | Steps                                                                                                                                                      |
+| ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Handy | Launch it, grant Microphone and Accessibility permissions, download a model, and add it to Open at Login. Run `just handy personal desktop --interactive`. |
 
 Handy keeps device and model settings and uses **§**.
 
@@ -169,8 +169,17 @@ Move an existing `config.kbd` aside before applying the role.
 
 On macOS 13+, run `just apply personal desktop --interactive --tags hammerspoon`.
 Move any existing regular `~/.hammerspoon/init.lua` aside first.
-Open Hammerspoon, grant Accessibility permission, and enable launch at login.
-The default Kanata Hyper key works without changes.
+Open Hammerspoon and enable launch at login.
+Enable **Hammerspoon** in **System Settings → Privacy & Security → Accessibility**.
+Window shortcuts need this permission even if app launch shortcuts already work.
+The default Kanata Hyper key needs no changes for these bindings.
+
+| Shortcut  | Action                                                                         |
+| --------- | ------------------------------------------------------------------------------ |
+| Hyper + F | Fill the usable area of the current display without entering macOS full screen |
+| Hyper + L | Move the focused window to the left half of its display                        |
+| Hyper + R | Move the focused window to the right half of its display                       |
+| Hyper + S | Open or focus Slack if installed                                               |
 
 ## Images
 
